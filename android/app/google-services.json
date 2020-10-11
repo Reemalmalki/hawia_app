@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "458113799632",
+    "firebase_url": "https://hawia-5a663.firebaseio.com",
+    "project_id": "hawia-5a663",
+    "storage_bucket": "hawia-5a663.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458113799632:android:5d4a7044563f000e8b95d5",
+        "android_client_info": {
+          "package_name": "com.ksu.hawia_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458113799632-n1dcgsaje1bs2vrsnjd1r9aoo7nrp681.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHSVzydiovqkf_KSepHRF4v_hkNNiEi2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458113799632-n1dcgsaje1bs2vrsnjd1r9aoo7nrp681.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
