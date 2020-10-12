@@ -1,7 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(MyApp());
+
+Future<void> main() async {
+  print('qw12');
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  // FirebaseAuth.instance.authStateChanges().listen((User user) {
+  /*  if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+    }*/
+  // });
+  try {
+    print('noif');
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+        email: "nouffAndroid@example.com", password: "0iuuiuiuiui9om");
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      print('The password provided is too weak.');
+    } else if (e.code == 'email-already-in-use') {
+      print('The account already exists for that email.');
+    }
+  } catch (e) {
+    print(e);
+  }
+  //runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -9,7 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'الهوية',
+      title: 'Flutter mmmm Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,7 +54,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter kjkj Home Page'),
     );
   }
 }
@@ -115,3 +143,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
