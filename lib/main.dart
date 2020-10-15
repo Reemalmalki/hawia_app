@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'الهوية',
       theme: ThemeData(
+
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -92,17 +93,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelText: ' كلمة المرور',
                     ),
                     keyboardType: TextInputType.visiblePassword,
-
-
-                    /* validator: (value) {
+                  validator: (value) {
                       if (value.isEmpty) {
                         return 'الرجاء ادخال كلمة المرور';
                       }else{
-                        _pass = passController.text;
+                       // _pass = passController.text;
                         print(passController.text);
                       }
                       return null;
-                    },*/
+                    },
                   ),
                   new Container(
                       padding: const EdgeInsets.only(left: 20.0, top: 20.0),

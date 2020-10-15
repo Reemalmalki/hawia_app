@@ -1,12 +1,12 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-
   /* Widget build(BuildContext context) {
     return new MaterialApp(
       // title: 'Flutter Form Demo',
@@ -56,8 +56,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class askingForHelp extends State<MyHomePage> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final passController = TextEditingController();
+  final noteController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +74,7 @@ class askingForHelp extends State<MyHomePage> {
               child: Column(children: <Widget>[
                 Container(
                     child: TextField(
-                  controller: emailController,
+                  controller: nameController,
                   textAlign: TextAlign.right,
                   autofocus: true,
                   decoration: new InputDecoration(
@@ -80,11 +82,13 @@ class askingForHelp extends State<MyHomePage> {
                       icon: const Icon(Icons.person),
                       labelText: "الاسم",
                       hintText: "..."),
+
                 )),
 
                 Container(
                     child: TextField(
                   textAlign: TextAlign.right,
+                  controller: emailController,
                   autofocus: true,
                   decoration: new InputDecoration(
                       // border: OutlineInputBorder(),
@@ -92,12 +96,14 @@ class askingForHelp extends State<MyHomePage> {
                       labelText: "البريد الالكتروني",
                       hintText: "..."),
                   keyboardType: TextInputType.emailAddress,
+
                 )),
 
                 Container(
                     child: TextField(
                   keyboardType: TextInputType.multiline,
                   maxLines: 2,
+                  controller: noteController,
                   textAlign: TextAlign.right,
                   autofocus: true,
                   decoration: new InputDecoration(
@@ -123,19 +129,65 @@ class askingForHelp extends State<MyHomePage> {
                   minWidth: 200.0,
                   height: 40.0,
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: _checker ,
                     child: Text("ساعدني"),
                   ),
                 ),
-                /* MaterialButton(
-                  elevation: 5.0,
-                  color: Colors.grey,
-                  padding: EdgeInsets.all(15.0),
-                  child: Text("Get Positions"),
-                  onPressed: null,
-                )*/
+
               ])),
         )));
   }
+
+
+  void _helpButtonPressed() async {
+    await Firebase.initializeApp();
+    final databaseReference = FirebaseFirestore.instance;
+    DocumentSnapshot  doc =  await databaseReference.collection('helpRequests').doc('totalRequest').get();
+    int id = doc.get('autoNumber');
+    databaseReference.collection('helpRequests').doc('totalRequest').update({'autoNumber': FieldValue.increment(1)});
+    DocumentReference ref = await databaseReference.collection("helpRequests")
+        .add({
+      'name': nameController.text,
+      'email': emailController.text,
+      'note' :noteController.text,
+      'requestId': id,
+      'response':''
+
+    });
+    print(ref.id);
+
+
+  }
+
+  void _checker() {
+    bool flag = true;
+    if (nameController.text.isEmpty){
+    //
+      print(nameController.text);
+      flag = false;
+    }
+    if (!(isValidEmail (emailController.text))) {
+      //
+      print(emailController.text);
+      flag = false;
+    }
+    if (noteController.text.isEmpty){
+      //
+      print(noteController.text);
+      flag = false;
+    }
+
+    if (flag){
+      _helpButtonPressed();
+    }
+  }
+
+
+
+  bool isValidEmail(String input) {
+    final RegExp regex = new RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+    return regex.hasMatch(input);
+  }
+
 }
-//
+
