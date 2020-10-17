@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+//import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 void main() => runApp(MyApp());
 
@@ -35,8 +38,8 @@ class MyApp extends StatelessWidget {
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+           headline6: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
@@ -50,7 +53,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   askingForHelp createState() => new askingForHelp();
 }
@@ -59,7 +61,11 @@ class askingForHelp extends State<MyHomePage> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final noteController = TextEditingController();
-
+  bool _isButtonDisabled;
+  @override
+  void initState() {
+    _isButtonDisabled = false;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +135,7 @@ class askingForHelp extends State<MyHomePage> {
                   minWidth: 200.0,
                   height: 40.0,
                   child: RaisedButton(
-                    onPressed: _checker ,
+                    onPressed: _isButtonDisabled ? null : _checker,
                     child: Text("ساعدني"),
                   ),
                 ),
@@ -140,6 +146,9 @@ class askingForHelp extends State<MyHomePage> {
 
 
   void _helpButtonPressed() async {
+    setState(() {
+      _isButtonDisabled = true;
+    });
     await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot  doc =  await databaseReference.collection('helpRequests').doc('totalRequest').get();
@@ -151,33 +160,51 @@ class askingForHelp extends State<MyHomePage> {
       'email': emailController.text,
       'note' :noteController.text,
       'requestId': id,
-      'response':''
-
+      'response':'',
+      'status':'opened',
     });
     print(ref.id);
-
+    Alert(
+      context: context,
+      title: "تم الإرسال بنجاح",
+      desc:  "رقم الطلب :  " +id.toString() ,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
 
   }
 
   void _checker() {
     bool flag = true;
-    if (nameController.text.isEmpty){
-    //
-      print(nameController.text);
-      flag = false;
-    }
-    if (!(isValidEmail (emailController.text))) {
+    if (nameController.text.isEmpty) {
       //
-      print(emailController.text);
+      _showMyDialog("غير مكتمل","الرجاء كتابة الأسم بشكل صحيح");
       flag = false;
+      return;
     }
-    if (noteController.text.isEmpty){
+    if (!(isValidEmail(emailController.text))) {
       //
-      print(noteController.text);
+      _showMyDialog("غير مكتمل","الرجاء كتابة البريد الإلكتروني بشكل صحيح");
       flag = false;
+      return;
+    }
+    if (noteController.text.isEmpty) {
+      //
+      _showMyDialog("غير مكتمل","الرجاء كتابةالملاحظات بشكل صحيح");
+      flag = false;
+      return;
     }
 
-    if (flag){
+    if (flag) {
       _helpButtonPressed();
     }
   }
@@ -188,6 +215,36 @@ class askingForHelp extends State<MyHomePage> {
     final RegExp regex = new RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
     return regex.hasMatch(input);
   }
+/*
+  void _sendEmail() async {
+    final Email email = Email(
+      body: 'Email body',
+      subject: 'Email subject',
+      recipients: ['reemalmalki98@gmail.com'],
+     // attachmentPaths: ['/path/to/attachment.zip'],
+      isHTML: false,
+    );
 
+    await FlutterEmailSender.send(email);
+  }
+*/
+  Future<void> _showMyDialog(String title , String body) async {
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
+  }
 }
 
