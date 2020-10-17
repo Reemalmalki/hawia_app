@@ -2,30 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
-void main() => runApp(MyApp1());
+//import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-class MyApp1 extends StatelessWidget {
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
   @override
-  /* Widget build(BuildContext context) {
-    return new MaterialApp(
-      // title: 'Flutter Form Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new MyHomePage(title: ' طلب المساعدة '),
-    );
-  }
-}*/
-
   Widget build(BuildContext context) {
     final appName = 'طلبات المساعدة';
 
     return MaterialApp(
       title: appName,
       theme: ThemeData(
-        // Define the default brightness and colors.
-        //  brightness: Brightness.dark,
         primaryColor: Colors.lightBlue[800],
         accentColor: Colors.cyan[600],
 
@@ -35,8 +25,8 @@ class MyApp1 extends StatelessWidget {
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
@@ -50,15 +40,20 @@ class MyApp1 extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   viewHelpRequestInfo createState() => new viewHelpRequestInfo();
 }
 
 class viewHelpRequestInfo extends State<MyHomePage> {
   final nameController = TextEditingController();
+  final numberController = TextEditingController();
   final emailController = TextEditingController();
   final noteController = TextEditingController();
+  bool _isButtonDisabled;
+  @override
+  void initState() {
+    _isButtonDisabled = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,45 +61,58 @@ class viewHelpRequestInfo extends State<MyHomePage> {
         appBar: new AppBar(
           title: Center(child: Text(widget.title)),
         ),
-        body: SingleChildScrollView(
+        body: Center(
             child: Padding(
           padding: EdgeInsets.all(30),
           child: Directionality(
               textDirection: TextDirection.rtl,
               child: Column(children: <Widget>[
-                Text.rich(
-                  TextSpan(
-                    style: TextStyle(fontSize: 17.0, fontFamily: 'Hind'),
-                    //   TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-                    text: 'سنقوم بمساعدتك بأقرب وقت ', // default text style
+                Container(
+                    child: TextField(
+                  controller: numberController,
+                  textAlign: TextAlign.right,
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                      // border: OutlineInputBorder(),
+                      icon: const Icon(
+                        Icons.keyboard_return_sharp,
+                        color: Colors.blue,
+                      ),
+                      labelText: " رقم الطلب :" + " " + "نوف",
+                      labelStyle: TextStyle(color: Colors.black)),
+                  enabled: false,
+                )),
+                Container(
+                    child: TextField(
+                  textAlign: TextAlign.right,
+                  controller: nameController,
+                  autofocus: true,
+                  decoration: new InputDecoration(
+                      // border: OutlineInputBorder(),
+                      icon: const Icon(
+                        Icons.person,
+                        color: Colors.blue,
+                      ),
+                      labelText: " الاسم :" + " " + "نوف",
+                      labelStyle: TextStyle(color: Colors.black)),
+                  enabled: false,
+                )),
+                Container(
+                  child: TextField(
+                    textAlign: TextAlign.right,
+                    controller: emailController,
+                    autofocus: true,
+                    decoration: new InputDecoration(
+                        // border: OutlineInputBorder(),
+                        icon: const Icon(
+                          Icons.email,
+                          color: Colors.blue,
+                        ),
+                        labelText: " البريد الالكتروني :" + " " + "نوف",
+                        labelStyle: TextStyle(color: Colors.black)),
+                    enabled: false,
                   ),
                 ),
-                SizedBox(height: 20), //to add space between colmun
-
-                Container(
-                    child: TextField(
-                  controller: nameController,
-                  textAlign: TextAlign.right,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                      // border: OutlineInputBorder(),
-                      icon: const Icon(Icons.person),
-                      labelText: "الاسم",
-                      hintText: "..."),
-                )),
-
-                Container(
-                    child: TextField(
-                  textAlign: TextAlign.right,
-                  controller: emailController,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                      // border: OutlineInputBorder(),
-                      icon: const Icon(Icons.email),
-                      labelText: "البريد الالكتروني",
-                      hintText: "..."),
-                  keyboardType: TextInputType.emailAddress,
-                )),
 
                 Container(
                     child: TextField(
@@ -115,9 +123,13 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                   autofocus: true,
                   decoration: new InputDecoration(
                       // border: OutlineInputBorder(),
-                      icon: const Icon(Icons.text_snippet),
-                      labelText: "الملاحظات",
-                      hintText: "..."),
+                      icon: const Icon(
+                        Icons.text_snippet,
+                        color: Colors.blue,
+                      ),
+                      labelText: " الملاحظات :" + " " + "نوف",
+                      labelStyle: TextStyle(color: Colors.black)),
+                  enabled: false,
                 )),
                 SizedBox(height: 90), //to add space between colmun
                 ButtonTheme(
@@ -126,18 +138,11 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                   minWidth: 200.0,
                   height: 40.0,
                   child: RaisedButton(
-                    onPressed: () {},
-                    child: Text("الاسئلة الشائعة"),
-                  ),
-                ),
-                ButtonTheme(
-                  //padding: Ed
-                  // geInsets.all(-50),
-                  minWidth: 200.0,
-                  height: 40.0,
-                  child: RaisedButton(
-                    onPressed: _checker,
-                    child: Text("ساعدني"),
+                    onPressed: _isButtonDisabled ? null : _checker,
+                    child: Text(
+                      "الرد عن طريق الايميل",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ])),
@@ -145,6 +150,9 @@ class viewHelpRequestInfo extends State<MyHomePage> {
   }
 
   void _helpButtonPressed() async {
+    setState(() {
+      _isButtonDisabled = true;
+    });
     await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot doc = await databaseReference
@@ -162,27 +170,47 @@ class viewHelpRequestInfo extends State<MyHomePage> {
       'email': emailController.text,
       'note': noteController.text,
       'requestId': id,
-      'response': ''
+      'response': '',
+      'status': 'opened',
     });
     print(ref.id);
+    Alert(
+      context: context,
+      title: "تم الإرسال بنجاح",
+      desc: "رقم الطلب :  " + id.toString(),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
   }
 
   void _checker() {
     bool flag = true;
     if (nameController.text.isEmpty) {
       //
-      print(nameController.text);
+      _showMyDialog("غير مكتمل", "الرجاء كتابة الأسم بشكل صحيح");
       flag = false;
+      return;
     }
     if (!(isValidEmail(emailController.text))) {
       //
-      print(emailController.text);
+      _showMyDialog("غير مكتمل", "الرجاء كتابة البريد الإلكتروني بشكل صحيح");
       flag = false;
+      return;
     }
     if (noteController.text.isEmpty) {
       //
-      print(noteController.text);
+      _showMyDialog("غير مكتمل", "الرجاء كتابةالملاحظات بشكل صحيح");
       flag = false;
+      return;
     }
 
     if (flag) {
@@ -194,5 +222,37 @@ class viewHelpRequestInfo extends State<MyHomePage> {
     final RegExp regex = new RegExp(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
     return regex.hasMatch(input);
+  }
+
+/*
+  void _sendEmail() async {
+    final Email email = Email(
+      body: 'Email body',
+      subject: 'Email subject',
+      recipients: ['reemalmalki98@gmail.com'],
+     // attachmentPaths: ['/path/to/attachment.zip'],
+      isHTML: false,
+    );
+
+    await FlutterEmailSender.send(email);
+  }
+*/
+  Future<void> _showMyDialog(String title, String body) async {
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
   }
 }
