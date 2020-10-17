@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
 }*/
 
   Widget build(BuildContext context) {
-    final appName = 'رفع البلاغ';
+    final appName = 'رفع بلاغ';
 
     return MaterialApp(
       title: appName,
@@ -36,8 +37,8 @@ class MyApp extends StatelessWidget {
         // Define the default TextTheme. Use this to specify the default
         // text styling for headlines, titles, bodies of text, and more.
         textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+  bool _isButtonDisabled;
 
   @override
   fieldComplaints createState() => new fieldComplaints();
@@ -69,6 +71,12 @@ class fieldComplaints extends State<MyHomePage> {
     "المدينة الجامعية للطلاب",
     "مستشفى الملك خالد الجامعي"
   ];
+  bool _isButtonDisabled;
+  @override
+  void initState() {
+    _isButtonDisabled = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,9 +145,9 @@ class fieldComplaints extends State<MyHomePage> {
                             },
                             items: deviceTypes.map((String value) {
                               return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
+                                child: new Align(alignment: Alignment.centerRight, child: Text(value)),
+                                value: value,);
+
                             }).toList(),
                           ),
                         ),
@@ -187,49 +195,82 @@ class fieldComplaints extends State<MyHomePage> {
   }
 
   void _helpButtonPressed() async {
+    setState(() {
+      _isButtonDisabled = true;
+    });
     await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot doc = await databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
+        .collection('fieldsComplaints')
+        .doc('totalFieldsComplaints')
         .get();
     int id = doc.get('autoNumber');
     databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
+        .collection('fieldsComplaints')
+        .doc('totalFieldsComplaints')
         .update({'autoNumber': FieldValue.increment(1)});
     DocumentReference ref =
-        await databaseReference.collection("helpRequests").add({
+        await databaseReference.collection("fieldsComplaints").add({
       'name': nameController.text,
       'email': emailController.text,
-      'note': buildController.text,
-      'requestId': id,
-      'response': ''
+      'building': buildController.text,
+      'floor': floorController.text,
+          'requestId': id,
+          'status':'opened',
+          'response': ''
     });
     print(ref.id);
+    Alert(
+      context: context,
+      title: "تم الإرسال بنجاح",
+      desc:  "رقم البلاغ :  " +id.toString() ,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
   }
 
   void _checker() {
     bool flag = true;
+    if (_isButtonDisabled){ return;}
     if (nameController.text.isEmpty) {
       //
       print(nameController.text);
       flag = false;
+      _showMyDialog("غير مكتمل","الرجاء كتابة الأسم بشكل صحيح");
+      return;
     }
     if (!(isValidEmail(emailController.text))) {
       //
       print(emailController.text);
       flag = false;
+      _showMyDialog("غير مكتمل","الرجاء كتابة البريد الإلكتروني بشكل صحيح");
+      return;
+
     }
     if (buildController.text.isEmpty) {
       //
       print(buildController.text);
       flag = false;
+      _showMyDialog("غير مكتمل","الرجاء كتابة رقم المبنى بشكل صحيح");
+      return;
+
     }
     if (floorController.text.isEmpty) {
       //
       print(buildController.text);
       flag = false;
+      _showMyDialog("غير مكتمل","الرجاء كتابة رقم الدور بشكل صحيح");
+      return;
+
     }
     if (flag) {
       _helpButtonPressed();
@@ -240,5 +281,23 @@ class fieldComplaints extends State<MyHomePage> {
     final RegExp regex = new RegExp(
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
     return regex.hasMatch(input);
+  }
+  Future<void> _showMyDialog(String title , String body) async {
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
   }
 }
