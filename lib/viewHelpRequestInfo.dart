@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'dart:core';
+import 'package:url_launcher/url_launcher.dart';
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 void main() => runApp(MyApp());
@@ -53,6 +54,17 @@ class viewHelpRequestInfo extends State<MyHomePage> {
   @override
   void initState() {
     _isButtonDisabled = false;
+  }
+
+  @override
+  void sendto() {
+    final Uri _emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path:
+            'noufmy1@gmail.com', 
+        queryParameters: {'subject': 'فريق هوية التابع لجامعة الملك سعود'});
+
+    launch(_emailLaunchUri.toString());
   }
 
   @override
@@ -138,7 +150,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                   minWidth: 200.0,
                   height: 40.0,
                   child: RaisedButton(
-                    onPressed: _isButtonDisabled ? null : _checker,
+                    onPressed: sendto,
                     child: Text(
                       "الرد عن طريق الايميل",
                       style: TextStyle(color: Colors.white),
