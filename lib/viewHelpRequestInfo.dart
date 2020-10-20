@@ -54,14 +54,21 @@ class viewHelpRequestInfo extends State<MyHomePage> {
   @override
   void initState() {
     _isButtonDisabled = false;
+    _getData();
   }
 
   @override
-  void sendto() {
+  void sendto() async{
+    await Firebase.initializeApp();
+    final databaseReference = FirebaseFirestore.instance;
+    databaseReference
+        .collection('helpRequests')
+        .doc('xni9LTnYsP4niHapetxb')
+        .update({'status': "closed"});
+
     final Uri _emailLaunchUri = Uri(
         scheme: 'mailto',
-        path:
-            'noufmy1@gmail.com', 
+        path: emailController.text,
         queryParameters: {'subject': 'فريق هوية التابع لجامعة الملك سعود'});
 
     launch(_emailLaunchUri.toString());
@@ -90,7 +97,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                         Icons.keyboard_return_sharp,
                         color: Colors.blue,
                       ),
-                      labelText: " رقم الطلب :" + " " + "نوف",
+                      labelText: " رقم الطلب :" ,
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -105,7 +112,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                         Icons.person,
                         color: Colors.blue,
                       ),
-                      labelText: " الاسم :" + " " + "نوف",
+                      labelText: " الاسم :" ,
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -120,7 +127,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                           Icons.email,
                           color: Colors.blue,
                         ),
-                        labelText: " البريد الالكتروني :" + " " + "نوف",
+                        labelText: " البريد الالكتروني :" ,
                         labelStyle: TextStyle(color: Colors.black)),
                     enabled: false,
                   ),
@@ -139,7 +146,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
                         Icons.text_snippet,
                         color: Colors.blue,
                       ),
-                      labelText: " الملاحظات :" + " " + "نوف",
+                      labelText: " الملاحظات :" ,
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -161,110 +168,19 @@ class viewHelpRequestInfo extends State<MyHomePage> {
         )));
   }
 
-  void _helpButtonPressed() async {
-    setState(() {
-      _isButtonDisabled = true;
-    });
+  void _getData() async {
+
     await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot doc = await databaseReference
         .collection('helpRequests')
-        .doc('totalRequest')
+        .doc('HHchhDrbBKLKGyxzajDR')
         .get();
-    int id = doc.get('autoNumber');
-    databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
-        .update({'autoNumber': FieldValue.increment(1)});
-    DocumentReference ref =
-        await databaseReference.collection("helpRequests").add({
-      'name': nameController.text,
-      'email': emailController.text,
-      'note': noteController.text,
-      'requestId': id,
-      'response': '',
-      'status': 'opened',
-    });
-    print(ref.id);
-    Alert(
-      context: context,
-      title: "تم الإرسال بنجاح",
-      desc: "رقم الطلب :  " + id.toString(),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "حسناً",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
-          color: Colors.lightBlue[800],
-          radius: BorderRadius.circular(0.5),
-        ),
-      ],
-    ).show();
+    numberController.text = doc.get('requestId').toString();
+    nameController.text = doc.get('name');
+    emailController.text = doc.get('email');
+    noteController.text = doc.get('note');
+
   }
 
-  void _checker() {
-    bool flag = true;
-    if (nameController.text.isEmpty) {
-      //
-      _showMyDialog("غير مكتمل", "الرجاء كتابة الأسم بشكل صحيح");
-      flag = false;
-      return;
-    }
-    if (!(isValidEmail(emailController.text))) {
-      //
-      _showMyDialog("غير مكتمل", "الرجاء كتابة البريد الإلكتروني بشكل صحيح");
-      flag = false;
-      return;
-    }
-    if (noteController.text.isEmpty) {
-      //
-      _showMyDialog("غير مكتمل", "الرجاء كتابةالملاحظات بشكل صحيح");
-      flag = false;
-      return;
-    }
-
-    if (flag) {
-      _helpButtonPressed();
-    }
-  }
-
-  bool isValidEmail(String input) {
-    final RegExp regex = new RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-    return regex.hasMatch(input);
-  }
-
-/*
-  void _sendEmail() async {
-    final Email email = Email(
-      body: 'Email body',
-      subject: 'Email subject',
-      recipients: ['reemalmalki98@gmail.com'],
-     // attachmentPaths: ['/path/to/attachment.zip'],
-      isHTML: false,
-    );
-
-    await FlutterEmailSender.send(email);
-  }
-*/
-  Future<void> _showMyDialog(String title, String body) async {
-    Alert(
-      context: context,
-      title: title,
-      desc: body,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "حسناً",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
-          color: Colors.lightBlue[800],
-          radius: BorderRadius.circular(0.5),
-        ),
-      ],
-    ).show();
-  }
 }

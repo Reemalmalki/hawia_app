@@ -3,22 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
-  /* Widget build(BuildContext context) {
-    return new MaterialApp(
-      // title: 'Flutter Form Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new MyHomePage(title: ' طلب المساعدة '),
-    );
-  }
-}*/
 
   Widget build(BuildContext context) {
     final appName = 'رفع بلاغ';
@@ -63,6 +54,7 @@ class fieldComplaints extends State<MyHomePage> {
   final emailController = TextEditingController();
   final buildController = TextEditingController();
   final floorController = TextEditingController();
+  final placeController = TextEditingController();
 
   var currentSelectedValue;
   final deviceTypes = [
@@ -213,29 +205,14 @@ class fieldComplaints extends State<MyHomePage> {
         await databaseReference.collection("fieldsComplaints").add({
       'name': nameController.text,
       'email': emailController.text,
+          'place' : currentSelectedValue,
       'building': buildController.text,
       'floor': floorController.text,
           'requestId': id,
           'status':'opened',
-          'response': ''
     });
     print(ref.id);
-    Alert(
-      context: context,
-      title: "تم الإرسال بنجاح",
-      desc:  "رقم البلاغ :  " +id.toString() ,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "حسناً",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
-          color: Colors.lightBlue[800],
-          radius: BorderRadius.circular(0.5),
-        ),
-      ],
-    ).show();
+    _showRatingDialog();
   }
 
   void _checker() {
@@ -300,4 +277,46 @@ class fieldComplaints extends State<MyHomePage> {
       ],
     ).show();
   }
+  void _showRatingDialog() {
+    // We use the built in showDialog function to show our Rating Dialog
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon:  Icon(
+              Icons.favorite,
+              color: Colors.lightBlue,
+              size: 24.0,
+            ), // set your own image/icon widget
+            title:"تم إرسال البلاغ بنجاح",
+            description:
+            "كيق كانت تجربة رفع البلاغ؟",
+            submitButton: "تأكيد",
+            positiveComment:  "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional
+            negativeComment: " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
+            accentColor: Colors.lightBlue, // optional
+            onSubmitPressed: (int rating) {
+              print(rating);
+              _saveRating(rating);
+            },          );
+        });
+  }
+  void _saveRating(int rating) async{
+    await Firebase.initializeApp();
+    final databaseReference = FirebaseFirestore.instance;
+    var ref = databaseReference
+        .collection('fieldsComplaints')
+        .doc('Ratings');
+    ref.update({'total': FieldValue.increment(1)});
+
+    switch(rating){
+      case 1:
+      case 2: ref.update({'low': FieldValue.increment(1)}); break;
+      case 3: ref.update({'medium': FieldValue.increment(1)});  break;
+      case 4:
+      case 5 :ref.update({'high': FieldValue.increment(1)});   break;
+    }
+  }
+
 }

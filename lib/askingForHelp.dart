@@ -160,7 +160,6 @@ class askingForHelp extends State<MyHomePage> {
       'email': emailController.text,
       'note' :noteController.text,
       'requestId': id,
-      'response':'',
       'status':'opened',
     });
     print(ref.id);
@@ -215,19 +214,7 @@ class askingForHelp extends State<MyHomePage> {
     final RegExp regex = new RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
     return regex.hasMatch(input);
   }
-/*
-  void _sendEmail() async {
-    final Email email = Email(
-      body: 'Email body',
-      subject: 'Email subject',
-      recipients: ['reemalmalki98@gmail.com'],
-     // attachmentPaths: ['/path/to/attachment.zip'],
-      isHTML: false,
-    );
 
-    await FlutterEmailSender.send(email);
-  }
-*/
   Future<void> _showMyDialog(String title , String body) async {
     Alert(
       context: context,

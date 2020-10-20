@@ -56,6 +56,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
   @override
   void initState() {
     _isButtonDisabled = false;
+    _getData();
   }
 
   @override
@@ -81,7 +82,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                         Icons.keyboard_return_sharp,
                         color: Colors.blue,
                       ),
-                      labelText: " رقم الطلب :" + " " + "نوف",
+                      labelText: " رقم الطلب :" ,
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -96,7 +97,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                         Icons.person,
                         color: Colors.blue,
                       ),
-                      labelText: " الاسم :" + " " + "نوف",
+                      labelText: " الاسم :",
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -111,7 +112,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                           Icons.email,
                           color: Colors.blue,
                         ),
-                        labelText: " البريد الالكتروني :" + " " + "نوف",
+                        labelText: " البريد الالكتروني :",
                         labelStyle: TextStyle(color: Colors.black)),
                     enabled: false,
                   ),
@@ -130,7 +131,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                         Icons.place,
                         color: Colors.blue,
                       ),
-                      labelText: " المكان :" + " " + "نوف",
+                      labelText: " المكان :" ,
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -147,7 +148,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                         Icons.place,
                         color: Colors.blue,
                       ),
-                      labelText: " المبنى :" + " " + "نوف",
+                      labelText: " المبنى :",
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -164,7 +165,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                         Icons.stairs,
                         color: Colors.blue,
                       ),
-                      labelText: " الدور :" + " " + "نوف",
+                      labelText: " الدور :" ,
                       labelStyle: TextStyle(color: Colors.black)),
                   enabled: false,
                 )),
@@ -175,7 +176,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                   minWidth: 200.0,
                   height: 40.0,
                   child: RaisedButton(
-                    onPressed: _isButtonDisabled ? null : _checker,
+                    onPressed: _isButtonDisabled ? null : _closedComplaint,
                     child: Text(
                       "اغلاق البلاغ",
                       style: TextStyle(color: Colors.white),
@@ -186,34 +187,37 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
         )));
   }
 
-  void _helpButtonPressed() async {
+  void _getData() async {
+
+    await Firebase.initializeApp();
+    final databaseReference = FirebaseFirestore.instance;
+    DocumentSnapshot doc = await databaseReference
+        .collection('fieldsComplaints')
+        .doc('7m4B7EYl3dy4H8kFR8Wz')
+        .get();
+    numberController.text = doc.get('requestId').toString();
+    nameController.text = doc.get('name');
+    emailController.text = doc.get('email');
+    buildController.text = doc.get('building');
+    floorController.text = doc.get('floor');
+    placeController.text = doc.get('place');
+  }
+
+  void _closedComplaint() async {
     setState(() {
       _isButtonDisabled = true;
     });
     await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
-    DocumentSnapshot doc = await databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
-        .get();
-    int id = doc.get('autoNumber');
     databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
-        .update({'autoNumber': FieldValue.increment(1)});
-    DocumentReference ref =
-        await databaseReference.collection("helpRequests").add({
-      'name': nameController.text,
-      'email': emailController.text,
-      'requestId': id,
-      'response': '',
-      'status': 'opened',
-    });
-    print(ref.id);
+        .collection('fieldsComplaints')
+        .doc('7m4B7EYl3dy4H8kFR8Wz')
+        .update({'status': "closed"});
+
     Alert(
       context: context,
-      title: "تم الإرسال بنجاح",
-      desc: "رقم الطلب :  " + id.toString(),
+      title: "تم اغلاق الطلب بنجاح",
+      desc: "رقم الطلب :  " + numberController.text,
       buttons: [
         DialogButton(
           child: Text(
@@ -228,45 +232,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
     ).show();
   }
 
-  void _checker() {
-    bool flag = true;
-    if (nameController.text.isEmpty) {
-      //
-      _showMyDialog("غير مكتمل", "الرجاء كتابة الأسم بشكل صحيح");
-      flag = false;
-      return;
-    }
-    if (!(isValidEmail(emailController.text))) {
-      //
-      _showMyDialog("غير مكتمل", "الرجاء كتابة البريد الإلكتروني بشكل صحيح");
-      flag = false;
-      return;
-    }
 
-    if (flag) {
-      _helpButtonPressed();
-    }
-  }
-
-  bool isValidEmail(String input) {
-    final RegExp regex = new RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-    return regex.hasMatch(input);
-  }
-
-/*
-  void _sendEmail() async {
-    final Email email = Email(
-      body: 'Email body',
-      subject: 'Email subject',
-      recipients: ['reemalmalki98@gmail.com'],
-     // attachmentPaths: ['/path/to/attachment.zip'],
-      isHTML: false,
-    );
-
-    await FlutterEmailSender.send(email);
-  }
-*/
   Future<void> _showMyDialog(String title, String body) async {
     Alert(
       context: context,
