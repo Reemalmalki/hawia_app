@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class viewElectronicComplaintsInfo1 extends StatelessWidget {
+  viewElectronicComplaintsInfo1({@required this.docId});
+  final docId ;
   @override
   Widget build(BuildContext context) {
     final appName = 'البلاغ الالكتروني';
@@ -32,20 +33,24 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(
         title: appName,
+        docId: docId,
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({@required this.docId ,this.title });
+  final docId ;
   final String title;
   @override
   viewElectronicComplaintsInfo createState() =>
-      new viewElectronicComplaintsInfo();
+      new viewElectronicComplaintsInfo(docId: docId);
 }
 
 class viewElectronicComplaintsInfo extends State<MyHomePage> {
+  viewElectronicComplaintsInfo({@required this.docId});
+  final docId ;
   final nameController = TextEditingController();
   final numberController = TextEditingController();
   final emailController = TextEditingController();
@@ -158,7 +163,7 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot doc = await databaseReference
         .collection('electronicComplaints')
-        .doc('CsxKCCGiKhnXuB6FaeMd')
+        .doc(docId.toString())
         .get();
     numberController.text = doc.get('requestId').toString();
     nameController.text = doc.get('name');
@@ -175,7 +180,7 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
     final databaseReference = FirebaseFirestore.instance;
     databaseReference
         .collection('electronicComplaints')
-        .doc('CsxKCCGiKhnXuB6FaeMd')
+        .doc(docId.toString())
         .update({'status': "closed"});
 
     Alert(
