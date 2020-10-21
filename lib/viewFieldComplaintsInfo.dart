@@ -6,9 +6,11 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class viewFieldComplaintsInfo1 extends StatelessWidget {
+  viewFieldComplaintsInfo1({@required this.docId});
+  final docId ;
   @override
   Widget build(BuildContext context) {
     final appName = 'البلاغ الميداني';
@@ -32,19 +34,23 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(
         title: appName,
+          docId:docId
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title,this.docId}) : super(key: key);
   final String title;
+  final docId ;
   @override
-  viewFieldComplaintsInfo createState() => new viewFieldComplaintsInfo();
+  viewFieldComplaintsInfo createState() => new viewFieldComplaintsInfo(docId: docId);
 }
 
 class viewFieldComplaintsInfo extends State<MyHomePage> {
+  viewFieldComplaintsInfo({@required this.docId});
+  final docId ;
   final nameController = TextEditingController();
   final numberController = TextEditingController();
   final emailController = TextEditingController();
@@ -193,7 +199,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot doc = await databaseReference
         .collection('fieldsComplaints')
-        .doc('7m4B7EYl3dy4H8kFR8Wz')
+        .doc(docId.toString())
         .get();
     numberController.text = doc.get('requestId').toString();
     nameController.text = doc.get('name');
@@ -211,7 +217,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
     final databaseReference = FirebaseFirestore.instance;
     databaseReference
         .collection('fieldsComplaints')
-        .doc('7m4B7EYl3dy4H8kFR8Wz')
+        .doc(docId.toString())
         .update({'status': "closed"});
 
     Alert(

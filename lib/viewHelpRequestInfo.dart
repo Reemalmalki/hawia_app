@@ -7,9 +7,11 @@ import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class viewHelpRequestInfo1 extends StatelessWidget {
+  viewHelpRequestInfo1({@required this.docId});
+  final docId ;
   @override
   Widget build(BuildContext context) {
     final appName = 'طلبات المساعدة';
@@ -33,19 +35,23 @@ class MyApp extends StatelessWidget {
       ),
       home: MyHomePage(
         title: appName,
+          docId : docId,
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title , this.docId}) : super(key: key);
   final String title;
+  final docId;
   @override
-  viewHelpRequestInfo createState() => new viewHelpRequestInfo();
+  viewHelpRequestInfo createState() => new viewHelpRequestInfo(docId:docId);
 }
 
 class viewHelpRequestInfo extends State<MyHomePage> {
+  viewHelpRequestInfo({@required this.docId});
+  final docId ;
   final nameController = TextEditingController();
   final numberController = TextEditingController();
   final emailController = TextEditingController();
@@ -63,7 +69,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
     final databaseReference = FirebaseFirestore.instance;
     databaseReference
         .collection('helpRequests')
-        .doc('xni9LTnYsP4niHapetxb')
+        .doc(docId.toString())
         .update({'status': "closed"});
 
     final Uri _emailLaunchUri = Uri(
@@ -174,7 +180,7 @@ class viewHelpRequestInfo extends State<MyHomePage> {
     final databaseReference = FirebaseFirestore.instance;
     DocumentSnapshot doc = await databaseReference
         .collection('helpRequests')
-        .doc('HHchhDrbBKLKGyxzajDR')
+        .doc(docId.toString())
         .get();
     numberController.text = doc.get('requestId').toString();
     nameController.text = doc.get('name');
