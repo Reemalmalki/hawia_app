@@ -5,10 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hawia_app/viewFieldComplaintsInfo.dart';
 
-Future<void> main() async {runApp(MyApp());
+Future<void> main() async {
+  runApp(fieldComplaintsList1());
 }
 
-class MyApp extends StatelessWidget {
+class fieldComplaintsList1 extends StatelessWidget {
   // This widget is the root of your application.
 
   @override
@@ -16,15 +17,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'البلاغات الاإلكترونية',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'البلاغات الميدانية'),
-
     );
   }
-
 }
 
 class MyHomePage extends StatefulWidget {
@@ -36,15 +34,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  List<String> idsList  = List<String>();
-  List<String> placesList  = List<String>();
-  List<String> docsIdList  = List<String>();
+  List<String> idsList = List<String>();
+  List<String> placesList = List<String>();
+  List<String> docsIdList = List<String>();
 
   @override
   void initState() {
     getDocs();
   }
+
   @override
   Widget build(BuildContext context) {
     if (idsList.isEmpty == false) {
@@ -61,29 +59,36 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemBuilder: (BuildContext context, int index) {
                   return new Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: new ListTile(
-                          selectedTileColor: Colors.lightBlue,
-                          trailing: Icon(
-                            Icons.admin_panel_settings,
-                            color: Colors.lightBlue,
-                            size: 30.0,),
-                          onTap:  () {
-                            _onTapped(index);
-                          },
-                          title: new Text('${idsList[index]}', style: TextStyle(
-                            color: Colors.black54, fontSize: 20,),
-                            textAlign: TextAlign.right,
-                          ),
-                          subtitle: new Text('${placesList[index]}', style: TextStyle(
-                          color: Colors.black54, fontSize: 20,),
-                          textAlign: TextAlign.right,
+                    padding: const EdgeInsets.all(10.0),
+                    child: new ListTile(
+                      selectedTileColor: Colors.lightBlue,
+                      trailing: Icon(
+                        Icons.admin_panel_settings,
+                        color: Colors.lightBlue,
+                        size: 30.0,
+                      ),
+                      onTap: () {
+                        _onTapped(index);
+                      },
+                      title: new Text(
+                        '${idsList[index]}',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 20,
                         ),
+                        textAlign: TextAlign.right,
+                      ),
+                      subtitle: new Text(
+                        '${placesList[index]}',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 20,
                         ),
-                      )
-                  );
-                }
-            ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ));
+                }),
           ));
     } else {
       return new Scaffold(
@@ -94,35 +99,42 @@ class _MyHomePageState extends State<MyHomePage> {
             top: false,
             bottom: false,
             child: Center(
-              child: new Text("سيتم عرض البلاغات هنا حال توفرها", style: TextStyle(
-                color: Colors.black45, fontSize: 20,),
+              child: new Text(
+                "سيتم عرض البلاغات هنا حال توفرها",
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontSize: 20,
+                ),
                 textAlign: TextAlign.right,
               ),
             ),
-          )
-      );
+          ));
     }
   }
+
   Future getDocs() async {
     await Firebase.initializeApp();
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("fieldsComplaints").where("status",isEqualTo: "opened").get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("fieldsComplaints")
+        .where("status", isEqualTo: "opened")
+        .get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       var a = querySnapshot.docs[i].data().values;
       setState(() {
         docsIdList.add(querySnapshot.docs[i].id);
-        idsList.add(a.elementAt(6).toString()+ " : "+ "رقم البلاغ ");
+        idsList.add(a.elementAt(6).toString() + " : " + "رقم البلاغ ");
         placesList.add(a.elementAt(4).toString());
       });
     }
-
   }
+
   void _onTapped(int index) {
     // navigate to the next screen.
     var id = docsIdList[index];
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => viewFieldComplaintsInfo1(docId: id)),
+      MaterialPageRoute(
+          builder: (context) => viewFieldComplaintsInfo1(docId: id)),
     );
   }
 }
-
