@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'usingcolors.dart';
+import 'questions.dart';
 
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 /*
@@ -339,8 +340,12 @@ class askingForHelp extends State<MyHomePage> {
         ),
       ),
       child: FlatButton(
-        //onPressed: () => {print('')},
-        //padding: EdgeInsets.symmetric(vertical: 25),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => qustions1()),
+          );
+        }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
           "اسئلة شائعة",
           style: TextStyle(
@@ -367,6 +372,7 @@ class askingForHelp extends State<MyHomePage> {
       ),
       child: FlatButton(
         onPressed: _isButtonDisabled ? null : _checker,
+        //qustions1
         //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
           "ساعدني",
