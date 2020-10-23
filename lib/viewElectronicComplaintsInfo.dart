@@ -479,7 +479,6 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
               MaterialPageRoute(
                   builder: (context) => electronicComplaintsList1()),
             );
-
           },
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
