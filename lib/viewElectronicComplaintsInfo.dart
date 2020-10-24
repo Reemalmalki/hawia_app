@@ -289,7 +289,6 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
       appBar: AppBar(
         leading: Icon(Icons.arrow_back_ios),
         centerTitle: true,
-        title: Text('رفع بلاغ'),
         backgroundColor: KSUColor,
       ),
       backgroundColor: gray_background,
@@ -309,7 +308,7 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
               _inputField(
                   Icon(Icons.vpn_key_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
-                  "رقم الطلب",
+                  "رقم البلاغ",
                   false,
                   numberController),
               _inputField(
@@ -429,7 +428,7 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
     return Container(
         margin: EdgeInsets.only(top: 50, bottom: 30),
         child: Text(
-          "للبلاغات الإلكترونية",
+          "بلاغ إلكتروني",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,

@@ -706,7 +706,7 @@ class fieldComplaints extends State<MyHomePage> {
               size: 24.0,
             ), // set your own image/icon widget
             title: "تم إرسال البلاغ بنجاح",
-            description: "كيف كانت تجربة رفع البلاغ؟",
+            description: "كيف كانت تجربتك؟",
             submitButton: "تأكيد",
             positiveComment:
                 "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional

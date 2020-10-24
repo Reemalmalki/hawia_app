@@ -103,11 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
     await Firebase.initializeApp();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("helpRequests").where("status",isEqualTo: "opened").get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
-      var a = querySnapshot.docs[i].data().values;
+      var a = querySnapshot.docs[i].data();
       print(a);
       setState(() {
         docsIdList.add(querySnapshot.docs[i].id);
-        idsList.add(a.elementAt(2).toString()+ " : "+ "رقم الطلب ");
+        idsList.add(a["requestId"].toString()+ " : "+ "رقم الطلب ");
       });
     }
 

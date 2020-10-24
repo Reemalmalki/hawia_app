@@ -481,7 +481,7 @@ class askingForHelp extends State<MyHomePage> {
     Alert(
       context: context,
       title: "تم الإرسال بنجاح",
-      desc: "رقم الطلب :  " + id.toString(),
+      desc: "رقم طلبك هو  " + id.toString(),
       buttons: [
         DialogButton(
           child: Text(

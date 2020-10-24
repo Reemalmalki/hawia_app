@@ -5,10 +5,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hawia_app/viewElectronicComplaintsInfo.dart';
 
-Future<void> main() async {runApp(MyApp());
+Future<void> main() async {runApp(electronicComplaintsList1());
 }
 
-class MyApp extends StatelessWidget {
+class electronicComplaintsList1 extends StatelessWidget {
   // This widget is the root of your application.
 
   @override
@@ -16,11 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'البلاغات الاإلكترونية',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'البلاغات الاإلكترونية'),
+      home: MyHomePage(title: 'البلاغات الإلكترونية'),
 
     );
   }
@@ -54,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: new SafeArea(
             top: false,
             bottom: false,
+
             child: ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: idsList.length,
@@ -102,13 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
     await Firebase.initializeApp();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("electronicComplaints").where("status",isEqualTo: "opened").get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
-      var a = querySnapshot.docs[i].data().values;
+      var a = querySnapshot.docs[i].data();
       setState(() {
         docsIdList.add(querySnapshot.docs[i].id);
-        idsList.add(a.elementAt(2).toString()+ " : "+ "رقم البلاغ ");
+        idsList.add(a["requestId"].toString()+ " : "+ "رقم البلاغ ");
       });
     }
-
   }
   void _onTapped(int index) {
     // navigate to the next screen.

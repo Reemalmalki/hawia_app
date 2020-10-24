@@ -119,11 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
         .where("status", isEqualTo: "opened")
         .get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
-      var a = querySnapshot.docs[i].data().values;
+      var a = querySnapshot.docs[i].data();
       setState(() {
         docsIdList.add(querySnapshot.docs[i].id);
-        idsList.add(a.elementAt(6).toString() + " : " + "رقم البلاغ ");
-        placesList.add(a.elementAt(4).toString());
+        idsList.add(a["requestId"].toString()+ " : "+ "رقم البلاغ ");
+        placesList.add(a["place"].toString());
       });
     }
   }
