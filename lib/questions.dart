@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'usingcolors.dart';
+import 'main.dart';
 
 Future<void> main() async {
   runApp(qustions1());
@@ -33,7 +34,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => main1()),
+              );
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),
         centerTitle: true,
         title: Text('الاسئلة الشائعة'),
         backgroundColor: KSUColor,
@@ -61,9 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
         margin: EdgeInsets.only(top: 50, bottom: 90),
         child: Text(
-          "  هل ممكن تغيير الوان الشعار ؟ - "
+          "  هل ممكن تغيير ألوان الشعار ؟ - "
           '\n'
-          "لايمكن تغيير لون الشعار الا بالحالات الاستثنائية الواردة في الدليل الارشادي في الموقع "
+          "لايمكن تغيير لون الشعار إلا بالحالات الاستثنائية الواردة في الدليل الارشادي في الموقع "
           '\n'
           '\n'
           " هل ممكن استخدام الشعار في الجهة اليسرى ؟ - "
@@ -73,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
           '\n'
           " لون الكتابة تحت الشعار ممكن استخدام الوان اخرى؟-"
           '\n'
-          "اللون الاساسي اللون الرمادي ويسمح باللون الاسود اذا كان اللون الرمادي لن يكون واضحا مع التصميم",
+          "اللون الأساسي اللون الرمادي ويسمح باللون الاسود اذا كان اللون الرمادي لن يكون واضحا مع التصميم",
           textAlign: TextAlign.right,
           style: TextStyle(
             fontSize: 17.5,
