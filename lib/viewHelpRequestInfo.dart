@@ -7,6 +7,7 @@ import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
 import 'usingcolors.dart';
 import 'package:flutter/cupertino.dart';
+import 'helpRequestsList.dart';
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 //void main() => runApp(MyApp());
@@ -255,9 +256,28 @@ class viewHelpRequestInfo extends State<MyHomePage>
   }
 
   Widget build(BuildContext context) {
-    tabController = new TabController(length: 2, vsync: this);
+    return new Scaffold(
+        appBar: new AppBar(
+          title: Center(child: new Text(widget.title)),
+          backgroundColor: KSUColor,
+          leading: Container(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => helpRequestList1()),
+                );
+              },
+            ),
+            //child: Icon(Icons.arrow_back_ios)
+          ),
+        ),
+        body: new SafeArea(
+            child: Container(
+          //tabController = new TabController(length: 2, vsync: this);
 
-    var tabBarItem = new TabBar(
+          /*  var tabBarItem = new TabBar(
       tabs: [
         new Tab(
           icon: new Text("قبل"),
@@ -268,12 +288,12 @@ class viewHelpRequestInfo extends State<MyHomePage>
       ],
       controller: tabController,
       indicatorColor: Colors.white,
-    );
+    );*/
 
-    var _Befor = new ListView.builder(
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return new Container(
+          // var _Befor = new ListView.builder(
+          //  itemCount: 1,
+          // itemBuilder: (BuildContext context, int index) {
+
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/KSU_logo_large.png"),
@@ -307,10 +327,10 @@ class viewHelpRequestInfo extends State<MyHomePage>
               _help(),
             ],
           ),
-        );
-      },
-    );
-
+        )));
+    //  },
+    // );
+/*
     var _After = new ListView.builder(
       itemCount: 1,
       itemBuilder: (BuildContext context, int index) {
@@ -371,7 +391,8 @@ class viewHelpRequestInfo extends State<MyHomePage>
           ],
         ),
       ),
-    );
+    );*/
+    //  );
   }
 
   Widget _help() {

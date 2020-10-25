@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'usingcolors.dart';
 import 'questions.dart';
+import 'main.dart';
 
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 /*
@@ -273,11 +274,21 @@ class askingForHelp extends State<MyHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
-        centerTitle: true,
-        title: Text('طلب المساعده'),
+      appBar: new AppBar(
+        title: Center(child: new Text(widget.title)),
         backgroundColor: KSUColor,
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => main1()),
+              );
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),
       ),
       //backgroundColor: gray_background,
       body: SingleChildScrollView(
@@ -488,7 +499,12 @@ class askingForHelp extends State<MyHomePage> {
             "حسناً",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => main1()),
+            );
+          }, // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),
@@ -539,7 +555,12 @@ class askingForHelp extends State<MyHomePage> {
             "حسناً",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => main1()),
+            );
+          }, // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),

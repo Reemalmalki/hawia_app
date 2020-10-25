@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hawia_app/viewFieldComplaintsInfo.dart';
+import 'usingcolors.dart';
+import 'main.dart';
 
 Future<void> main() async {
   runApp(fieldComplaintsList1());
@@ -46,13 +48,31 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     if (idsList.isEmpty == false) {
-      return new Scaffold(
+      return Scaffold(
           appBar: new AppBar(
-            title: new Text(widget.title),
+            title: Center(child: new Text(widget.title)),
+            backgroundColor: KSUColor,
+            leading: Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => main1()),
+                  );
+                },
+              ),
+              //child: Icon(Icons.arrow_back_ios)
+            ),
           ),
           body: new SafeArea(
-            top: false,
-            bottom: false,
+              child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/KSU_logo.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: idsList.length,
@@ -89,15 +109,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ));
                 }),
-          ));
+          )));
     } else {
       return new Scaffold(
           appBar: new AppBar(
-            title: new Text(widget.title),
+            title: Center(child: new Text(widget.title)),
+            backgroundColor: KSUColor,
+            leading: Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => main1()),
+                  );
+                },
+              ),
+              //child: Icon(Icons.arrow_back_ios)
+            ),
           ),
           body: new SafeArea(
-            top: false,
-            bottom: false,
+              child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/KSU_logo.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Center(
               child: new Text(
                 "سيتم عرض البلاغات هنا حال توفرها",
@@ -108,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.right,
               ),
             ),
-          ));
+          )));
     }
   }
 
@@ -122,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var a = querySnapshot.docs[i].data();
       setState(() {
         docsIdList.add(querySnapshot.docs[i].id);
-        idsList.add(a["requestId"].toString()+ " : "+ "رقم البلاغ ");
+        idsList.add(a["requestId"].toString() + " : " + "رقم البلاغ ");
         placesList.add(a["place"].toString());
       });
     }

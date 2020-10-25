@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'usingcolors.dart';
+import 'main.dart';
 /*
 void main() => runApp(MyApp());
 
@@ -336,7 +337,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final appName = 'رفع بلاغ';
+    final appName = 'رفع البلاغ';
 
     return MaterialApp(
       title: appName,
@@ -379,13 +380,22 @@ class fieldComplaints extends State<MyHomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
-        centerTitle: true,
-        title: Text('رفع بلاغ'),
+      appBar: new AppBar(
+        title: Center(child: new Text(widget.title)),
         backgroundColor: KSUColor,
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => main1()),
+              );
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),
       ),
-      backgroundColor: gray_background,
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -522,7 +532,7 @@ class fieldComplaints extends State<MyHomePage> {
         onPressed: _checker,
         //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "رفع بلاغ",
+          "رفع البلاغ",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -591,7 +601,7 @@ class fieldComplaints extends State<MyHomePage> {
     return Container(
         margin: EdgeInsets.only(top: 50, bottom: 30),
         child: Text(
-          "للبلاغات الميدانية",
+          "البلاغات الميدانية",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -658,11 +668,12 @@ class fieldComplaints extends State<MyHomePage> {
     }
     if (floorController.text.isEmpty) {
       //
-      print(buildController.text);
+      print(floorController.text);
       flag = false;
       _showMyDialog("غير مكتمل", "الرجاء كتابة رقم الدور بشكل صحيح");
       return;
     }
+
     if (flag) {
       _helpButtonPressed();
     }
@@ -714,8 +725,12 @@ class fieldComplaints extends State<MyHomePage> {
                 " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
             accentColor: Colors.lightBlue, // optional
             onSubmitPressed: (int rating) {
-              print(rating);
               _saveRating(rating);
+              print(rating);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => main1()),
+              );
             },
           );
         });

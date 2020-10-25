@@ -4,27 +4,27 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hawia_app/viewHelpRequestInfo.dart';
+import 'usingcolors.dart';
+import 'main.dart';
 
-Future<void> main() async {runApp(MyApp());
+Future<void> main() async {
+  runApp(helpRequestList1());
 }
 
-class MyApp extends StatelessWidget {
+class helpRequestList1 extends StatelessWidget {
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title:  'طلبات المساعدة',
+      title: 'طلبات المساعدة',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'طلبات المساعدة'),
-
     );
   }
-
 }
 
 class MyHomePage extends StatefulWidget {
@@ -36,82 +36,127 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  List<String> idsList  = List<String>();
-  List<String> docsIdList  = List<String>();
+  List<String> idsList = List<String>();
+  List<String> docsIdList = List<String>();
 
   @override
   void initState() {
     getDocs();
   }
+
   @override
   Widget build(BuildContext context) {
     if (idsList.isEmpty == false) {
       return new Scaffold(
           appBar: new AppBar(
-            title: new Text(widget.title),
+            title: Center(child: new Text(widget.title)),
+            backgroundColor: KSUColor,
+            leading: Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => main1()),
+                  );
+                },
+              ),
+              //child: Icon(Icons.arrow_back_ios)
+            ),
           ),
           body: new SafeArea(
-            top: false,
-            bottom: false,
+              child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/KSU_logo.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: idsList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return new Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: new ListTile(
-                          selectedTileColor: Colors.lightBlue,
-                          trailing: Icon(
-                            Icons.admin_panel_settings,
-                            color: Colors.lightBlue,
-                            size: 30.0,),
-                          onTap:  () {
-                            _onTapped(index);
-                          },
-                          title: new Text('${idsList[index]}', style: TextStyle(
-                            color: Colors.black54, fontSize: 20,),
-                            textAlign: TextAlign.right,
-                          ),
-
+                    padding: const EdgeInsets.all(10.0),
+                    child: new ListTile(
+                      selectedTileColor: Colors.lightBlue,
+                      trailing: Icon(
+                        Icons.admin_panel_settings,
+                        color: Colors.lightBlue,
+                        size: 30.0,
+                      ),
+                      onTap: () {
+                        _onTapped(index);
+                      },
+                      title: new Text(
+                        '${idsList[index]}',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 20,
                         ),
-                      )
-                  );
-                }
-            ),
-          ));
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ));
+                }),
+          )));
     } else {
       return new Scaffold(
           appBar: new AppBar(
-            title: new Text(widget.title),
+            title: Center(child: new Text(widget.title)),
+            backgroundColor: KSUColor,
+            leading: Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => main1()),
+                  );
+                },
+              ),
+              //child: Icon(Icons.arrow_back_ios)
+            ),
           ),
           body: new SafeArea(
-            top: false,
-            bottom: false,
+              child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/KSU_logo.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Center(
-              child: new Text("سيتم عرض طلبات المساعدة هنا حال توفرها", style: TextStyle(
-                color: Colors.black45, fontSize: 20,),
+              child: new Text(
+                "سيتم عرض طلبات المساعدة هنا حال توفرها",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 20,
+                ),
                 textAlign: TextAlign.right,
               ),
             ),
-          )
-      );
+          )));
     }
   }
+
   Future getDocs() async {
     await Firebase.initializeApp();
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("helpRequests").where("status",isEqualTo: "opened").get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("helpRequests")
+        .where("status", isEqualTo: "opened")
+        .get();
     for (int i = 0; i < querySnapshot.docs.length; i++) {
       var a = querySnapshot.docs[i].data();
       print(a);
       setState(() {
         docsIdList.add(querySnapshot.docs[i].id);
-        idsList.add(a["requestId"].toString()+ " : "+ "رقم الطلب ");
+        idsList.add(a["requestId"].toString() + " : " + "رقم الطلب ");
       });
     }
-
   }
+
   void _onTapped(int index) {
     // navigate to the next screen.
     var id = docsIdList[index];
@@ -121,4 +166,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

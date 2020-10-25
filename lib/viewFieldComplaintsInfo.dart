@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'usingcolors.dart';
 import 'fieldComplaintsList.dart';
+import 'main.dart';
+
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 //void main() => runApp(MyApp());
@@ -307,32 +309,22 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            FlatButton(
-              textColor: Colors.white,
-              onPressed: () {},
-              child: Text("Cancel"),
-              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-            ),
-            Text('بلاغ ميداني')
-          ],
-        ),
-        titleSpacing: -35,
-        actions: [
-          FlatButton(
-            textColor: Colors.white,
-            onPressed: () {},
-            child: Text("Done"),
-            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-          ),
-        ],
+      appBar: new AppBar(
+        title: Center(child: new Text(widget.title)),
         backgroundColor: KSUColor,
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
+              );
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),
       ),
-      backgroundColor: gray_background,
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -522,7 +514,9 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
         .collection('fieldsComplaints')
         .doc(docId.toString())
         .update({'status': "closed"});
-
+    _showMyDialog(
+        "تم اغلاق الطلب بنجاح", "رقم الطلب :  " + numberController.text);
+/*
     Alert(
       context: context,
       title: "تم اغلاق الطلب بنجاح",
@@ -538,14 +532,37 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
               context,
               MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
             );
-          },
+          }, // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();*/
+  }
+
+  /* Future<void> _showMyDialog(String title, String body) async {
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
+            );
+          }, // هنا وين يروح بعدها ؟
           radius: BorderRadius.circular(0.5),
         ),
       ],
     ).show();
   }
-
+}*/
   Future<void> _showMyDialog(String title, String body) async {
     Alert(
       context: context,
@@ -557,7 +574,12 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
             "حسناً",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
+            );
+          }, // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),

@@ -123,10 +123,10 @@ import 'package:flutter/material.dart';
 import 'usingcolors.dart';
 
 Future<void> main() async {
-  runApp(MyApp());
+  runApp(main1());
 }
 
-class MyApp extends StatelessWidget {
+class main1 extends StatelessWidget {
   // This widget is the root of your application.
 
   @override
