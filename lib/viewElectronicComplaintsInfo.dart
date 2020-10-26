@@ -287,9 +287,20 @@ class viewElectronicComplaintsInfo extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
         centerTitle: true,
         backgroundColor: KSUColor,
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => electronicComplaintsList1()),
+              );
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),
       ),
       backgroundColor: gray_background,
       body: SingleChildScrollView(

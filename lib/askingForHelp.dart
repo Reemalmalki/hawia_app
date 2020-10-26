@@ -5,7 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'usingcolors.dart';
 import 'questions.dart';
-import 'main.dart';
+import 'homePage.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 //import 'package:flutter_email_sender/flutter_email_sender.dart';
 /*
@@ -283,7 +284,7 @@ class askingForHelp extends State<MyHomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => main1()),
+                MaterialPageRoute(builder: (context) => homePage()),
               );
             },
           ),
@@ -489,27 +490,7 @@ class askingForHelp extends State<MyHomePage> {
       'status': 'opened',
     });
     print(ref.id);
-    Alert(
-      context: context,
-      title: "تم الإرسال بنجاح",
-      desc: "رقم طلبك هو  " + id.toString(),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "حسناً",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => main1()),
-            );
-          }, // هنا وين يروح بعدها ؟
-          color: Colors.lightBlue[800],
-          radius: BorderRadius.circular(0.5),
-        ),
-      ],
-    ).show();
+    _showRatingDialog();
   }
 
   void _checker() {
@@ -555,16 +536,64 @@ class askingForHelp extends State<MyHomePage> {
             "حسناً",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => main1()),
-            );
-          }, // هنا وين يروح بعدها ؟
+    onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),
       ],
     ).show();
   }
+  void _showRatingDialog() {
+    // We use the built in showDialog function to show our Rating Dialog
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon: Icon(
+              Icons.favorite,
+              color: Colors.lightBlue,
+              size: 24.0,
+            ), // set your own image/icon widget
+            title: "تم إرسال طلبك بنجاح",
+            description: "كيف كانت تجربتك؟",
+            submitButton: "تأكيد",
+            positiveComment:
+            "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional
+            negativeComment:
+            " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
+            accentColor: Colors.lightBlue, // optional
+            onSubmitPressed: (int rating) {
+              _saveRating(rating);
+              print(rating);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => homePage()),
+              );
+            },
+          );
+        });
+  }
+
+  void _saveRating(int rating) async {
+    await Firebase.initializeApp();
+    final databaseReference = FirebaseFirestore.instance;
+    var ref = databaseReference.collection('helpRequests').doc('Ratings');
+    ref.update({'total': FieldValue.increment(1)});
+
+    switch (rating) {
+      case 1:
+      case 2:
+        ref.update({'low': FieldValue.increment(1)});
+        break;
+      case 3:
+        ref.update({'medium': FieldValue.increment(1)});
+        break;
+      case 4:
+      case 5:
+        ref.update({'high': FieldValue.increment(1)});
+        break;
+    }
+  }
 }
+

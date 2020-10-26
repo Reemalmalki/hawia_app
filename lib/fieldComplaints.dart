@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'usingcolors.dart';
-import 'main.dart';
+import 'homePage.dart';
 /*
 void main() => runApp(MyApp());
 
@@ -389,7 +389,7 @@ class fieldComplaints extends State<MyHomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => main1()),
+                MaterialPageRoute(builder: (context) => homePage()),
               );
             },
           ),
@@ -530,7 +530,6 @@ class fieldComplaints extends State<MyHomePage> {
       ),
       child: FlatButton(
         onPressed: _checker,
-        //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
           "رفع البلاغ",
           style: TextStyle(
@@ -671,7 +670,13 @@ class fieldComplaints extends State<MyHomePage> {
       print(floorController.text);
       flag = false;
       _showMyDialog("غير مكتمل", "الرجاء كتابة رقم الدور بشكل صحيح");
-      return;
+      return;}
+
+      if (currentSelectedValue == null) {
+        //
+        flag = false;
+        _showMyDialog("غير مكتمل", "الرجاءاختيار المكان بشكل صحيح");
+        return;
     }
 
     if (flag) {
@@ -729,7 +734,7 @@ class fieldComplaints extends State<MyHomePage> {
               print(rating);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => main1()),
+                MaterialPageRoute(builder: (context) => homePage()),
               );
             },
           );

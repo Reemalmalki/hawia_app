@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'usingcolors.dart';
+import 'homePage.dart';
 
 /*
 void main() => runApp(MyApp());
@@ -287,10 +288,21 @@ class electronicComplaints extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
         centerTitle: true,
-        title: Text('رفع بلاغ'),
+        title: Text('رفع البلاغ'),
         backgroundColor: KSUColor,
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => homePage()),
+              );
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),
       ),
       backgroundColor: gray_background,
       body: SingleChildScrollView(
@@ -351,7 +363,7 @@ class electronicComplaints extends State<MyHomePage> {
         onPressed: _isButtonDisabled ? null : _checker,
         //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "رفع بلاغ",
+          "رفع البلاغ",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -421,7 +433,7 @@ class electronicComplaints extends State<MyHomePage> {
     return Container(
         margin: EdgeInsets.only(top: 50, bottom: 30),
         child: Text(
-          "للبلاغات الإلكترونية",
+          "البلاغات الإلكترونية",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -533,6 +545,10 @@ class electronicComplaints extends State<MyHomePage> {
             onSubmitPressed: (int rating) {
               print(rating);
               _saveRating(rating);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => homePage()),
+              );
             },
           );
         });

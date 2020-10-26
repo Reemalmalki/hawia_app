@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hawia_app/viewElectronicComplaintsInfo.dart';
 import 'usingcolors.dart';
-import 'main.dart';
+import 'employeeHomePage.dart';
 
 Future<void> main() async {
   runApp(electronicComplaintsList1());
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => main1()),
+                    MaterialPageRoute(builder: (context) => employeeHomePage()),
                   );
                 },
               ),
@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => main1()),
+                    MaterialPageRoute(builder: (context) => employeeHomePage()),
                   );
                 },
               ),
