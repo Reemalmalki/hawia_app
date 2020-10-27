@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'employeeHomePage.dart';
 /*
 Future<void> main() async {runApp(MyApp());
 }
@@ -169,6 +169,12 @@ class _MyHomePageState extends State<MyHomePage> {
               email: emailController.text, password: passController.text))
           .user;
       print(user.uid);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => employeeHomePage()),
+      );
+
     } catch (e) {
       print('البريد الإلكتروني او كلمة المرور غير صحيحة، حاول مرة اخرى');
     }
