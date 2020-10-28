@@ -6,6 +6,7 @@ import 'usingcolors.dart';
 import 'electronicComplaintsList.dart';
 import 'helpRequestsList.dart';
 import 'fieldComplaintsList.dart';
+import 'rating.dart';
 import 'main.dart';
 Future<void> main() async {
   runApp(employeeHomePage());
@@ -234,8 +235,16 @@ class _MyHomePageState extends State<MyHomePage> {
             fontWeight: FontWeight.w800,
             color: Colors.white,
           ),
+
         ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => rating()),
+          );
+        },
       ),
+
     );
   }
 
