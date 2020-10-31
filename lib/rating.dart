@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'usingcolors.dart';
 import 'employeeHomePage.dart';
@@ -35,15 +33,16 @@ class _MyHomePageState extends State<MyHomePage> {
   bool finish = false;
   int count = 0;
   @override
+
   void initState() {
     super.initState();
-
     getDocs();
   }
 
   final Map<String, double> dataMapE = Map();
   final Map<String, double> dataMapF = Map();
   final Map<String, double> dataMapH = Map();
+
   Future getDocs() async {
     print('1');
     await Firebase.initializeApp();
@@ -52,6 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
         .collection('fieldsComplaints')
         .doc('Ratings')
         .get();
+    DocumentSnapshot helpRequests =
+    await databaseReference.collection('helpRequests').doc('Ratings').get();
+    DocumentSnapshot electronicComplaints = await databaseReference
+        .collection('electronicComplaints')
+        .doc('ratings')
+        .get();
+    setState(() {
     dataMapF.putIfAbsent(
         "راضي تماماً", () => (fieldsComplaints.get('high').toDouble()));
     dataMapF.putIfAbsent(
@@ -59,10 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
     dataMapF.putIfAbsent(
         "غير راضي", () => fieldsComplaints.get('low').toDouble());
 
-    DocumentSnapshot electronicComplaints = await databaseReference
-        .collection('electronicComplaints')
-        .doc('ratings')
-        .get();
     dataMapE.putIfAbsent(
         "راضي تماماً", () => electronicComplaints.get('high').toDouble());
     dataMapE.putIfAbsent(
@@ -70,13 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
     dataMapE.putIfAbsent(
         "غير راضي", () => electronicComplaints.get('low').toDouble());
 
-    DocumentSnapshot helpRequests =
-        await databaseReference.collection('helpRequests').doc('Ratings').get();
+
     dataMapH.putIfAbsent(
         "راضي تماماً", () => helpRequests.get('high').toDouble());
     dataMapH.putIfAbsent("محايد", () => helpRequests.get('medium').toDouble());
     dataMapH.putIfAbsent("غير راضي", () => helpRequests.get('low').toDouble());
-    await Future.delayed(Duration(seconds: 9));
+    });
   }
 
   List<Color> colorList = [
@@ -87,10 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Duration initialDelay = Duration(seconds: 50);
-
-    // sleep(new Duration(seconds: 99));
-
+    if(dataMapF.isEmpty == false ){
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -110,20 +108,15 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         backgroundColor: gray_background,
-        body: SingleChildScrollView(
-            child: DelayedDisplay(
-          delay: initialDelay,
+        body:  SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(),
             padding: EdgeInsets.symmetric(horizontal: 35),
             width: double.infinity,
-            //  child: DelayedDisplay(
-            //  delay: initialDelay,
             child: Column(
               children: [
                 //  _Text(),
                 _Text('البلاغات الإلكترونية'),
-
                 _chart(dataMapE),
                 _Text('البلاغات الميدانية'),
                 _chart(dataMapF),
@@ -133,8 +126,52 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           //  ),
-        )));
+        ));
+  }else{
+      return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text('مدى رضا العملاء '),
+            backgroundColor: KSUColor,
+            leading: Container(
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => employeeHomePage()),
+                  );
+                },
+              ),
+              //child: Icon(Icons.arrow_back_ios)
+            ),
+          ),
+          backgroundColor: gray_background,
+          body:  SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(),
+              padding: EdgeInsets.symmetric(horizontal: 35),
+              width: double.infinity,
+              child: Container(
+                  margin: EdgeInsets.only(top: 40, bottom: 40),
+                  child: Center(
+                    child: Text(
+                      "جاري تحميل الإحصائيات  ",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.grey,
+                        letterSpacing: 10,
+                      ),
+                    ),
+                  )),
+            ),
+            //  ),
+          ));
+    }
+
   }
+
 
   Widget _Text(String text) {
     return Container(
@@ -153,11 +190,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _chart(Map<String, double> dataMap) {
     //sleep(new Duration(seconds: 80));
 
-    final Duration initialDelay = Duration(seconds: 2);
 
     return Container(
-        child: DelayedDisplay(
-            delay: initialDelay,
             child: PieChart(
               dataMap: dataMap,
               animationDuration: Duration(milliseconds: 800),
@@ -177,6 +211,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white,
               ),
               chartType: ChartType.disc,
-            )));
+            ));
   }
 }

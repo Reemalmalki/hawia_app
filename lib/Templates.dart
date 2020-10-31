@@ -204,9 +204,9 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'template_date.dart';
 import 'usingcolors.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(template1());
 
-class MyApp extends StatelessWidget {
+class template1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
