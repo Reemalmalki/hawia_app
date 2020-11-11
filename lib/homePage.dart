@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'usingcolors.dart';
-import 'electronicComplaintsList.dart';
-import 'helpRequestsList.dart';
-import 'fieldComplaintsList.dart';
 import 'template_date.dart';
+import 'package:edge_detection/edge_detection.dart';
+import 'edgeDetection.dart';
+import 'package:flutter/services.dart';
 import 'template.dart';
-
 Future<void> main() async {
   runApp(homePage());
 }
@@ -71,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   itemBuilder: (context, index) {
                     currentSelectedValue = templatesHome[index].name;
-
+                    type = templatesHome[index].name;
                     return Stack(
                       children: <Widget>[
                         Column(
@@ -111,9 +110,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       children: <Widget>[
                                         FlatButton(
                                           textColor: linkColor,
-                                          onPressed: () {},
+                                          onPressed: initPlatformState,
                                           child: Text(
-                                            "الانتقال",
+                                            "تأكد من الشعار من هنا",
                                             style: TextStyle(
                                               fontSize: 15,
                                               color: linkColor,
@@ -138,10 +137,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-                        Image.asset(
-                          templatesHome[index].iconImage,
-                          height: 200,
-                          width: 100,
+                        Center(
+                          child: Image.asset(
+                            templatesHome[index].iconImage,
+                            height: 200,
+                            width: 200,
+                          ),
                         ),
                       ],
                     );
@@ -189,4 +190,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+  String _imagePath = 'Unknown';
+  String type = "";
+
+  void initPlatformState() async {
+    String imagePath;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      imagePath = await EdgeDetection.detectEdge;
+    } on PlatformException {
+      imagePath = 'Failed to get cropped image path.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _imagePath = imagePath;
+    });
+  }
+
 }
