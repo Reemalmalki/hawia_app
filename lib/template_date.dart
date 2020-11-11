@@ -28,6 +28,6 @@ List<templatedata> templates = [
 ];
 
 List<templatedata> templatesHome = [
-  templatedata(0, name: "A4", iconImage: '', description: "", images: []),
-  templatedata(1, name: "Panner ", iconImage: '', description: "", images: []),
+  templatedata(0, name: "A4", iconImage:'', description: "", images: []),
+  templatedata(1, name: "Banner ", iconImage: '', description: "", images: []),
 ];
