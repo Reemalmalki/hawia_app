@@ -11,7 +11,7 @@ class templatedata {
 
 List<templatedata> templates = [
   templatedata(0,
-      name: "قالب وورد",
+      name: "قالب وورد عربي",
       iconImage: 'assets/word.png',
       description: "....",
       images: []),
@@ -19,6 +19,11 @@ List<templatedata> templates = [
       name: "قالب بوربوينت",
       iconImage: 'assets/powerpoint.png',
       description: "...",
+      images: []),
+  templatedata(2,
+      name: "قالب وورد انجليزي",
+      iconImage: 'assets/word.png',
+      description: "....",
       images: []),
 ];
 
