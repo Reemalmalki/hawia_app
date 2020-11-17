@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'usingcolors.dart';
 import 'template_date.dart';
-import 'package:edge_detection/edge_detection.dart';
-import 'edgeDetection.dart';
-import 'package:flutter/services.dart';
 import 'template.dart';
+import 'package:flutter/services.dart';
+import 'package:edge_detection/edge_detection.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'visiontextwidget.dart';
 Future<void> main() async {
   runApp(homePage());
 }
@@ -31,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var currentSelectedValue;
-
+  var type ;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -110,7 +111,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                       children: <Widget>[
                                         FlatButton(
                                           textColor: linkColor,
-                                          onPressed: initPlatformState,
+                                          onPressed: () {
+                                            Alert(
+                                              context: context,
+                                              title: "التعليمات",
+                                              desc: "وجه الكاميرا الى الشعار",
+                                              buttons: [
+                                                DialogButton(
+                                                  child: Text(
+                                                    "حسناً",
+                                                    style: TextStyle(color: Colors.white, fontSize: 20),
+                                                  ),
+                                                  onPressed: initPlatformState ,
+                                                  color: Colors.lightBlue[800],
+                                                  radius: BorderRadius.circular(0.5),
+                                                ),
+                                              ],
+                                            ).show();
+                                          },
                                           child: Text(
                                             "تأكد من الشعار من هنا",
                                             style: TextStyle(
@@ -174,11 +192,29 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
       child: FlatButton(
         onPressed: () {
+          Alert(
+            context: context,
+            title: "التعليمات",
+            desc: "وجه الكاميرا الى الشعار",
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "حسناً",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: initPlatformState ,
+                color: Colors.lightBlue[800],
+                radius: BorderRadius.circular(0.5),
+              ),
+            ],
+          ).show();
+
+        },/*() {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => template1()),
+             MaterialPageRoute(builder: (context) => template1()),
           );
-        }, //padding: EdgeInsets.symmetric(vertical: 25),
+        },*/ //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
           "القوالب",
           style: TextStyle(
@@ -190,26 +226,20 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  String _imagePath = 'Unknown';
-  String type = "";
-
-  void initPlatformState() async {
+  @override
+  Future<void> initPlatformState() async {
     String imagePath;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       imagePath = await EdgeDetection.detectEdge;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VisionTextWidget(imagePath:imagePath)),
+      );
     } on PlatformException {
       imagePath = 'Failed to get cropped image path.';
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    setState(() {
-      _imagePath = imagePath;
-    });
   }
-
 }

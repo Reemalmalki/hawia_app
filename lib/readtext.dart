@@ -1,10 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mlkit/mlkit.dart';
-
 import 'visiontextwidget.dart';
 
 void main() {

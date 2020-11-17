@@ -1,22 +1,24 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mlkit/mlkit.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:edge_detection/edge_detection.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
+import 'homePage.dart';
+import 'askingForHelp.dart';
+import 'fieldComplaints.dart';
+import 'electronicComplaints.dart';
 class VisionTextWidget extends StatefulWidget {
+  VisionTextWidget({@required this.imagePath});
+  String imagePath;
   @override
-  _VisionTextWidgetState createState() => _VisionTextWidgetState();
+  _VisionTextWidgetState createState() => _VisionTextWidgetState(imagePath:imagePath);
 }
 
 class _VisionTextWidgetState extends State<VisionTextWidget> {
-  String _imagePath = 'Unknown';
+  _VisionTextWidgetState({@required this.imagePath});
+  String imagePath;
   final String type = null;
   int x = 0;
   File _file;
@@ -32,73 +34,25 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
 
   @override
   Future<void> initPlatformState() async {
-    String imagePath;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      imagePath = await EdgeDetection.detectEdge;
-      _imagePath = imagePath;
-    } on PlatformException {
-      imagePath = 'Failed to get cropped image path.';
-    }
     try {
       var currentLabels = await detector.detectFromPath(imagePath);
       setState(() {
-        _imagePath = imagePath;
         _currentLabels = currentLabels;
       });
     } catch (e) {
       print(e.toString());
     }
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
-    //}
-    setState(() {
-      _imagePath = imagePath;
-    });
   }
 
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Text Detection'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            tooltip: 'Back',
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          title: Text('الصفحة الرئيسية'),
         ),
         body: _buildBody(),
-        floatingActionButton: FloatingActionButton(
-          /* onPressed: () async {
-            try {
-              //var file = await ImagePicker.pickImage(source: ImageSource.camera);
-              var file =
-                  await ImagePicker.pickImage(source: ImageSource.gallery);
-              if (file != null) {
-                setState(() {
-                  _file = file;
-                });
-                try {
-                  var currentLabels =
-                      await detector.detectFromPath(_file?.path);
-                  setState(() {
-                    _currentLabels = currentLabels;
-                  });
-                } catch (e) {
-                  print(e.toString());
-                }
-              }
-            } catch (e) {
-              print(e.toString());
-            }*/
-          //  },
-          child: Icon(Icons.camera),
-        ),
+
       ),
     );
   }
@@ -107,17 +61,17 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
     return SizedBox(
       height: 500.0,
       child: Center(
-        child: _imagePath == 'Unknown'
+        child: imagePath == 'Unknown'
             ? Text('No Image')
             : FutureBuilder<Size>(
                 future: _getImageSize(
-                    Image.file(new File(_imagePath), fit: BoxFit.fitWidth)),
+                    Image.file(new File(imagePath), fit: BoxFit.fitWidth)),
                 builder: (BuildContext context, AsyncSnapshot<Size> snapshot) {
                   if (snapshot.hasData) {
                     return Container(
                         foregroundDecoration:
                             TextDetectDecoration(_currentLabels, snapshot.data),
-                        child: Image.file(new File(_imagePath),
+                        child: Image.file(new File(imagePath),
                             fit: BoxFit.fitWidth));
                   } else {
                     return Text('Detecting...');
@@ -254,7 +208,7 @@ class _TextDetectPainter extends BoxPainter {
       canvas.drawRect(_rect, paint);*/
     }
     if (flag) {
-      _showMyDialog('تم التحقق بنجاح', 'الشعار محقق للمواصفات');
+      //_showSuccessDialog(context);
     }
 
     ///////   print("offset : ${offset}");
@@ -268,22 +222,125 @@ class _TextDetectPainter extends BoxPainter {
     canvas.restore();
   }
 
-  Future<void> _showMyDialog(String title, String body) async {
+    Future<void> _showErrorDialog( context, String body)  {
+      Alert(
+        context: context,
+        title: "الشعار غير محقق للمواصفات التالية",
+        desc: "BODY",
+        type: AlertType.error,
+        buttons: [
+          DialogButton(
+            child: Text(
+              "بلاغ ميداني",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => homePage()),
+              );
+            },
+            color: Colors.lightBlue[800],
+            radius: BorderRadius.circular(0.5),
+          ),
+          DialogButton(
+            child: Text(
+              "بلاغ إلكتروني",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => homePage()),
+              );
+            },
+            color: Colors.lightBlue[800],
+            radius: BorderRadius.circular(0.5),
+          ),
+          DialogButton(
+            child: Text(
+              "طلب مساعدة",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => homePage()),
+              );
+            },
+            color: Colors.lightBlue[800],
+            radius: BorderRadius.circular(0.5),
+          ),
+        ],
+      ).show();
+  }
+
+  Future<void> _showSuccessDialog(context)  {
     Alert(
-      //context: context,
-      title: title,
-      desc: body,
+      context: context,
+      title: 'تم التحقق بنجاح',
+      desc: 'الشعار محقق للمواصفات',
+      image: ImageIcon(
+        AssetImage('assets/successIcon.png'),
+        size: 100,
+        color: Colors.green,
+
+      ),
       buttons: [
         DialogButton(
           child: Text(
             "حسناً",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          // onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => homePage()),
+            );
+          },
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),
       ],
     ).show();
+
   }
+
+  Future<void> _showUnDefindDialog(context)  {
+    Alert(
+      context: context,
+      title: "لم يتم التعرف على الشعار",
+      type: AlertType.warning,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "طلب مساعدة",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => askingForHelp1()),
+            );
+          },                 color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+        DialogButton(
+          child: Text(
+            "الصفحة الرئيسية",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => homePage()),
+            );
+          },                 color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.9),
+        ),
+      ],
+    ).show();
+  }
+
+
 }

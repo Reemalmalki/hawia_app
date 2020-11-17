@@ -240,9 +240,8 @@ class askingForHelp extends State<MyHomePage> {
 }
 
 */
-void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class askingForHelp1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appName = 'طلب المساعدة';
