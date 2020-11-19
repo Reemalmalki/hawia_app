@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:edge_detection/edge_detection.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'visiontextwidget.dart';
+import 'main.dart';
 Future<void> main() async {
   runApp(homePage());
 }
@@ -37,6 +38,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              tooltip: 'تسجيل الدخول',
+              icon: Icon(Icons.account_circle),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => main1()),
+                );
+              },
+            ),
+          ],
         title: Text('الصفحة الرئيسية'),
         backgroundColor: KSUColor,
       ),

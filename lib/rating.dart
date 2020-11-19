@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
-import 'usingcolors.dart';
-import 'employeeHomePage.dart';
-import 'package:pie_chart/pie_chart.dart';
+/*import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delayed_display/delayed_display.dart';
-
+import 'usingcolors.dart';
+import 'electronicComplaintsList.dart';
+import 'helpRequestsList.dart';
+import 'fieldComplaintsList.dart';
+import 'rating.dart';
+import 'main.dart';
 Future<void> main() async {
-  runApp(rating());
+  runApp(employeeHomePagePre());
 }
 
-class rating extends StatelessWidget {
+class employeeHomePagePre extends StatelessWidget {
   // This widget is the root of your application.
 
   @override
@@ -30,187 +32,220 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool finish = false;
-  int count = 0;
+  bool isLoggedIn;
   @override
-
-  void initState() {
-    super.initState();
-    getDocs();
-  }
-
-  final Map<String, double> dataMapE = Map();
-  final Map<String, double> dataMapF = Map();
-  final Map<String, double> dataMapH = Map();
-
-  Future getDocs() async {
-    print('1');
-    await Firebase.initializeApp();
-    final databaseReference = FirebaseFirestore.instance;
-    DocumentSnapshot fieldsComplaints = await databaseReference
-        .collection('fieldsComplaints')
-        .doc('Ratings')
-        .get();
-    DocumentSnapshot helpRequests =
-    await databaseReference.collection('helpRequests').doc('Ratings').get();
-    DocumentSnapshot electronicComplaints = await databaseReference
-        .collection('electronicComplaints')
-        .doc('ratings')
-        .get();
-    setState(() {
-    dataMapF.putIfAbsent(
-        "راضي تماماً", () => (fieldsComplaints.get('high').toDouble()));
-    dataMapF.putIfAbsent(
-        "محايد", () => fieldsComplaints.get('medium').toDouble());
-    dataMapF.putIfAbsent(
-        "غير راضي", () => fieldsComplaints.get('low').toDouble());
-
-    dataMapE.putIfAbsent(
-        "راضي تماماً", () => electronicComplaints.get('high').toDouble());
-    dataMapE.putIfAbsent(
-        "محايد", () => electronicComplaints.get('medium').toDouble());
-    dataMapE.putIfAbsent(
-        "غير راضي", () => electronicComplaints.get('low').toDouble());
-
-
-    dataMapH.putIfAbsent(
-        "راضي تماماً", () => helpRequests.get('high').toDouble());
-    dataMapH.putIfAbsent("محايد", () => helpRequests.get('medium').toDouble());
-    dataMapH.putIfAbsent("غير راضي", () => helpRequests.get('low').toDouble());
+  /*void initState()  {
+   Firebase.initializeApp();
+    FirebaseAuth.instance.currentUser != null
+        ? setState(() {
+      isLoggedIn = true;
+    })
+        : setState(() {
+      isLoggedIn = false;
     });
+    print("isLoggedIn");
+    print(isLoggedIn);
+    super.initState()
+    // new Future.delayed(const Duration(seconds: 2));
   }
 
-  List<Color> colorList = [
-    Color(0xFF008FC4),
-    Color(0xFFb2bdc3),
-    Color(0xFF606f8c),
-  ];
+  Widget _moveToLogin() {
+  Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => helpRequestList1()));
+}*/
 
   @override
   Widget build(BuildContext context) {
-    if(dataMapF.isEmpty == false ){
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('مدى رضا العملاء '),
-          backgroundColor: KSUColor,
-          leading: Container(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => employeeHomePage()),
-                );
-              },
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('الصفحة الرئيسية'),
+        backgroundColor: KSUColor,
+      ),
+      backgroundColor: gray_background,
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/KSU_logo.png"),
+              fit: BoxFit.cover,
             ),
-            //child: Icon(Icons.arrow_back_ios)
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 35),
+          width: double.infinity,
+          child: Column(
+            children: [
+              //  _Text(),
+              _padding(),
+              _electronicComplaintsListBtn(),
+              _padding(),
+
+              _fieldComplaintsListBtn(),
+
+              _padding(),
+              _helpRequestsListBtn(),
+              _padding(),
+
+              _appRaitingBtn(),
+
+            ],
           ),
         ),
-        backgroundColor: gray_background,
-        body:  SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(),
-            padding: EdgeInsets.symmetric(horizontal: 35),
-            width: double.infinity,
-            child: Column(
-              children: [
-                //  _Text(),
-                _Text('البلاغات الإلكترونية'),
-                _chart(dataMapE),
-                _Text('البلاغات الميدانية'),
-                _chart(dataMapF),
-                _Text('طلبات المساعدة'),
-                _chart(dataMapH),
-              ],
-            ),
-          ),
-          //  ),
-        ));
-  }else{
-      return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text('مدى رضا العملاء '),
-            backgroundColor: KSUColor,
-            leading: Container(
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => employeeHomePage()),
-                  );
-                },
-              ),
-              //child: Icon(Icons.arrow_back_ios)
-            ),
-          ),
-          backgroundColor: gray_background,
-          body:  SingleChildScrollView(
-            child: Container(
-              decoration: BoxDecoration(),
-              padding: EdgeInsets.symmetric(horizontal: 35),
-              width: double.infinity,
-              child: Container(
-                  margin: EdgeInsets.only(top: 40, bottom: 40),
-                  child: Center(
-                    child: Text(
-                      "جاري تحميل الإحصائيات  ",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.grey,
-                        letterSpacing: 10,
-                      ),
-                    ),
-                  )),
-            ),
-            //  ),
-          ));
-    }
-
+      ),
+    );
   }
 
-
-  Widget _Text(String text) {
+  Widget _padding() {
     return Container(
-        margin: EdgeInsets.only(top: 20, bottom: 20),
+      margin: EdgeInsets.only(top: 30, bottom: 25),
+    );
+  }
+
+  Widget _helpRequestsListBtn() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      decoration: BoxDecoration(
+          color: KSUColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFb2bdc3),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+              spreadRadius: 0,
+            ),
+          ]),
+      child: FlatButton(
+        // onPressed: _signIn,
+        //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          text,
+          "طلبات المساعدة",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: bluegray_text,
-            letterSpacing: 10,
+            color: Colors.white,
           ),
-        ));
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => helpRequestList1()),
+          );
+        },
+      ),
+    );
   }
 
-  Widget _chart(Map<String, double> dataMap) {
-    //sleep(new Duration(seconds: 80));
-
-
+  Widget _electronicComplaintsListBtn() {
     return Container(
-            child: PieChart(
-              dataMap: dataMap,
-              animationDuration: Duration(milliseconds: 800),
-              chartLegendSpacing: 32.0,
-              chartRadius: MediaQuery.of(context).size.width / 3.0,
-              showChartValuesInPercentage: true,
-              showChartValues: true,
-              showChartValuesOutside: false,
-              chartValueBackgroundColor: Colors.white10,
-              colorList: colorList,
-              showLegends: true,
-              legendPosition: LegendPosition.right,
-              decimalPlaces: 1,
-              showChartValueLabel: true,
-              initialAngle: 0,
-              chartValueStyle: defaultChartValueStyle.copyWith(
-                color: Colors.white,
-              ),
-              chartType: ChartType.disc,
-            ));
+      width: double.infinity,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      decoration: BoxDecoration(
+          color: KSUColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFb2bdc3),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+              spreadRadius: 0,
+            ),
+          ]),
+      child: FlatButton(
+        // onPressed: _signIn,
+        //padding: EdgeInsets.symmetric(vertical: 25),
+        child: Text(
+          "البلاغات الإلكترونية",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => electronicComplaintsList1()),
+          );
+        },
+      ),
+    );
   }
+
+  Widget _fieldComplaintsListBtn() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      decoration: BoxDecoration(
+          color: KSUColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFb2bdc3),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+              spreadRadius: 0,
+            ),
+          ]),
+      child: FlatButton(
+        // onPressed: _signIn,
+        //padding: EdgeInsets.symmetric(vertical: 25),
+        child: Text(
+          "البلاغات الميدانية",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _appRaitingBtn() {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      decoration: BoxDecoration(
+          color: KSUColor,
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFb2bdc3),
+              blurRadius: 10,
+              offset: Offset(0, 5),
+              spreadRadius: 0,
+            ),
+          ]),
+      child: FlatButton(
+        // onPressed: _signIn,
+        //padding: EdgeInsets.symmetric(vertical: 25),
+        child: Text(
+          "تقييم التطبيق",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
+
+        ),
+
+      ),
+
+    );
+  }
+
+
+
 }
+ */
+
+

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'usingcolors.dart';
+import 'package:pie_chart/pie_chart.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'electronicComplaintsList.dart';
 import 'helpRequestsList.dart';
 import 'fieldComplaintsList.dart';
-import 'rating.dart';
 import 'main.dart';
 Future<void> main() async {
   runApp(employeeHomePage());
@@ -32,223 +31,328 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool isLoggedIn;
+  bool finish = false;
+  int count = 0;
+
   @override
-  /*void initState()  {
-   Firebase.initializeApp();
-    FirebaseAuth.instance.currentUser != null
-        ? setState(() {
-      isLoggedIn = true;
-    })
-        : setState(() {
-      isLoggedIn = false;
-    });
-    print("isLoggedIn");
-    print(isLoggedIn);
-    super.initState()
-    // new Future.delayed(const Duration(seconds: 2));
+  void initState() {
+    super.initState();
+    getDocs();
   }
 
-  Widget _moveToLogin() {
-  Navigator.push(
-  context,
-  MaterialPageRoute(builder: (context) => helpRequestList1()));
-}*/
+  final Map<String, double> dataMapE = Map();
+  final Map<String, double> dataMapF = Map();
+  final Map<String, double> dataMapH = Map();
+
+  Future getDocs() async {
+    print('1');
+    await Firebase.initializeApp();
+    final databaseReference = FirebaseFirestore.instance;
+    DocumentSnapshot fieldsComplaints = await databaseReference
+        .collection('fieldsComplaints')
+        .doc('Ratings')
+        .get();
+    DocumentSnapshot helpRequests =
+    await databaseReference.collection('helpRequests').doc('Ratings').get();
+    DocumentSnapshot electronicComplaints = await databaseReference
+        .collection('electronicComplaints')
+        .doc('ratings')
+        .get();
+    setState(() {
+      dataMapF.putIfAbsent(
+          "راضي تماماً", () => (fieldsComplaints.get('high').toDouble()));
+      dataMapF.putIfAbsent(
+          "محايد", () => fieldsComplaints.get('medium').toDouble());
+      dataMapF.putIfAbsent(
+          "غير راضي", () => fieldsComplaints.get('low').toDouble());
+
+      dataMapE.putIfAbsent(
+          "راضي تماماً", () => electronicComplaints.get('high').toDouble());
+      dataMapE.putIfAbsent(
+          "محايد", () => electronicComplaints.get('medium').toDouble());
+      dataMapE.putIfAbsent(
+          "غير راضي", () => electronicComplaints.get('low').toDouble());
+
+
+      dataMapH.putIfAbsent(
+          "راضي تماماً", () => helpRequests.get('high').toDouble());
+      dataMapH.putIfAbsent(
+          "محايد", () => helpRequests.get('medium').toDouble());
+      dataMapH.putIfAbsent(
+          "غير راضي", () => helpRequests.get('low').toDouble());
+    });
+  }
+
+  List<Color> colorList = [
+    Color(0xFF008FC4),
+    Color(0xFFb2bdc3),
+    Color(0xFF606f8c),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('الصفحة الرئيسية'),
-        backgroundColor: KSUColor,
-      ),
-      backgroundColor: gray_background,
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/KSU_logo.png"),
-              fit: BoxFit.cover,
+    if (dataMapF.isEmpty == false) {
+      return Scaffold(
+          appBar: AppBar(
+              centerTitle: true,
+              title: Text('الصفحة الرئيسية'),
+              backgroundColor: KSUColor,
+              actions: <Widget>[
+                IconButton(
+                  tooltip: 'تسجيل الخروج',
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => main1()),
+                    );
+                  },
+                ),
+              ]
+          ),
+          backgroundColor: gray_background,
+          body: SingleChildScrollView(
+
+            child: Column(
+              children: [
+
+                _padding(),
+                new Divider(
+                  color: Colors.white,
+                  height: 10,
+                  thickness: 2,
+                ),
+
+                Card(
+                    child: Container(
+                      width: double.infinity,
+                      height: 30,
+                      child: Center(
+                        child: Text("إحصائيات رضا العملاء",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: bluegray_text,
+                            letterSpacing: 10,
+                          ),
+                        ),
+                      ),
+                    )
+                ),
+
+                new Divider(
+                  color: Colors.white,
+                  height: 10,
+                  thickness: 2,
+                ),
+                _padding(),
+
+                Container(
+                  height: 210.0,
+                  decoration: BoxDecoration(),
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  width: double.infinity,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      _chart(dataMapE, 'البلاغات الإلكترونية'),
+                      const VerticalDivider(
+                        color: Colors.white10,
+                        width: 10,
+                        thickness: 3,
+                        indent: 20,
+                        endIndent: 0,
+                      ),
+                      _chart(dataMapF, 'البلاغات الميدانية'),
+                      const VerticalDivider(
+                        color: Colors.white10,
+                        width: 10,
+                        thickness: 3,
+                        indent: 20,
+                        endIndent: 0,
+                      ),
+                      _chart(dataMapH, "طلبات المساعدة"),
+
+                    ],
+                  ),
+                ),
+                _padding(),
+                _BTN("إلكتروني"),
+                _BTN("ميداني"),
+                _BTN("مساعدة"),
+
+              ],
             ),
+            //  ),
+          ));
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+              centerTitle: true,
+              title: Text('الصفحة الرئيسية'),
+              backgroundColor: KSUColor,
+              actions: <Widget>[
+                IconButton(
+                  tooltip: 'تسجيل الخروج',
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => main1()),
+                    );
+                  },
+                ),
+              ]
           ),
-          padding: EdgeInsets.symmetric(horizontal: 35),
-          width: double.infinity,
-          child: Column(
-            children: [
-            //  _Text(),
-              _padding(),
-              _electronicComplaintsListBtn(),
-              _padding(),
+          backgroundColor: gray_background,
+          body: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 35),
+              width: double.infinity,
+              child: Container(
+                  margin: EdgeInsets.only(top: 40, bottom: 40),
+                  child: Center(
+                    child: Text(
+                      "جاري تحميل الإحصائيات  ",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.grey,
+                        letterSpacing: 10,
+                      ),
+                    ),
+                  )),
+            ),
+            //  ),
+          ));
+    }
+  }
 
-              _fieldComplaintsListBtn(),
 
-              _padding(),
-              _helpRequestsListBtn(),
-              _padding(),
-
-              _appRaitingBtn(),
-
-            ],
+  Widget _Text(String text) {
+    return Container(
+        margin: EdgeInsets.only(top: 10, left: 75),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+            color: bluegray_text,
+            letterSpacing: 10,
           ),
-        ),
+          textAlign: TextAlign.center,
+        ));
+  }
+
+  Widget _chart(Map<String, double> dataMap, String title) {
+    //sleep(new Duration(seconds: 80));
+
+
+    return Container(
+      child: Stack(
+        children: [
+          PieChart(
+            dataMap: dataMap,
+            animationDuration: Duration(milliseconds: 800),
+            chartLegendSpacing: 32.0,
+            chartRadius: MediaQuery
+                .of(context)
+                .size
+                .width / 3.0,
+            showChartValuesInPercentage: true,
+            showChartValues: true,
+            showChartValuesOutside: false,
+            chartValueBackgroundColor: Colors.white10,
+            colorList: colorList,
+            showLegends: true,
+            legendPosition: LegendPosition.right,
+            decimalPlaces: 1,
+            showChartValueLabel: true,
+            initialAngle: 0,
+            chartValueStyle: defaultChartValueStyle.copyWith(
+              color: Colors.white,
+            ),
+            chartType: ChartType.disc,
+          ),
+
+          _Text(title),
+        ],
+      ),
+
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black12, width: 1),
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
       ),
     );
   }
 
   Widget _padding() {
     return Container(
-      margin: EdgeInsets.only(top: 30, bottom: 25),
+      margin: EdgeInsets.only(top: 10, bottom: 10),
     );
   }
 
-  Widget _helpRequestsListBtn() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 20, bottom: 20),
-      decoration: BoxDecoration(
-          color: KSUColor,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFb2bdc3),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-              spreadRadius: 0,
-            ),
-          ]),
-      child: FlatButton(
-        // onPressed: _signIn,
-        //padding: EdgeInsets.symmetric(vertical: 25),
-          child: Text(
-            "طلبات المساعدة",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-            ),
-          ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => helpRequestList1()),
-          );
+  Widget _BTN(String type) {
+    String title ;
+    switch(type) {
+      case"إلكتروني":
+        title = "البلاغات الإلكترونية";
+        break;
+      case"ميداني":
+        title = "البلاغات الميدانية";
+        break;
+      case"مساعدة":
+        title = "طلبات المساعدة";
+        break;
+    }
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: new InkWell(
+
+        onTap: () {
+
+          switch(type) {
+            case"إلكتروني":
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => electronicComplaintsList1()),
+              );
+              break;
+            case"ميداني":
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => fieldComplaintsList1()),
+              );
+              break;
+            case"مساعدة":
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => helpRequestList1()),
+              );
+              break;
+          }
         },
-      ),
-    );
-  }
-
-  Widget _electronicComplaintsListBtn() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 20, bottom: 20),
-      decoration: BoxDecoration(
-          color: KSUColor,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFb2bdc3),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-              spreadRadius: 0,
+        child: Container(
+          width: 400,
+          height: 80.0,
+          child: Center(
+            child: Text(title,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF008FC4),
+                letterSpacing: 10,
+              ),
             ),
-          ]),
-      child: FlatButton(
-        // onPressed: _signIn,
-        //padding: EdgeInsets.symmetric(vertical: 25),
-          child: Text(
-            "البلاغات الإلكترونية",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-            ),
-          ),
-          onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => electronicComplaintsList1()),
-            );
-            },
-      ),
-    );
-  }
-
-  Widget _fieldComplaintsListBtn() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 20, bottom: 20),
-      decoration: BoxDecoration(
-          color: KSUColor,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFb2bdc3),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-              spreadRadius: 0,
-            ),
-          ]),
-      child: FlatButton(
-        // onPressed: _signIn,
-        //padding: EdgeInsets.symmetric(vertical: 25),
-        child: Text(
-          "البلاغات الميدانية",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Colors.white,
           ),
         ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
-          );
-        },
       ),
     );
   }
-
-  Widget _appRaitingBtn() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(top: 20, bottom: 20),
-      decoration: BoxDecoration(
-          color: KSUColor,
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFb2bdc3),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-              spreadRadius: 0,
-            ),
-          ]),
-      child: FlatButton(
-        // onPressed: _signIn,
-        //padding: EdgeInsets.symmetric(vertical: 25),
-        child: Text(
-          "تقييم التطبيق",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Colors.white,
-          ),
-
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => rating()),
-          );
-        },
-      ),
-
-    );
-  }
-
-
 }
-
-
