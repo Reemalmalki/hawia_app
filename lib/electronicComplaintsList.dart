@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hawia_app/viewElectronicComplaintsInfo.dart';
+import 'viewElectronicComplaintsInfo.dart';
 import 'usingcolors.dart';
 import 'employeeHomePage.dart';
 
@@ -60,41 +60,41 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: new SafeArea(
               child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/KSU_logo.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: idsList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return new Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: new ListTile(
-                      selectedTileColor: Colors.lightBlue,
-                      trailing: Icon(
-                        Icons.admin_panel_settings,
-                        color: Colors.lightBlue,
-                        size: 30.0,
-                      ),
-                      onTap: () {
-                        _onTapped(index);
-                      },
-                      title: new Text(
-                        '${idsList[index]}',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ));
-                }),
-          )));
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/KSU_logo.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: idsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return new Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: new ListTile(
+                              selectedTileColor: Colors.lightBlue,
+                              trailing: Icon(
+                                Icons.admin_panel_settings,
+                                color: Colors.lightBlue,
+                                size: 30.0,
+                              ),
+                              onTap: () {
+                                _onTapped(index);
+                              },
+                              title: new Text(
+                                '${idsList[index]}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ));
+                    }),
+              )));
     } else {
       return new Scaffold(
           appBar: new AppBar(
@@ -115,23 +115,23 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: new SafeArea(
               child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/KSU_logo.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Center(
-              child: new Text(
-                "سيتم عرض البلاغات هنا حال توفرها",
-                style: TextStyle(
-                  color: Colors.black45,
-                  fontSize: 20,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/KSU_logo.png"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                textAlign: TextAlign.right,
-              ),
-            ),
-          )));
+                child: Center(
+                  child: new Text(
+                    "سيتم عرض البلاغات هنا حال توفرها",
+                    style: TextStyle(
+                      color: Colors.black45,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              )));
     }
   }
 

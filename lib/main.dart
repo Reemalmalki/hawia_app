@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'employeeHomePage.dart';
 import 'usingcolors.dart';
 import 'homePage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 Future<void> main() async {
   runApp(main1());
 }
@@ -48,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print(passController.text);
       await Firebase.initializeApp();
       User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
-              email: emailController.text, password: passController.text))
+          email: emailController.text, password: passController.text))
           .user;
       print(user.uid);
 
@@ -56,8 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(builder: (context) => employeeHomePage()),
       );
-
     } catch (e) {
+      _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
       print('البريد الإلكتروني او كلمة المرور غير صحيحة، حاول مرة اخرى');
     }
   }
@@ -77,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           //child: Icon(Icons.arrow_back_ios)
-        ),        centerTitle: true,
+        ),
+        centerTitle: true,
         title: Text('تسجيل الدخول'),
         backgroundColor: KSUColor,
       ),
@@ -137,8 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ]),
       child: FlatButton(
-          // onPressed: _signIn,
-          //padding: EdgeInsets.symmetric(vertical: 25),
+        // onPressed: _signIn,
+        //padding: EdgeInsets.symmetric(vertical: 25),
           child: Text(
             "دخـول",
             style: TextStyle(
@@ -218,4 +221,33 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ));
   }
+
+
+
+  Future<void> _showMyDialog(String title, String body) async {
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => main1()),
+            );
+          },
+          // () => Navigator.pop(electronicComplaintsList1.dart), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
+  }
 }
+

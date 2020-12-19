@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'usingcolors.dart';
 import 'package:flutter/cupertino.dart';
 import 'helpRequestsList.dart';
-
 class viewHelpRequestInfo1 extends StatelessWidget {
   viewHelpRequestInfo1({@required this.docId});
   final docId;
@@ -45,17 +44,20 @@ class viewHelpRequestInfo extends State<MyHomePage>
   final numberController = TextEditingController();
   final emailController = TextEditingController();
   final noteController = TextEditingController();
+  final imageController = TextEditingController();
+  var imageUrl ;
   bool _isButtonDisabled;
 
   @override
   void initState() {
+    imageUrl = null;
     _isButtonDisabled = false;
     _getData();
   }
 
   @override
   void sendto() async {
-    await Firebase.initializeApp();
+    /*await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
     databaseReference
         .collection('helpRequests')
@@ -67,7 +69,13 @@ class viewHelpRequestInfo extends State<MyHomePage>
         path: emailController.text,
         queryParameters: {'subject': 'فريق هوية التابع لجامعة الملك سعود'});
 
-    launch(_emailLaunchUri.toString());
+    launch(_emailLaunchUri.toString());*/
+    const url = 'https://outlook.com';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Widget build(BuildContext context) {
@@ -90,40 +98,52 @@ class viewHelpRequestInfo extends State<MyHomePage>
         ),
         body: new SafeArea(
             child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/KSU_logo_large.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          alignment: Alignment.center,
-          margin: new EdgeInsets.only(
-              left: 30.0, top: 60.0, right: 30.0, bottom: 20.0),
-          child: Column(
-            children: [
-              _inputField(
-                  Icon(Icons.confirmation_number_outlined,
-                      size: 20, color: Color(0xffA6B0BD)),
-                  "رقم الطلب",
-                  false,
-                  numberController),
-              _inputField(
-                  Icon(Icons.person, size: 20, color: Color(0xffA6B0BD)),
-                  "الاسم",
-                  false,
-                  nameController),
-              _inputField(Icon(Icons.email, size: 20, color: Color(0xffA6B0BD)),
-                  "البريد الالكتروني", false, emailController),
-              _inputField(
-                  Icon(Icons.speaker_notes_outlined,
-                      size: 20, color: Color(0xffA6B0BD)),
-                  " ملاحظات الطلب",
-                  false,
-                  noteController),
-              _help(),
-            ],
-          ),
-        )));
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/KSU_logo_large.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              alignment: Alignment.center,
+              margin: new EdgeInsets.only(
+                  left: 30.0, top: 60.0, right: 30.0, bottom: 20.0),
+              child: Column(
+                children: [
+                  _inputField(
+                      Icon(Icons.confirmation_number_outlined,
+                          size: 20, color: Color(0xffA6B0BD)),
+                      "رقم الطلب",
+                      false,
+                      numberController),
+                  _inputField(
+                      Icon(Icons.person, size: 20, color: Color(0xffA6B0BD)),
+                      "الاسم",
+                      false,
+                      nameController),
+                  _inputField(Icon(Icons.email, size: 20, color: Color(0xffA6B0BD)),
+                      "البريد الالكتروني", false, emailController),
+                  _inputField(
+                      Icon(Icons.speaker_notes_outlined,
+                          size: 20, color: Color(0xffA6B0BD)),
+                      " ملاحظات الطلب",
+                      false,
+                      noteController),
+                  FlatButton(
+                    padding: EdgeInsets.all(0),
+                    height: 10,
+                    onPressed: () {
+                      // here
+                    },
+                    child: _inputField(
+                        Icon(Icons.camera_alt_outlined, size: 20, color: Color(0xffA6B0BD)),
+                        'صورة البلاغ',
+                        false,
+                        imageController),
+                  ),
+                  _help(),
+                ],
+              ),
+            )));
   }
 
   Widget _help() {
@@ -236,5 +256,14 @@ class viewHelpRequestInfo extends State<MyHomePage>
     nameController.text = doc.get('name');
     emailController.text = doc.get('email');
     noteController.text = doc.get('note');
+    setState(() {
+      try{
+        imageController.text = 'معاينة صورة البلاغ' ;
+        imageUrl = doc.get('url');}
+      catch (e){
+        imageController.text = 'لا يوجد صورة' ;
+      }
+    });
+    print(imageUrl);
   }
 }

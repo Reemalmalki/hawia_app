@@ -51,10 +51,9 @@ class electronicComplaints extends State<MyHomePage> {
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => homePage()),
+                      (route) => false);
             },
           ),
           //child: Icon(Icons.arrow_back_ios)
@@ -215,7 +214,7 @@ class electronicComplaints extends State<MyHomePage> {
         .doc('totalElectronicComplaints')
         .update({'autoNumber': FieldValue.increment(1)});
     DocumentReference ref =
-        await databaseReference.collection("electronicComplaints").add({
+    await databaseReference.collection("electronicComplaints").add({
       'name': nameController.text,
       'email': emailController.text,
       'link': linkController.text,
@@ -294,17 +293,16 @@ class electronicComplaints extends State<MyHomePage> {
             description: "كيف كانت تجربة رفع البلاغ؟",
             submitButton: "تأكيد",
             positiveComment:
-                "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional
+            "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional
             negativeComment:
-                " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
+            " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
             accentColor: Colors.lightBlue, // optional
             onSubmitPressed: (int rating) {
               print(rating);
               _saveRating(rating);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => homePage()),
+                      (route) => false);
             },
           );
         });
@@ -314,7 +312,7 @@ class electronicComplaints extends State<MyHomePage> {
     await Firebase.initializeApp();
     final databaseReference = FirebaseFirestore.instance;
     var ref =
-        databaseReference.collection('electronicComplaints').doc('ratings');
+    databaseReference.collection('electronicComplaints').doc('ratings');
     ref.update({'total': FieldValue.increment(1)});
 
     switch (rating) {

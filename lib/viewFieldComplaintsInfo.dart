@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'usingcolors.dart';
 import 'fieldComplaintsList.dart';
-
 class viewFieldComplaintsInfo1 extends StatelessWidget {
   viewFieldComplaintsInfo1({@required this.docId});
   final docId;
@@ -39,12 +38,15 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
   final buildController = TextEditingController();
   final placeController = TextEditingController();
   final floorController = TextEditingController();
+  final imageController = TextEditingController();
 
   bool _isButtonDisabled;
+  var imageUrl ;
 
   @override
   void initState() {
     _isButtonDisabled = false;
+    imageUrl = null ;
     _getData();
   }
 
@@ -107,7 +109,6 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
-              _padding(),
               _inputField(
                   Icon(Icons.location_on_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
@@ -124,6 +125,20 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                   "الدور",
                   false,
                   floorController),
+
+              FlatButton(
+                padding: EdgeInsets.all(0),
+                height: 10,
+                onPressed: () {
+                  takePicture2();
+                },
+                child: _inputField(
+                    Icon(Icons.camera_alt_outlined, size: 20, color: Color(0xffA6B0BD)),
+                    'صورة البلاغ',
+                    false,
+                    imageController),
+              ),
+              takePicture2(),
               _closeReport(),
             ],
           ),
@@ -230,6 +245,25 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
       ),
     );
   }
+  Widget takePicture2() {
+    return Container(
+      child: Container(
+        child: Column(children: [
+          Container(
+              color: Colors.black12,
+              child: imageUrl == null ? Text('hi') : Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.yellow,
+                child: Image.network(
+                  imageUrl,
+                  width: 100.0,
+                ),
+              )          ),
+        ]),
+      ),
+    );
+  }
 
   void _getData() async {
     await Firebase.initializeApp();
@@ -244,6 +278,12 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
     buildController.text = doc.get('building');
     floorController.text = doc.get('floor');
     placeController.text = doc.get('place');
+    imageController.text = 'معاينة صورة البلاغ' ;
+    setState(() {
+      imageUrl = doc.get('url');
+    });
+    print(imageUrl);
+
   }
 
   void _closedComplaint() async {
@@ -275,7 +315,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
               context,
               MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
             );
-          }, 
+          },
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),

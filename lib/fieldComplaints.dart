@@ -6,6 +6,13 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'usingcolors.dart';
 import 'homePage.dart';
+import 'package:flutter/services.dart';
+import 'package:edge_detection/edge_detection.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,7 +20,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appName = 'رفع البلاغ';
-
     return MaterialApp(
       title: appName,
       home: MyHomePage(
@@ -22,6 +28,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -38,6 +45,7 @@ class fieldComplaints extends State<MyHomePage> {
   final buildController = TextEditingController();
   final floorController = TextEditingController();
   final placeController = TextEditingController();
+  File _image;
 
   var currentSelectedValue;
   final deviceTypes = [
@@ -53,19 +61,33 @@ class fieldComplaints extends State<MyHomePage> {
     _isButtonDisabled = false;
   }
 
+  void open_camera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = image;
+    });
+  }
+
+  void open_gallery() async {
+    // ignore: deprecated_member_use
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
+      appBar: AppBar(
         title: Center(child: new Text(widget.title)),
         backgroundColor: KSUColor,
         leading: Container(
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => homePage()),
+                      (route) => false);
             },
           ),
           //child: Icon(Icons.arrow_back_ios)
@@ -96,7 +118,6 @@ class fieldComplaints extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
-              _padding(),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
@@ -177,6 +198,91 @@ class fieldComplaints extends State<MyHomePage> {
                   "الدور",
                   false,
                   floorController),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 25,
+                      offset: Offset(0, 5),
+                      spreadRadius: -25,
+                    ),
+                  ],
+                ),
+                margin: EdgeInsets.only(bottom: 20),
+                child: FormField<String>(
+                  builder: (FormFieldState<String> state) {
+                    return InputDecorator(
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        prefixIcon: Icon(Icons.file_download,
+                            size: 20, color: Color(0xffA6B0BD)),
+                        prefixIconConstraints: BoxConstraints(
+                          minWidth: 75,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      textAlign: TextAlign.right,
+                      child: Row(
+                        children: [
+                          if (_image != null)
+                            Text(
+                                "   تم حفظ الصورة   ",
+                                style: TextStyle(
+                                  color: Color(0xffA6B0BD),
+                                )
+                            )
+                          else Text(
+                            "صورة الشعار المخالف",
+                            style: TextStyle(
+                              color: Color(0xffA6B0BD),
+                            ),
+                          ),
+                          SizedBox(width: 30),
+                          Padding(
+                            padding: const EdgeInsets.only(left:2.0),
+                            child: IconButton(
+                              icon: Icon(Icons.image_outlined),
+                              tooltip: 'استخدم الاستديو',
+                              color: Color(0xFF008FC4),
+                              onPressed: () {
+                                open_gallery();
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:2.0),
+                            child: IconButton(
+                              icon: Icon(Icons.camera_alt_outlined),
+                              tooltip: 'استخدم الكاميرا',
+                              color: Color(0xFF008FC4),
+                              onPressed: () {
+                                open_camera();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+
               _rebort(),
             ],
           ),
@@ -275,7 +381,7 @@ class fieldComplaints extends State<MyHomePage> {
     return Container(
         margin: EdgeInsets.only(top: 50, bottom: 30),
         child: Text(
-          "البلاغات الميدانية",
+          'البلاغات الميدانية',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
@@ -289,29 +395,61 @@ class fieldComplaints extends State<MyHomePage> {
     setState(() {
       _isButtonDisabled = true;
     });
-    await Firebase.initializeApp();
-    final databaseReference = FirebaseFirestore.instance;
-    DocumentSnapshot doc = await databaseReference
-        .collection('fieldsComplaints')
-        .doc('totalFieldsComplaints')
-        .get();
-    int id = doc.get('autoNumber');
-    databaseReference
-        .collection('fieldsComplaints')
-        .doc('totalFieldsComplaints')
-        .update({'autoNumber': FieldValue.increment(1)});
-    DocumentReference ref =
-        await databaseReference.collection("fieldsComplaints").add({
-      'name': nameController.text,
-      'email': emailController.text,
-      'place': currentSelectedValue,
-      'building': buildController.text,
-      'floor': floorController.text,
-      'requestId': id,
-      'status': 'opened',
-    });
-    print(ref.id);
-    _showRatingDialog();
+    try{
+      await Firebase.initializeApp();
+      final databaseReference = FirebaseFirestore.instance;
+      var doc = await databaseReference
+          .collection('fieldsComplaints')
+          .doc('totalFieldsComplaints')
+          .get();
+      int id = doc.get('autoNumber');
+      await databaseReference
+          .collection('fieldsComplaints')
+          .doc('totalFieldsComplaints')
+          .update({'autoNumber': FieldValue.increment(1)});
+      var ref =
+      await databaseReference.collection('fieldsComplaints').add({
+        'name': nameController.text,
+        'email': emailController.text,
+        'place': currentSelectedValue,
+        'building': buildController.text,
+        'floor': floorController.text,
+        'requestId': id,
+        'status': 'opened',
+      });
+
+      var storage = FirebaseStorage.instance;
+      var ref1 = storage.ref().child('fieldsComplaints').child(id.toString());
+      var uploadTask = ref1.putFile(_image);
+      await uploadTask.then((res) async {
+        final String downloadUrl =
+        await res.ref.getDownloadURL();
+        // ignore: deprecated_member_use
+        await ref.update({'url': downloadUrl});
+      });
+      print(ref.id);
+      _showRatingDialog();
+    } catch (e) {
+      Alert(
+        context: context,
+        title: 'حدث خطأ',
+        desc: 'عذراً حاول مرة اخرى',
+        buttons: [
+          DialogButton(
+            child: Text(
+              "حسناً",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: Colors.lightBlue[800],
+            radius: BorderRadius.circular(0.5),
+          ),
+        ],
+      ).show();
+    }
+
   }
 
   void _checker() {
@@ -345,13 +483,19 @@ class fieldComplaints extends State<MyHomePage> {
       print(floorController.text);
       flag = false;
       _showMyDialog("غير مكتمل", "الرجاء كتابة رقم الدور بشكل صحيح");
-      return;}
+      return;
+    }
 
-      if (currentSelectedValue == null) {
-        //
-        flag = false;
-        _showMyDialog("غير مكتمل", "الرجاءاختيار المكان بشكل صحيح");
-        return;
+    if (currentSelectedValue == null) {
+      //
+      flag = false;
+      _showMyDialog("غير مكتمل", "الرجاءاختيار المكان بشكل صحيح");
+      return;
+    }
+    if (_image == null){
+      flag = false;
+      _showMyDialog("غير مكتمل", "الرجاء اضافة صورة للشعار");
+      return;
     }
 
     if (flag) {
@@ -400,17 +544,16 @@ class fieldComplaints extends State<MyHomePage> {
             description: "كيف كانت تجربتك؟",
             submitButton: "تأكيد",
             positiveComment:
-                "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional
+            "شكراً لتقييمك ، سعيدون بخدمتك دائماً :)", // optional
             negativeComment:
-                " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
+            " :( شكراً لتقييمك ، سنعمل على تحسين التجربة", // optional
             accentColor: Colors.lightBlue, // optional
             onSubmitPressed: (int rating) {
               _saveRating(rating);
               print(rating);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => homePage()),
+                      (route) => false);
             },
           );
         });
@@ -436,4 +579,68 @@ class fieldComplaints extends State<MyHomePage> {
         break;
     }
   }
+
+  @override
+  Future<void> initPlatformState() async {
+    String imagePath;
+    try {
+      imagePath = await EdgeDetection.detectEdge;
+      /*  Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VisionTextWidget(imagePath: imagePath)),
+      );*/
+      Alert(
+        context: context,
+        title: "تم حفظ الصوره بنجاح",
+        // desc: "وجه الكاميرا الى الشعار",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "حسناً",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: Takepicture900,
+            color: Colors.lightBlue[800],
+            radius: BorderRadius.circular(0.5),
+          ),
+        ],
+      ).show();
+    } on PlatformException {
+      imagePath = 'Failed to get cropped image path.';
+    }
+    if (!mounted) return;
+  }
+
+  Takepicture() async {
+    // if (currentSelectedValue == "A4") {
+    print('a4 nouf');
+    /* Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => main1()),
+    );*/
+    //  }
+    //  if (currentSelectedValue == "Banner ") {
+    //   print('panner nouf');
+    //  }
+
+    Alert(
+      context: context,
+      title: "التعليمات",
+      desc: "وجه الكاميرا الى الشعار",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: initPlatformState,
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
+  }
+
+  Takepicture900() async {}
 }

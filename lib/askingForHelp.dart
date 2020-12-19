@@ -1,5 +1,6 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -7,239 +8,13 @@ import 'usingcolors.dart';
 import 'questions.dart';
 import 'homePage.dart';
 import 'package:rating_dialog/rating_dialog.dart';
-
-//import 'package:flutter_email_sender/flutter_email_sender.dart';
-/*
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  /* Widget build(BuildContext context) {
-    return new MaterialApp(
-      // title: 'Flutter Form Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new MyHomePage(title: ' طلب المساعدة '),
-    );
-  }
-}*/
-
-  Widget build(BuildContext context) {
-    final appName = 'طلب المساعدة';
-
-    return MaterialApp(
-      title: appName,
-      theme: ThemeData(
-        // Define the default brightness and colors.
-        brightness: Brightness.dark,
-        primaryColor: Colors.lightBlue[800],
-        accentColor: Colors.cyan[600],
-
-        // Define the default font family.
-        fontFamily: 'Georgia',
-
-        // Define the default TextTheme. Use this to specify the default
-        // text styling for headlines, titles, bodies of text, and more.
-        textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-           headline6: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-        ),
-      ),
-      home: MyHomePage(
-        title: appName,
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-  @override
-  askingForHelp createState() => new askingForHelp();
-}
-
-class askingForHelp extends State<MyHomePage> {
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final noteController = TextEditingController();
-  bool _isButtonDisabled;
-  @override
-  void initState() {
-    _isButtonDisabled = false;
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: new AppBar(
-          title: Center(child: Text(widget.title)),
-        ),
-        body: Center(
-            child: Padding(
-          padding: EdgeInsets.all(30),
-          child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(children: <Widget>[
-                Container(
-                    child: TextField(
-                  controller: nameController,
-                  textAlign: TextAlign.right,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                      // border: OutlineInputBorder(),
-                      icon: const Icon(Icons.person),
-                      labelText: "الاسم",
-                      hintText: "..."),
-
-                )),
-
-                Container(
-                    child: TextField(
-                  textAlign: TextAlign.right,
-                  controller: emailController,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                      // border: OutlineInputBorder(),
-                      icon: const Icon(Icons.email),
-                      labelText: "البريد الالكتروني",
-                      hintText: "..."),
-                  keyboardType: TextInputType.emailAddress,
-
-                )),
-
-                Container(
-                    child: TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 2,
-                  controller: noteController,
-                  textAlign: TextAlign.right,
-                  autofocus: true,
-                  decoration: new InputDecoration(
-                      // border: OutlineInputBorder(),
-                      icon: const Icon(Icons.text_snippet),
-                      labelText: "الملاحظات",
-                      hintText: "..."),
-                )),
-                SizedBox(height: 90), //to add space between colmun
-                ButtonTheme(
-                  //padding: Ed
-                  // geInsets.all(-50),
-                  minWidth: 200.0,
-                  height: 40.0,
-                  child: RaisedButton(
-                    onPressed: () {},
-                    child: Text("الاسئلة الشائعة"),
-                  ),
-                ),
-                ButtonTheme(
-                  //padding: Ed
-                  // geInsets.all(-50),
-                  minWidth: 200.0,
-                  height: 40.0,
-                  child: RaisedButton(
-                    onPressed: _isButtonDisabled ? null : _checker,
-                    child: Text("ساعدني"),
-                  ),
-                ),
-
-              ])),
-        )));
-  }
-
-
-  void _helpButtonPressed() async {
-    setState(() {
-      _isButtonDisabled = true;
-    });
-    await Firebase.initializeApp();
-    final databaseReference = FirebaseFirestore.instance;
-    DocumentSnapshot  doc =  await databaseReference.collection('helpRequests').doc('totalRequest').get();
-    int id = doc.get('autoNumber');
-    databaseReference.collection('helpRequests').doc('totalRequest').update({'autoNumber': FieldValue.increment(1)});
-    DocumentReference ref = await databaseReference.collection("helpRequests")
-        .add({
-      'name': nameController.text,
-      'email': emailController.text,
-      'note' :noteController.text,
-      'requestId': id,
-      'status':'opened',
-    });
-    print(ref.id);
-    Alert(
-      context: context,
-      title: "تم الإرسال بنجاح",
-      desc:  "رقم الطلب :  " +id.toString() ,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "حسناً",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
-          color: Colors.lightBlue[800],
-          radius: BorderRadius.circular(0.5),
-        ),
-      ],
-    ).show();
-
-  }
-
-  void _checker() {
-    bool flag = true;
-    if (nameController.text.isEmpty) {
-      //
-      _showMyDialog("غير مكتمل","الرجاء كتابة الأسم بشكل صحيح");
-      flag = false;
-      return;
-    }
-    if (!(isValidEmail(emailController.text))) {
-      //
-      _showMyDialog("غير مكتمل","الرجاء كتابة البريد الإلكتروني بشكل صحيح");
-      flag = false;
-      return;
-    }
-    if (noteController.text.isEmpty) {
-      //
-      _showMyDialog("غير مكتمل","الرجاء كتابةالملاحظات بشكل صحيح");
-      flag = false;
-      return;
-    }
-
-    if (flag) {
-      _helpButtonPressed();
-    }
-  }
-
-
-
-  bool isValidEmail(String input) {
-    final RegExp regex = new RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-    return regex.hasMatch(input);
-  }
-
-  Future<void> _showMyDialog(String title , String body) async {
-    Alert(
-      context: context,
-      title: title,
-      desc: body,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "حسناً",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
-          color: Colors.lightBlue[800],
-          radius: BorderRadius.circular(0.5),
-        ),
-      ],
-    ).show();
-  }
-}
-
-*/
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image/image.dart' as img;
+import 'dart:io' as Io;
+import 'package:flutter/services.dart';
+void main() => runApp(askingForHelp1());
 
 class askingForHelp1 extends StatelessWidget {
   @override
@@ -267,24 +42,49 @@ class askingForHelp extends State<MyHomePage> {
   final emailController = TextEditingController();
   final noteController = TextEditingController();
   bool _isButtonDisabled;
+  File _image;
+
   @override
   void initState() {
+
     _isButtonDisabled = false;
+    test90();
+  }
+  void test90() async{
+    // var ksuPng=Io.File('assets/ksub.png');
+    // var blue=img.decodeImage(ksuPng);
+    // var ksuPng= await rootBundle.load('assets/ksub.png');//File('assets/ksub.png').readAsBytesSync();
+    //var ksuPng=Image.asset('assets/ksub.png');//.readAsBytesSync();
+    //var blue=img.decodeImage(ksuPng);
+    ByteData png=await rootBundle.load('../images/ksub.png');
+  }
+  void open_camera() async {
+    // ignore: deprecated_member_use
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = image;
+    });
   }
 
+  void open_gallery() async {
+    // ignore: deprecated_member_use
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
+      appBar: AppBar(
         title: Center(child: new Text(widget.title)),
         backgroundColor: KSUColor,
         leading: Container(
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => homePage()),
+                      (route) => false);
             },
           ),
           //child: Icon(Icons.arrow_back_ios)
@@ -316,13 +116,97 @@ class askingForHelp extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
-              _padding(),
               _inputField(
                   Icon(Icons.speaker_notes_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
                   "ملاحظات",
                   false,
                   noteController),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 25,
+                      offset: Offset(0, 5),
+                      spreadRadius: -25,
+                    ),
+                  ],
+                ),
+                margin: EdgeInsets.only(bottom: 20),
+                child: FormField<String>(
+                  builder: (FormFieldState<String> state) {
+                    return InputDecorator(
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        prefixIcon: Icon(Icons.file_download,
+                            size: 20, color: Color(0xffA6B0BD)),
+                        prefixIconConstraints: BoxConstraints(
+                          minWidth: 75,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      textAlign: TextAlign.right,
+                      child: Row(
+                        children: [
+                          if (_image != null)
+                            Text(
+                                "   تم حفظ الصورة   ",
+                                style: TextStyle(
+                                  color: Color(0xffA6B0BD),
+                                )
+                            )
+                          else Text(
+                            "صورة الشعار المخالف",
+                            style: TextStyle(
+                              color: Color(0xffA6B0BD),
+                            ),
+                          ),
+                          SizedBox(width: 30),
+                          Padding(
+                            padding: const EdgeInsets.only(left:2.0),
+                            child: IconButton(
+                              icon: Icon(Icons.image_outlined),
+                              tooltip: 'استخدم الاستديو',
+                              color: Color(0xFF008FC4),
+                              onPressed: () {
+                                open_gallery();
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:2.0),
+                            child: IconButton(
+                              icon: Icon(Icons.camera_alt_outlined),
+                              tooltip: 'استخدم الكاميرا',
+                              color: Color(0xFF008FC4),
+                              onPressed: () {
+                                open_camera();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+
               _QandA(),
               _help(),
             ],
@@ -469,27 +353,59 @@ class askingForHelp extends State<MyHomePage> {
     setState(() {
       _isButtonDisabled = true;
     });
-    await Firebase.initializeApp();
-    final databaseReference = FirebaseFirestore.instance;
-    DocumentSnapshot doc = await databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
-        .get();
-    int id = doc.get('autoNumber');
-    databaseReference
-        .collection('helpRequests')
-        .doc('totalRequest')
-        .update({'autoNumber': FieldValue.increment(1)});
-    DocumentReference ref =
-        await databaseReference.collection("helpRequests").add({
-      'name': nameController.text,
-      'email': emailController.text,
-      'note': noteController.text,
-      'requestId': id,
-      'status': 'opened',
-    });
-    print(ref.id);
-    _showRatingDialog();
+    try {
+      await Firebase.initializeApp();
+      final databaseReference = FirebaseFirestore.instance;
+      DocumentSnapshot doc = await databaseReference
+          .collection('helpRequests')
+          .doc('totalRequest')
+          .get();
+      int id = doc.get('autoNumber');
+      databaseReference
+          .collection('helpRequests')
+          .doc('totalRequest')
+          .update({'autoNumber': FieldValue.increment(1)});
+      DocumentReference ref =
+      await databaseReference.collection("helpRequests").add({
+        'name': nameController.text,
+        'email': emailController.text,
+        'note': noteController.text,
+        'requestId': id,
+        'status': 'opened',
+      });
+      if (_image != null) {
+        var storage = FirebaseStorage.instance;
+        var ref1 = storage.ref().child('helpRequests').child(id.toString());
+        var uploadTask = ref1.putFile(_image);
+        await uploadTask.then((res) async {
+          final String downloadUrl =
+          await res.ref.getDownloadURL();
+          // ignore: deprecated_member_use
+          await ref.update({'url': downloadUrl});
+        });
+      }
+      print(ref.id);
+      _showRatingDialog();
+    }catch (e) {
+      Alert(
+        context: context,
+        title: 'حدث خطأ',
+        desc: 'عذراً حاول مرة اخرى',
+        buttons: [
+          DialogButton(
+            child: Text(
+              "حسناً",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: Colors.lightBlue[800],
+            radius: BorderRadius.circular(0.5),
+          ),
+        ],
+      ).show();
+    }
   }
 
   void _checker() {
@@ -535,7 +451,7 @@ class askingForHelp extends State<MyHomePage> {
             "حسناً",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-    onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),
@@ -565,10 +481,9 @@ class askingForHelp extends State<MyHomePage> {
             onSubmitPressed: (int rating) {
               _saveRating(rating);
               print(rating);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => homePage()),
+                      (route) => false);
             },
           );
         });

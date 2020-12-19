@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+ firebase_storage: ^5.1.0
  image_picker: ^0.6.7+14
  mlkit: ^0.15.1
  rating_dialog: ^1.0.0

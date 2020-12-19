@@ -3,7 +3,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'template_date.dart';
 import 'usingcolors.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'menue_templates.dart';
 void main() => runApp(template1());
 
 class template1 extends StatelessWidget {
@@ -12,7 +12,7 @@ class template1 extends StatelessWidget {
     return new MaterialApp(
       // title: 'Flutter Form Demo',
       home: template(
-        title: "القوالب",
+        title: "قوالب مايكروسوفت",
       ),
     );
   }
@@ -31,8 +31,17 @@ class templateState extends State<template> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios_outlined),
-        centerTitle: true,
+        leading: Container(
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (c) => MenueTemplates()),
+                      (route) => false);
+            },
+          ),
+          //child: Icon(Icons.arrow_back_ios)
+        ),        centerTitle: true,
         title: Text('قوالب'),
         backgroundColor: KSUColor,
       ),
@@ -192,21 +201,34 @@ class templateState extends State<template> {
   }
 
   downloadTemplate() async {
-    if (currentSelectedValue == "قالب وورد") {
+    if (currentSelectedValue =="قالب وورد عربي") {
       print('بوربوينت');
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/PresentationTest.pptx?alt=media&token=36387d43-7eec-4a12-a3cb-afaec4b4d073';
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KSU_Template_En.dotx?alt=media&token=079d559f-f21e-4b28-b528-2319543b0d32';
+
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
     }
+    //"قالب وورد انجليزي"
 
     if (currentSelectedValue == "قالب بوربوينت") {
       print('ورد');
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Test.docx?alt=media&token=6b1d3105-753c-4336-99d9-7dec63cddda3';
+          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KSU_Template_Ar.dotx?alt=media&token=7a32bc2c-888a-4d5b-b4bd-94c53cead6dc';
+
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+    if (currentSelectedValue == "قالب وورد انجليزي") {
+      print('ورد');
+      const url =
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KSU_PowerPoint_Template.potx?alt=media&token=15c70f40-011e-4d7a-92af-2efcf7633b45';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

@@ -7,6 +7,7 @@ import 'electronicComplaintsList.dart';
 import 'helpRequestsList.dart';
 import 'fieldComplaintsList.dart';
 import 'main.dart';
+
 Future<void> main() async {
   runApp(employeeHomePage());
 }
@@ -73,7 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
       dataMapE.putIfAbsent(
           "غير راضي", () => electronicComplaints.get('low').toDouble());
 
-
       dataMapH.putIfAbsent(
           "راضي تماماً", () => helpRequests.get('high').toDouble());
       dataMapH.putIfAbsent(
@@ -108,27 +108,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                 ),
-              ]
-          ),
+              ]),
           backgroundColor: gray_background,
           body: SingleChildScrollView(
-
             child: Column(
               children: [
-
                 _padding(),
                 new Divider(
                   color: Colors.white,
                   height: 10,
                   thickness: 2,
                 ),
-
                 Card(
                     child: Container(
                       width: double.infinity,
                       height: 30,
                       child: Center(
-                        child: Text("إحصائيات رضا العملاء",
+                        child: Text(
+                          "إحصائيات رضا العملاء",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
@@ -137,16 +134,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                    )
-                ),
-
+                    )),
                 new Divider(
                   color: Colors.white,
                   height: 10,
                   thickness: 2,
                 ),
                 _padding(),
-
                 Container(
                   height: 210.0,
                   decoration: BoxDecoration(),
@@ -172,7 +166,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         endIndent: 0,
                       ),
                       _chart(dataMapH, "طلبات المساعدة"),
-
                     ],
                   ),
                 ),
@@ -180,7 +173,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 _BTN("إلكتروني"),
                 _BTN("ميداني"),
                 _BTN("مساعدة"),
-
               ],
             ),
             //  ),
@@ -202,8 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                 ),
-              ]
-          ),
+              ]),
           backgroundColor: gray_background,
           body: SingleChildScrollView(
             child: Container(
@@ -228,7 +219,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-
   Widget _Text(String text) {
     return Container(
         margin: EdgeInsets.only(top: 10, left: 75),
@@ -247,7 +237,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _chart(Map<String, double> dataMap, String title) {
     //sleep(new Duration(seconds: 80));
 
-
     return Container(
       child: Stack(
         children: [
@@ -255,10 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
             dataMap: dataMap,
             animationDuration: Duration(milliseconds: 800),
             chartLegendSpacing: 32.0,
-            chartRadius: MediaQuery
-                .of(context)
-                .size
-                .width / 3.0,
+            chartRadius: MediaQuery.of(context).size.width / 3.0,
             showChartValuesInPercentage: true,
             showChartValues: true,
             showChartValuesOutside: false,
@@ -274,11 +260,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             chartType: ChartType.disc,
           ),
-
           _Text(title),
         ],
       ),
-
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black12, width: 1),
         borderRadius: BorderRadius.circular(20),
@@ -294,15 +278,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _BTN(String type) {
-    String title ;
-    switch(type) {
-      case"إلكتروني":
+    String title;
+    switch (type) {
+      case "إلكتروني":
         title = "البلاغات الإلكترونية";
         break;
-      case"ميداني":
+      case "ميداني":
         title = "البلاغات الميدانية";
         break;
-      case"مساعدة":
+      case "مساعدة":
         title = "طلبات المساعدة";
         break;
     }
@@ -311,29 +295,25 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.circular(20),
       ),
       child: new InkWell(
-
         onTap: () {
-
-          switch(type) {
-            case"إلكتروني":
+          switch (type) {
+            case "إلكتروني":
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => electronicComplaintsList1()),
               );
               break;
-            case"ميداني":
+            case "ميداني":
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => fieldComplaintsList1()),
+                MaterialPageRoute(builder: (context) => fieldComplaintsList1()),
               );
               break;
-            case"مساعدة":
+            case "مساعدة":
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => helpRequestList1()),
+                MaterialPageRoute(builder: (context) => helpRequestList1()),
               );
               break;
           }
@@ -342,7 +322,8 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 400,
           height: 80.0,
           child: Center(
-            child: Text(title,
+            child: Text(
+              title,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
