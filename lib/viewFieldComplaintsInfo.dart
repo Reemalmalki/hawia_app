@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'imagePreview.dart';
 import 'usingcolors.dart';
 import 'fieldComplaintsList.dart';
 class viewFieldComplaintsInfo1 extends StatelessWidget {
@@ -130,7 +131,10 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                 padding: EdgeInsets.all(0),
                 height: 10,
                 onPressed: () {
-                  takePicture2();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => imagePreview(path: imageUrl)),
+                  );
                 },
                 child: _inputField(
                     Icon(Icons.camera_alt_outlined, size: 20, color: Color(0xffA6B0BD)),
@@ -138,7 +142,6 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
                     false,
                     imageController),
               ),
-              takePicture2(),
               _closeReport(),
             ],
           ),
@@ -311,6 +314,7 @@ class viewFieldComplaintsInfo extends State<MyHomePage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () {
+            Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => fieldComplaintsList1()),

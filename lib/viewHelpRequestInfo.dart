@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dart:core';
 import 'package:url_launcher/url_launcher.dart';
+import 'imagePreview.dart';
 import 'usingcolors.dart';
 import 'package:flutter/cupertino.dart';
 import 'helpRequestsList.dart';
@@ -128,11 +129,18 @@ class viewHelpRequestInfo extends State<MyHomePage>
                       " ملاحظات الطلب",
                       false,
                       noteController),
+
                   FlatButton(
                     padding: EdgeInsets.all(0),
                     height: 10,
                     onPressed: () {
-                      // here
+                      if(imageController.text != 'لا يوجد صورة') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>
+                              imagePreview(path: imageUrl)),
+                        );
+                      }
                     },
                     child: _inputField(
                         Icon(Icons.camera_alt_outlined, size: 20, color: Color(0xffA6B0BD)),
@@ -267,3 +275,5 @@ class viewHelpRequestInfo extends State<MyHomePage>
     print(imageUrl);
   }
 }
+
+

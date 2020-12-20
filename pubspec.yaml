@@ -40,6 +40,7 @@ dependencies:
  diff_image: ^1.0.1
  image: ^2.1.18
  edge_detection: ^1.0.5
+ flutter_easyloading: ^2.2.1
  flutter:
     sdk: flutter
 
