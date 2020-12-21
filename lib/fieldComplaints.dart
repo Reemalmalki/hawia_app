@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,6 +47,7 @@ class fieldComplaints extends State<MyHomePage> {
   final floorController = TextEditingController();
   final placeController = TextEditingController();
   File _image;
+  bool _loading ;
 
   var currentSelectedValue;
   final deviceTypes = [
@@ -58,6 +60,7 @@ class fieldComplaints extends State<MyHomePage> {
 
   @override
   void initState() {
+    _loading = false;
     _isButtonDisabled = false;
   }
 
@@ -118,6 +121,7 @@ class fieldComplaints extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
+              _loading ? Center(child: CupertinoActivityIndicator()) : Container(),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
@@ -253,9 +257,9 @@ class fieldComplaints extends State<MyHomePage> {
                               color: Color(0xffA6B0BD),
                             ),
                           ),
-                          SizedBox(width: 30),
+                        //  SizedBox(width: 10),
                           Padding(
-                            padding: const EdgeInsets.only(left:2.0),
+                            padding: const EdgeInsets.only(left:1.0),
                             child: IconButton(
                               icon: Icon(Icons.image_outlined),
                               tooltip: 'استخدم الاستديو',
@@ -266,7 +270,7 @@ class fieldComplaints extends State<MyHomePage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left:2.0),
+                            padding: const EdgeInsets.only(left:1.0),
                             child: IconButton(
                               icon: Icon(Icons.camera_alt_outlined),
                               tooltip: 'استخدم الكاميرا',
@@ -428,8 +432,14 @@ class fieldComplaints extends State<MyHomePage> {
         await ref.update({'url': downloadUrl});
       });
       print(ref.id);
+      setState(() {
+        _loading = false;
+      });
       _showRatingDialog();
     } catch (e) {
+      setState(() {
+        _loading = false;
+      });
       Alert(
         context: context,
         title: 'حدث خطأ',
@@ -453,6 +463,9 @@ class fieldComplaints extends State<MyHomePage> {
   }
 
   void _checker() {
+    setState(() {
+      _loading = true;
+    });
     bool flag = true;
     if (_isButtonDisabled) {
       return;
@@ -510,6 +523,9 @@ class fieldComplaints extends State<MyHomePage> {
   }
 
   Future<void> _showMyDialog(String title, String body) async {
+    setState(() {
+      _loading = false;
+    });
     Alert(
       context: context,
       title: title,
@@ -529,6 +545,9 @@ class fieldComplaints extends State<MyHomePage> {
   }
 
   void _showRatingDialog() {
+    setState(() {
+      _loading = false;
+    });
     // We use the built in showDialog function to show our Rating Dialog
     showDialog(
         context: context,

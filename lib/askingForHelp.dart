@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,10 +44,11 @@ class askingForHelp extends State<MyHomePage> {
   final noteController = TextEditingController();
   bool _isButtonDisabled;
   File _image;
+  bool _loading ;
 
   @override
   void initState() {
-
+    _loading = false;
     _isButtonDisabled = false;
     test90();
   }
@@ -116,6 +118,7 @@ class askingForHelp extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
+              _loading ? Center(child: CupertinoActivityIndicator()) : Container(),
               _inputField(
                   Icon(Icons.speaker_notes_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
@@ -164,7 +167,7 @@ class askingForHelp extends State<MyHomePage> {
                       textAlign: TextAlign.right,
                       child: Row(
                         children: [
-                          if (_image != null)
+                    if (_image != null)
                             Text(
                                 "   تم حفظ الصورة   ",
                                 style: TextStyle(
@@ -177,9 +180,9 @@ class askingForHelp extends State<MyHomePage> {
                               color: Color(0xffA6B0BD),
                             ),
                           ),
-                          SizedBox(width: 30),
+                        //  SizedBox(width: 30),
                           Padding(
-                            padding: const EdgeInsets.only(left:2.0),
+                            padding: const EdgeInsets.only(left:1.0),
                             child: IconButton(
                               icon: Icon(Icons.image_outlined),
                               tooltip: 'استخدم الاستديو',
@@ -190,7 +193,7 @@ class askingForHelp extends State<MyHomePage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left:2.0),
+                            padding: const EdgeInsets.only(left:1.0),
                             child: IconButton(
                               icon: Icon(Icons.camera_alt_outlined),
                               tooltip: 'استخدم الكاميرا',
@@ -385,6 +388,9 @@ class askingForHelp extends State<MyHomePage> {
         });
       }
       print(ref.id);
+      setState(() {
+        _loading = false;
+      });
       _showRatingDialog();
     }catch (e) {
       Alert(
@@ -409,6 +415,9 @@ class askingForHelp extends State<MyHomePage> {
   }
 
   void _checker() {
+    setState(() {
+      _loading = true;
+    });
     bool flag = true;
     if (nameController.text.isEmpty) {
       //
@@ -441,6 +450,9 @@ class askingForHelp extends State<MyHomePage> {
   }
 
   Future<void> _showMyDialog(String title, String body) async {
+    setState(() {
+      _loading = false;
+    });
     Alert(
       context: context,
       title: title,
