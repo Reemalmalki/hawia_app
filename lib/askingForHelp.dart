@@ -118,7 +118,7 @@ class askingForHelp extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
-              _loading ? Center(child: CupertinoActivityIndicator()) : Container(),
+              _loading==false ? Center(child: CupertinoActivityIndicator()) : Container(),
               _inputField(
                   Icon(Icons.speaker_notes_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
