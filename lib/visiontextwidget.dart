@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:diff_image/diff_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mlkit/mlkit.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +11,9 @@ import 'homePage.dart';
 import 'askingForHelp.dart';
 import 'fieldComplaints.dart';
 import 'electronicComplaints.dart';
+
+import 'package:image/image.dart' as img;
+
 class VisionTextWidget extends StatefulWidget {
   VisionTextWidget({@required this.imagePath});
   String imagePath;
@@ -22,6 +27,7 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
   final String type = null;
   int x = 0;
   File _file;
+  bool flag_=true;
   List<VisionText> _currentLabels = <VisionText>[];
 
   FirebaseVisionTextDetector detector = FirebaseVisionTextDetector.instance;
@@ -32,10 +38,148 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
     initPlatformState();
   }
 
+
+  /// Added New Function to get difference between Taken Image and logo in Assets folder
+  /// [DiffImage] package cannot work with different Sizes, So You need to set the width and height for the both images
+  /// Steps to get the difference
+  ///
+  void getDiffImage() async {
+    try {
+
+
+      /// 1- load images and convert it to byte array.
+      Uint8List localImageDataBlue = (await rootBundle.load('assets/ksu_masterlogo_colour_rgb.png'))
+          .buffer
+          .asUint8List();
+
+      Uint8List localImageDataWhite = (await rootBundle.load('assets/ksu_masterlogo_white_rgb.png'))
+          .buffer
+          .asUint8List();
+
+      Uint8List localImageDataBlack = (await rootBundle.load('assets/ksu_masterlogo_black_rgb.png'))
+          .buffer
+          .asUint8List();
+      Uint8List localImageDataGreen = (await rootBundle.load('assets/KSU_Logo_error_Green.png'))
+          .buffer
+          .asUint8List();
+
+      Uint8List takenImageData = (await rootBundle.load(imagePath))
+          .buffer
+          .asUint8List();
+
+
+      Uint8List localImageDataBlueError = (await rootBundle.load('assets/KSU_LOGO_ErorrBLUE.png'))
+          .buffer
+          .asUint8List();
+
+      Uint8List localImageDataWhiteError = (await rootBundle.load('assets/KSU_logo_Error_White.png'))
+          .buffer
+          .asUint8List();
+
+      Uint8List localImageDataPic = (await rootBundle.load('assets/Ksu_logo_Pic.png'))
+          .buffer
+          .asUint8List();
+
+      /// 2- Decode the image using Image Package the  Resize it. you have to change the sizes.
+      img.Image localImageBlue = img.copyResize(img.decodeImage(localImageDataBlue), width: 200,height: 120);
+      img.Image localImageDataWhite1 = img.copyResize(img.decodeImage(localImageDataWhite), width: 200,height: 120);
+      img.Image localImageDataBlack1 = img.copyResize(img.decodeImage(localImageDataBlack), width: 200,height: 120);
+      img.Image localImageDataGreen1 = img.copyResize(img.decodeImage(localImageDataGreen), width: 200,height: 120);
+      img.Image localImageDataBlueError1 = img.copyResize(img.decodeImage(localImageDataBlueError), width: 200,height: 120);
+      img.Image localImageDataWhiteError1 = img.copyResize(img.decodeImage(localImageDataWhiteError), width: 200,height: 120);
+      img.Image localImageDataPic1= img.copyResize(img.decodeImage(localImageDataPic), width: 200,height: 120);
+
+      img.Image takenImage = img.copyResize(img.decodeImage(takenImageData), width: 200, height: 120);
+
+
+      /// 3- get the difference
+       var diff_Blue = DiffImage.compareFromMemory(
+           localImageBlue,
+          takenImage
+      );
+      var diff_Black = DiffImage.compareFromMemory(
+          localImageDataBlack1,
+          takenImage
+      );
+
+      var diff_White = DiffImage.compareFromMemory(
+          localImageDataWhite1,
+          takenImage
+      );
+
+      var diff_Green = DiffImage.compareFromMemory(
+          localImageDataGreen1,
+          takenImage
+      );
+      var diff_Pic = DiffImage.compareFromMemory(
+          localImageDataPic1,
+          takenImage
+      );
+      var list = [
+        diff_Blue.diffValue,
+        diff_Black.diffValue,
+        diff_White.diffValue,
+        diff_Green.diffValue,
+        diff_Pic.diffValue,
+      ];
+      list.sort();
+      if (list.first == diff_Pic.diffValue) {
+        print("pic");
+      }
+
+      if (list.first == diff_Blue.diffValue) {
+
+        print('The difference between images is: ${diff_Blue.diffValue} %');
+        var diff_BlueError = DiffImage.compareFromMemory(
+            localImageDataBlueError1,
+            takenImage
+        );
+
+        var list_blue = [
+          diff_BlueError.diffValue,
+          diff_Blue.diffValue,];
+        list.sort();
+
+        if(list_blue.first==diff_BlueError.diffValue){print("blueerror");}
+        if(list_blue.first==diff_Blue.diffValue){print("blue");}
+      }
+
+
+      if (list.first == diff_Black.diffValue) {
+        print('The difference between images black is : ${diff_Black.diffValue} %');
+      }
+      if (list.first == diff_Green.diffValue) {
+        print('The difference between images green is : ${diff_Black.diffValue} %');
+      }
+      if (list.first == diff_White.diffValue) {
+        var diff_WhiteError = DiffImage.compareFromMemory(
+            localImageDataWhiteError1,
+            takenImage
+        );
+        var list_white = [
+          diff_White.diffValue,
+          diff_WhiteError.diffValue,];
+        list.sort();
+        if(list_white.first==diff_WhiteError.diffValue){print("whiteError");}
+        if(list_white.first==diff_White.diffValue){print("white");}
+
+      }
+
+      /// 5- but your Logic here to display the difference value.
+
+
+    } catch (e) {
+      print('Error in get Diff');
+      print(e);
+    }
+  }
   @override
   Future<void> initPlatformState() async {
     try {
       var currentLabels = await detector.detectFromPath(imagePath);
+
+
+      getDiffImage();
       setState(() {
         _currentLabels = currentLabels;
       });
@@ -125,6 +269,8 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
       dense: true,
     );
   }
+
+
 }
 
 class TextDetectDecoration extends Decoration {
@@ -154,22 +300,19 @@ class _TextDetectPainter extends BoxPainter {
       ..strokeWidth = 2.0
       ..color = Colors.red
       ..style = PaintingStyle.stroke;
-    // print("original Image Size : ${_originalImageSize}");
     var year = '1957';
-    //var univeraityname = 'King Saud\nUniversity';
     var univeraityname1 = 'King '; // Saud\nUniversity\nDg2WloJl äeo La';
-   // var universityname2 = 'King Saud\nUniversity\nag2uloJl äeo La';
-    //var universityname3 = 'King Saud\nUniversity\nDgwloJl äo0la';
+
 
     final _heightRatio = _originalImageSize.height / configuration.size.height;
     final _widthRatio = _originalImageSize.width / configuration.size.width;
     var list = _texts.asMap();
     for (var text in _texts) {
-      print(list[0].text.substring(0, 5));
+   //   print(list[0].text.substring(0, 5));
       if (list[0].text.substring(0, 5) == (univeraityname1) &&
           list[1].text == (year)) {
         print('words english first');
-        // flag = false;
+         //flag_ = false;
       }
       // print('left');
       // print(offset.dx + text.rect.left / _widthRatio);
@@ -180,21 +323,21 @@ class _TextDetectPainter extends BoxPainter {
       // print('**********');
       // print(tlist[0].rect.toString());
       double right = offset.dx + text.rect.right / _widthRatio;
-      print('right');
-      print(right);
+    //  print('right');
+    //  print(right);
       double xr = 60; //110;
       double yr = 125;
       double xl = 40; //90;
       double yl = 100;
       double left = offset.dx + text.rect.left / _widthRatio;
-      print('left');
-      print(left);
+    //  print('left');
+     // print(left);
       if (list[0].text == year) {
         if (xr <= right && right <= yr) {
-          print('right');
+      //    print('right');
           if (xl <= left && left <= yl) {
             flag = false;
-            print('hi nouf-------------------------^^^^^^^^^');
+        //    print('hi nouf-------------------------^^^^^^^^^');
           }
         }
       }
@@ -208,15 +351,13 @@ class _TextDetectPainter extends BoxPainter {
       canvas.drawRect(_rect, paint);*/
     }
     if (flag) {
-      //_showSuccessDialog(context);
+
     }
 
-    ///////   print("offset : ${offset}");
-    /////// print("configuration : ${configuration}");
+
 
     final rect = offset & configuration.size;
 
-    ////// print("rect container : ${rect}");
 
     //canvas.drawRect(rect, paint);
     canvas.restore();

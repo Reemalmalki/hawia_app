@@ -202,8 +202,11 @@ class templateState extends State<template> {
 
   downloadTemplate() async {
     if (currentSelectedValue == "تويتر") {
+      print("1");
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Twitter.ai?alt=media&token=5d168bbe-0320-4748-bd11-53f0bd0b3ab4';
+ 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature5.ai?alt=media&token=49eb201f-d884-4b78-a181-f40376368924';
+
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -212,18 +215,10 @@ class templateState extends State<template> {
     }
 
     if (currentSelectedValue =="الاعلان الالكتروني(شاشات)") {
+      print("2");
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Twitter.ai?alt=media&token=5d168bbe-0320-4748-bd11-53f0bd0b3ab4';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
-    }
 
-    if (currentSelectedValue =="توقيع البريد الالكتروني") {
-      const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -232,13 +227,85 @@ class templateState extends State<template> {
     }
 
     if (currentSelectedValue ==" دليل المواقع الالكترونية ") {
+      print("3");
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
+         'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
+
       if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
       }
     }
+
+    if (currentSelectedValue =="توقيع البريد الالكتروني١") {
+      print("4");
+      const url =
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature1.ai?alt=media&token=1586467b-c3be-4f47-9df2-0487d3e061da';
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature2.ai?alt=media&token=226d2589-6ce2-43aa-80f0-4872fd242196';
+
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+
+    if (currentSelectedValue =="توقيع البريد الالكتروني٢") {
+      print("5");
+      const url =
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature2.ai?alt=media&token=226d2589-6ce2-43aa-80f0-4872fd242196';
+      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature1.ai?alt=media&token=1586467b-c3be-4f47-9df2-0487d3e061da';
+
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    if (currentSelectedValue =="توقيع البريد الالكتروني٣") {
+      print("6");
+      const url =
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature3.ai?alt=media&token=8138177f-abba-4b7c-9c73-991b1a5ecda5';
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature2.ai?alt=media&token=226d2589-6ce2-43aa-80f0-4872fd242196';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    if (currentSelectedValue =="توقيع البريد الالكتروني٤") {
+      print("7");
+      const url =
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature4.ai?alt=media&token=ee1d16b1-7efb-4ca1-9f14-e8ba7382cc21';
+    //  'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature5.ai?alt=media&token=49eb201f-d884-4b78-a181-f40376368924';
+      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature3.ai?alt=media&token=8138177f-abba-4b7c-9c73-991b1a5ecda5';
+
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    if (currentSelectedValue =="توقيع البريد الالكتروني٥") {
+      print("8");
+      const url =
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature5.ai?alt=media&token=49eb201f-d884-4b78-a181-f40376368924';
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature3.ai?alt=media&token=8138177f-abba-4b7c-9c73-991b1a5ecda5';
+        //'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature5.ai?alt=media&token=49eb201f-d884-4b78-a181-f40376368924';
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature4.ai?alt=media&token=ee1d16b1-7efb-4ca1-9f14-e8ba7382cc21';
+
+      //    'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature4.ai?alt=media&token=ee1d16b1-7efb-4ca1-9f14-e8ba7382cc21';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
   }
 }

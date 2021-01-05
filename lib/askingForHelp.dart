@@ -50,16 +50,8 @@ class askingForHelp extends State<MyHomePage> {
   void initState() {
     _loading = false;
     _isButtonDisabled = false;
-    test90();
   }
-  void test90() async{
-    // var ksuPng=Io.File('assets/ksub.png');
-    // var blue=img.decodeImage(ksuPng);
-    // var ksuPng= await rootBundle.load('assets/ksub.png');//File('assets/ksub.png').readAsBytesSync();
-    //var ksuPng=Image.asset('assets/ksub.png');//.readAsBytesSync();
-    //var blue=img.decodeImage(ksuPng);
-    ByteData png=await rootBundle.load('../images/ksub.png');
-  }
+
   void open_camera() async {
     // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -118,7 +110,9 @@ class askingForHelp extends State<MyHomePage> {
                   "الايميل",
                   false,
                   emailController),
-              _loading==false ? Center(child: CupertinoActivityIndicator()) : Container(),
+              _loading ? Center(child: CupertinoActivityIndicator()) : Container(),
+
+             // _loading==false ? Center(child: CupertinoActivityIndicator()) : Container(),
               _inputField(
                   Icon(Icons.speaker_notes_outlined,
                       size: 20, color: Color(0xffA6B0BD)),

@@ -67,8 +67,12 @@ List<templatedata> PartnersAndAponsors = [
 List<templatedata> electronicCommunication = [
   templatedata(0, name: "تويتر", iconImage:'', description: "", images: []),
   templatedata(1, name: "الاعلان الالكتروني(شاشات)", iconImage:'', description: "", images: []),
-  templatedata(2, name: "توقيع البريد الالكتروني", iconImage: '', description: "", images: []),
-  templatedata(3, name: " دليل المواقع الالكترونية ", iconImage: '', description: "", images: []),
+  templatedata(2, name: " دليل المواقع الالكترونية ", iconImage: '', description: "", images: []),
+  templatedata(3, name: "توقيع البريد الالكتروني١", iconImage: '', description: "", images: []),
+  templatedata(4, name: "توقيع البريد الالكتروني٢", iconImage: '', description: "", images: []),
+  templatedata(5, name: "توقيع البريد الالكتروني٣", iconImage: '', description: "", images: []),
+  templatedata(6, name: "توقيع البريد الالكتروني٤", iconImage: '', description: "", images: []),
+  templatedata(7, name: "توقيع البريد الالكتروني٥", iconImage: '', description: "", images: []),
 
 ];
 
