@@ -2,13 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'instruction_template.dart';
 import 'usingcolors.dart';
 import 'package:flutter/services.dart';
 import 'package:edge_detection/edge_detection.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'visiontextwidget.dart';
 import 'main.dart';
+
+
+
 import 'menue_templates.dart';
+
 Future<void> main() async {
   runApp(homePage());
 }
@@ -78,6 +83,25 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<void> _showMyDialog(String title, String body) async {
+
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
+  }
   Widget _Download() {
     return Container(
       width: double.infinity,
@@ -95,10 +119,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ]),
       child: FlatButton(
         onPressed: () {
-          Navigator.push(
+        Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MenueTemplates()),
-          );
+           MaterialPageRoute(builder: (context) => instruction_template()),
+       );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
           "القوالب",
@@ -195,6 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
             context: context,
             title: 'التعليمات',
             desc: 'وجه الكاميرا الى الشعار',
+            image: Image.asset("assets/Instruction.jpeg" ,height: 300,    width: 300,  ),
+
             buttons: [
               DialogButton(
                 child: Text(

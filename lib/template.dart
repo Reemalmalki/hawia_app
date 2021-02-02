@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'template_date.dart';
 import 'usingcolors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,6 +28,10 @@ class template extends StatefulWidget {
 
 class templateState extends State<template> {
   var currentSelectedValue;
+  @override
+  initState() {
+    _showMyDialog("nouf","reem");
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,5 +240,25 @@ class templateState extends State<template> {
         throw 'Could not launch $url';
       }
     }
+  }
+
+
+  Future<void> _showMyDialog(String title, String body) async {
+    Alert(
+      context: context,
+      title: title,
+      desc: body,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "حسناً",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context), // هنا وين يروح بعدها ؟
+          color: Colors.lightBlue[800],
+          radius: BorderRadius.circular(0.5),
+        ),
+      ],
+    ).show();
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:diff_image/diff_image.dart';
@@ -38,7 +39,10 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
     initPlatformState();
   }
 
+  var diff_BlueError1;
+  Uint8List test;
 
+  Uint8List bytes;
   /// Added New Function to get difference between Taken Image and logo in Assets folder
   /// [DiffImage] package cannot work with different Sizes, So You need to set the width and height for the both images
   /// Steps to get the difference
@@ -48,7 +52,7 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
 
 
       /// 1- load images and convert it to byte array.
-      Uint8List localImageDataBlue = (await rootBundle.load('assets/ksu_masterlogo_colour_rgb.png'))
+      Uint8List localImageDataBlue = (await rootBundle.load('assets/ksublue.png'))
           .buffer
           .asUint8List();
 
@@ -68,11 +72,11 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
           .asUint8List();
 
 
-      Uint8List localImageDataBlueError = (await rootBundle.load('assets/KSU_LOGO_ErorrBLUE.png'))
+      Uint8List localImageDataBlueError = (await rootBundle.load('assets/kbe.png'))
           .buffer
           .asUint8List();
 
-      Uint8List localImageDataWhiteError = (await rootBundle.load('assets/KSU_logo_Error_White.png'))
+      Uint8List localImageDataWhiteError = (await rootBundle.load('assets/kbe.png'))
           .buffer
           .asUint8List();
 
@@ -81,21 +85,23 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
           .asUint8List();
 
       /// 2- Decode the image using Image Package the  Resize it. you have to change the sizes.
-      img.Image localImageBlue = img.copyResize(img.decodeImage(localImageDataBlue), width: 200,height: 120);
-      img.Image localImageDataWhite1 = img.copyResize(img.decodeImage(localImageDataWhite), width: 200,height: 120);
-      img.Image localImageDataBlack1 = img.copyResize(img.decodeImage(localImageDataBlack), width: 200,height: 120);
-      img.Image localImageDataGreen1 = img.copyResize(img.decodeImage(localImageDataGreen), width: 200,height: 120);
-      img.Image localImageDataBlueError1 = img.copyResize(img.decodeImage(localImageDataBlueError), width: 200,height: 120);
-      img.Image localImageDataWhiteError1 = img.copyResize(img.decodeImage(localImageDataWhiteError), width: 200,height: 120);
-      img.Image localImageDataPic1= img.copyResize(img.decodeImage(localImageDataPic), width: 200,height: 120);
+      img.Image localImageBlue = img.copyResize(img.decodeImage(localImageDataBlue), width: 1200,height: 461);
+      img.Image localImageDataWhite1 = img.copyResize(img.decodeImage(localImageDataWhite), width: 1200,height: 461);
+      img.Image localImageDataBlack1 = img.copyResize(img.decodeImage(localImageDataBlack), width: 1200,height: 461);
+      img.Image localImageDataGreen1 = img.copyResize(img.decodeImage(localImageDataGreen), width: 1200,height: 461);
+      img.Image localImageDataBlueError1 = img.copyResize(img.decodeImage(localImageDataBlueError), width: 1200,height: 461);
+      img.Image localImageDataWhiteError1 = img.copyResize(img.decodeImage(localImageDataWhiteError), width: 1200,height: 461);
+      img.Image localImageDataPic1= img.copyResize(img.decodeImage(localImageDataPic), width: 1200,height: 461);
 
-      img.Image takenImage = img.copyResize(img.decodeImage(takenImageData), width: 200, height: 120);
+      img.Image takenImage = img.copyResize(img.decodeImage(takenImageData), width: 1200, height: 461);
 
 
       /// 3- get the difference
        var diff_Blue = DiffImage.compareFromMemory(
            localImageBlue,
-          takenImage
+          takenImage,
+         ignoreAlpha: true,
+       //  asPercentage: false,
       );
       var diff_Black = DiffImage.compareFromMemory(
           localImageDataBlack1,
@@ -130,10 +136,26 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
       if (list.first == diff_Blue.diffValue) {
 
         print('The difference between images is: ${diff_Blue.diffValue} %');
-        var diff_BlueError = DiffImage.compareFromMemory(
+      var diff_BlueError = DiffImage.compareFromMemory(
             localImageDataBlueError1,
-            takenImage
+            takenImage,
+          ignoreAlpha: true,
+         // asPercentage: false,
         );
+      //  diff_BlueError1=diff_BlueError.diffImg;
+        bytes= diff_BlueError.diffImg.data
+            .buffer
+            .asUint8List();
+
+
+         await DiffImage.saveDiffImg(
+  diffImg:diff_BlueError.diffImg,
+);
+
+
+//diff_BlueError.diffImg.data;//.getBytes(diff_BlueError.diffImg.);// (await rootBundle.load(diff_BlueError.diffImg.data.toString()))
+        // bytes = Uint8List.fromList(diff_BlueError1);
+      diff_BlueError1=diff_BlueError.diffImg.data;//.getBytes(diff_BlueError.diffImg.);// (await rootBundle.load(diff_BlueError.diffImg.data.toString()))
 
         var list_blue = [
           diff_BlueError.diffValue,
@@ -209,14 +231,17 @@ class _VisionTextWidgetState extends State<VisionTextWidget> {
             ? Text('No Image')
             : FutureBuilder<Size>(
                 future: _getImageSize(
-                    Image.file(new File(imagePath), fit: BoxFit.fitWidth)),
+                  //  Image.memory(test),
+                // Image.memory(diff_BlueError1)
+                Image.file(new File(imagePath), fit: BoxFit.fitWidth)),
                 builder: (BuildContext context, AsyncSnapshot<Size> snapshot) {
                   if (snapshot.hasData) {
                     return Container(
                         foregroundDecoration:
                             TextDetectDecoration(_currentLabels, snapshot.data),
-                        child: Image.file(new File(imagePath),
-                            fit: BoxFit.fitWidth));
+                        child:Image.memory(bytes));
+                        //Image.file(new File(diff_BlueError1),
+                        // fit: BoxFit.fitWidth));
                   } else {
                     return Text('Detecting...');
                   }
