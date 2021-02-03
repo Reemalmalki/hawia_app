@@ -5,7 +5,6 @@ import 'usingcolors.dart';
 import 'template.dart';
 import 'certificationTemplate.dart';
 import 'electronicCommunicationTemplate.dart';
-import 'officialCorrespondenceTemplate.dart';
 import 'PartnersAndAponsorsTemplate.dart';
 import 'publicationsTemplate.dart';
 import 'SignBoardsTemplate.dart';
@@ -74,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(20.0),
               ),
               menue(),
-              menue1(),
               menue2(),
               menue3(),
               menue4(),
@@ -123,7 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(20.0),
               ),
               menue(),
-              menue1(),
               menue2(),
               menue3(),
               menue4(),
@@ -217,39 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget menue1() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.only(left: 30.0, top: 5.0, right: 30.0, bottom: 30.0),
-      decoration: BoxDecoration(
-          color: KSUColor,
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFb2bdc3),
-              blurRadius: 10,
-              offset: Offset(0, 5),
-              spreadRadius: 0,
-            ),
-          ]),
-      child: FlatButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => officialCorrespondenceTemplate()),
-          );
-        }, //padding: EdgeInsets.symmetric(vertical: 25),
-        child: Text(
-          "المكاتبات الرسمية",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+
 
 
   Widget menue2() {

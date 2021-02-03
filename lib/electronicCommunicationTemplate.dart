@@ -143,11 +143,11 @@ class templateState extends State<template> {
                             ),
                           ],
                         ),
-                        /* Image.asset(
+                         Image.asset(
                           electronicCommunication[index].iconImage,
                           height: 200,
-                          width: 100,
-                        ),*/
+                          width: 70,
+                        ),
                       ],
                     );
                   },
@@ -242,8 +242,8 @@ class templateState extends State<template> {
       print("4");
       const url =
 //'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature1.ai?alt=media&token=1586467b-c3be-4f47-9df2-0487d3e061da';
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature2.ai?alt=media&token=226d2589-6ce2-43aa-80f0-4872fd242196';
-
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature2.ai?alt=media&token=226d2589-6ce2-43aa-80f0-4872fd242196';
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Website_Instructions.ai?alt=media&token=e2d56b02-3536-413b-9715-3ba97c623917';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

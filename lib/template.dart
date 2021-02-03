@@ -30,7 +30,6 @@ class templateState extends State<template> {
   var currentSelectedValue;
   @override
   initState() {
-    _showMyDialog("nouf","reem");
   }
 
   Widget build(BuildContext context) {

@@ -143,11 +143,11 @@ class templateState extends State<template> {
                             ),
                           ],
                         ),
-                        /* Image.asset(
+                        Image.asset(
                           publications[index].iconImage,
                           height: 200,
-                          width: 100,
-                        ),*/
+                          width: 70,
+                        ),
                       ],
                     );
                   },
@@ -228,7 +228,7 @@ class templateState extends State<template> {
       }
     }
 
-    if (currentSelectedValue =="بوب اب (خلفية مسارح)") {
+    if (currentSelectedValue =="خلفية مسارح") {
       print('"بوب اب (خلفية مسارح)"');
       const url =
           //'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/File2.pdf?alt=media&token=24d3a10e-c8d8-4e52-aef9-6812c17683fc';
@@ -245,7 +245,8 @@ class templateState extends State<template> {
     if (currentSelectedValue =="ملصقات جدارية") {
       print('"ملصقات جدارية"');
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/ExteriorWallPainting_1.3mX4m(X3).ai?alt=media&token=dbe6ed09-ad9a-4ee7-af20-597bc40e65e4';
+//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/ExteriorWallPainting_1.3mX4m(X3).ai?alt=media&token=dbe6ed09-ad9a-4ee7-af20-597bc40e65e4';
+ 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Popup_Stand.ai?alt=media&token=3298bf4a-e0b2-42dd-aa2f-f879e5444825';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

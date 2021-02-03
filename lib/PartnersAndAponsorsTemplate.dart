@@ -143,11 +143,11 @@ class templateState extends State<template> {
                             ),
                           ],
                         ),
-                        /* Image.asset(
+                         Image.asset(
                           PartnersAndAponsors[index].iconImage,
                           height: 200,
-                          width: 100,
-                        ),*/
+                          width: 70,
+                        ),
                       ],
                     );
                   },
@@ -204,7 +204,7 @@ class templateState extends State<template> {
   downloadTemplate() async {
     if (currentSelectedValue == "الشريك الرئيسي") {
       const url =///هنا اضيف الربط الجديد
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Multiple_Sponsors_A4.ai?alt=media&token=98bca2c7-b553-489c-9112-3327df1ef487';
+          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/event_%D9%904.ai?alt=media&token=d64adfc6-8202-412c-bc1e-45c22fb81752';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -212,7 +212,9 @@ class templateState extends State<template> {
         throw 'Could not launch $url';
       }
     }
-    if (currentSelectedValue ==  "الشريك الرئيسي A4") {
+    //فعالية داخلية A4
+
+    if (currentSelectedValue ==  "A4 الشريك الرئيسي") {
       const url =
        'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Main_Partner.ai?alt=media&token=744353f4-9ef4-482e-9f27-897c33108120';
       if (await canLaunch(url)) {
@@ -271,6 +273,16 @@ class templateState extends State<template> {
     if (currentSelectedValue =="فعالية داخلية") {
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Multiple_Sponsors_A4.ai?alt=media&token=98bca2c7-b553-489c-9112-3327df1ef487';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
+    if (currentSelectedValue =="A4 فعالية داخلية") {
+      const url =
+    'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/event.ai?alt=media&token=b31bbd3e-ed83-4598-8450-cdf043d0e33a';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

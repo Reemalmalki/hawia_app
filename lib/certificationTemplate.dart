@@ -148,7 +148,7 @@ class templateState extends State<template> {
                          Image.asset(
                           certification[index].iconImage,
                           height: 200,
-                          width: 100,
+                          width: 70,
                         ),
                       ],
                     );
