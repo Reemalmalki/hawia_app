@@ -40,6 +40,8 @@ dependencies:
  diff_image: ^1.0.1
  image: ^2.1.18
  edge_detection: ^1.0.5
+ http: any
+ shared_preferences: any
  flutter:
     sdk: flutter
 

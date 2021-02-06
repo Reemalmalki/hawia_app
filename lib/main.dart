@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -5,6 +8,8 @@ import 'employeeHomePage.dart';
 import 'usingcolors.dart';
 import 'homePage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   runApp(main1());
@@ -34,6 +39,11 @@ class _MyHomePageState extends State<MyHomePage> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   bool error = false;
+  bool _loading ;
+  @override
+  void initState() {
+    _loading = false;
+  }
 
   @override
   void dispose() {
@@ -61,6 +71,36 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
       print('البريد الإلكتروني او كلمة المرور غير صحيحة، حاول مرة اخرى');
+    }
+  }
+  void _signInWithAPI(String userId ,String password) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    Map data ={
+      'UserName':userId,
+      'Password':password,
+      'ConsumerApplication':'Hawia'
+    };
+    var jsonData = null;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var response = await http.post('https://ksuintegration.ksu.edu.sa/SSOStaff/swagger/EmployeeAuthentication',
+        body: jsonEncode(data) , headers: { 'Content-type': 'application/json',
+          'Accept': 'application/json'}
+          );
+    if(response.statusCode == 200){
+      jsonData = json.decode(response.body);
+      setState(() {
+        _loading = false;
+        sharedPreferences.setString('userName', jsonData['Name']);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => employeeHomePage()),
+        );
+      });
+    }
+    else {
+      print(response.body);
+      _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
+
     }
   }
 
@@ -110,6 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   true,
                   passController),
               _padding(),
+              _loading? Center(child: CupertinoActivityIndicator()):Center(),
+              _padding(),
               _loginBtn(),
             ],
           ),
@@ -120,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _padding() {
     return Container(
-      margin: EdgeInsets.only(top: 40, bottom: 30),
+      margin: EdgeInsets.only(top: 20, bottom: 15),
     );
   }
 
@@ -150,7 +192,13 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.white,
             ),
           ),
-          onPressed: _signIn),
+          onPressed:()=> {
+            setState(() {
+              _loading = true;
+            }),
+            //_signIn()
+            _signInWithAPI(emailController.text,passController.text),
+          }),
     );
   }
 
