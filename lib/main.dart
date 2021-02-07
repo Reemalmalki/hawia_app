@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .buffer
         .asUint8List();
     SecurityContext context = SecurityContext.defaultContext;
-    context.setTrustedCertificatesBytes(data);
+    context.setTrustedCertificatesBytes(data,password: "123456");
     HttpClient client = HttpClient(context: context);
     // build request
     final request = await client.postUrl(Uri.parse(URL));
@@ -267,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _loading = true;
             }),
             //_signIn()
-            _signInWithAPI(emailController.text,passController.text),
+            _signInWithAPICer(emailController.text,passController.text),
           }),
     );
   }
