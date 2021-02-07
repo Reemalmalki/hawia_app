@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:http/io_client.dart';
 import 'employeeHomePage.dart';
 import 'usingcolors.dart';
 import 'homePage.dart';
@@ -75,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   void _signInWithAPI(String userId ,String password) async {
     WidgetsFlutterBinding.ensureInitialized();
+
     Map data ={
       'UserName':userId,
       'Password':password,
@@ -82,27 +87,92 @@ class _MyHomePageState extends State<MyHomePage> {
     };
     var jsonData = null;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post('https://ksuintegration.ksu.edu.sa/SSOStaff/swagger/EmployeeAuthentication',
-        body: jsonEncode(data) , headers: { 'Content-type': 'application/json',
-          'Accept': 'application/json'}
-          );
-    if(response.statusCode == 200){
+    var URL = 'https://ksuintegration.ksu.edu.sa/SSOStaff/swagger/EmployeeAuthentication';
+    var headers = { 'Content-type': 'application/json',
+      'Accept': 'application/json'};
+
+    var response = await http.post(URL,
+        body: jsonEncode(data) , headers: headers );
+    if(response.statusCode == 201){
       jsonData = json.decode(response.body);
       setState(() {
         _loading = false;
         sharedPreferences.setString('userName', jsonData['Name']);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => employeeHomePage()),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => employeeHomePage()),
+        // );
       });
     }
     else {
       print(response.body);
       _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
-
     }
   }
+
+
+
+  void _signInWithAPICer(String userId ,String password) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    Map UserData ={
+      'UserName':userId,
+      'Password':password,
+      'ConsumerApplication':'Hawia'
+    };
+    var jsonData = null;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var URL = 'https://ksuintegration.ksu.edu.sa/SSOStaff/swagger/EmployeeAuthentication';
+    // use Certificate
+    Uint8List data = (await rootBundle.load('assets/IntegrationCer(2020).pfx'))
+        .buffer
+        .asUint8List();
+    SecurityContext context = SecurityContext.defaultContext;
+    context.setTrustedCertificatesBytes(data);
+    HttpClient client = HttpClient(context: context);
+    // build request
+    final request = await client.postUrl(Uri.parse(URL));
+    request.headers.set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
+    request.write(jsonEncode(UserData));
+    final response = await request.close();
+    // process response
+    //if(response.statusCode ==201) print('OK');else print('Not OK');
+    response.transform(utf8.decoder).listen((contents) {
+      if (response.statusCode == 201) {
+        jsonData = json.decode(contents);
+        setState(() {
+          _loading = false;
+          sharedPreferences.setString('userName', jsonData['Name']);
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => employeeHomePage()),
+          // );
+        });
+      }
+      else {
+        print(contents);
+        _showMyDialog(
+            "البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
+      }
+    });//end listen
+        }
+
+//     var re = await http.post(
+//       'https://jsonplaceholder.typicode.com/albums',
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, String>{
+//         'title': 'hi',
+//       }),
+//     );
+//     if (re.statusCode == 201){
+//       print('ok');
+//     }else{
+//       print('not ok');
+//     }
+// return;
+//
+
 
   @override
   Widget build(BuildContext context) {
