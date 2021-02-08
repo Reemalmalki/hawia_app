@@ -151,9 +151,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               _Text(),
               _inputField(
-                  Icon(Icons.email_outlined,
+                  Icon(Icons.account_circle_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
-                  "Email*",
+                  "User name *",
                   false,
                   emailController),
               _inputField(

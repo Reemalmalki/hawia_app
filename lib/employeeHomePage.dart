@@ -7,9 +7,13 @@ import 'electronicComplaintsList.dart';
 import 'helpRequestsList.dart';
 import 'fieldComplaintsList.dart';
 import 'main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  runApp(employeeHomePage());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var userName = sharedPreferences.getString('userName');
+  runApp(userName == null ? main1() : employeeHomePage());
 }
 
 class employeeHomePage extends StatelessWidget {
@@ -40,7 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     getDocs();
   }
-
   final Map<String, double> dataMapE = Map();
   final Map<String, double> dataMapF = Map();
   final Map<String, double> dataMapH = Map();
@@ -102,10 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tooltip: 'تسجيل الخروج',
                   icon: Icon(Icons.logout),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => main1()),
-                    );
+                    logOut();
                   },
                 ),
               ]),
@@ -233,6 +233,14 @@ class _MyHomePageState extends State<MyHomePage> {
           textAlign: TextAlign.center,
         ));
   }
+ Future<void> logOut() async {
+   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+   sharedPreferences.remove('userName');
+   Navigator.push(
+     context,
+     MaterialPageRoute(builder: (context) => main1()),
+   );
+ }
 
   Widget _chart(Map<String, double> dataMap, String title) {
     //sleep(new Duration(seconds: 80));
