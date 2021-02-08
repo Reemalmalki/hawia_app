@@ -77,9 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
       print('البريد الإلكتروني او كلمة المرور غير صحيحة، حاول مرة اخرى');
     }
   }
+
   void _signInWithAPI(String userId ,String password) async {
     WidgetsFlutterBinding.ensureInitialized();
-
     Map data ={
       'UserName':userId,
       'Password':password,
@@ -87,14 +87,16 @@ class _MyHomePageState extends State<MyHomePage> {
     };
     var jsonData = null;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var URL = 'https://ksuintegration.ksu.edu.sa/SSOStaff/swagger/EmployeeAuthentication';
+    var URL = 'https://ksuintegration.ksu.edu.sa/SSOStaff/EmployeeAuthentication';
     var headers = { 'Content-type': 'application/json',
       'Accept': 'application/json'};
 
     var response = await http.post(URL,
         body: jsonEncode(data) , headers: headers );
-    if(response.statusCode == 201{
+    if(response.statusCode == 200){
       jsonData = json.decode(response.body);
+      if(jsonData['ActionStatus']==true){
+      print(response.body);
       setState(() {
         _loading = false;
         sharedPreferences.setString('userName', jsonData['Name']);
@@ -103,80 +105,16 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialPageRoute(builder: (context) => employeeHomePage()),
         );
       });
+      }else{
+        print(response.body);
+        _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
+
+      }
     }
     else {
-      print(response.body);
       _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
     }
   }
-
-
-
-  void _signInWithAPICer(String userId ,String password) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    Map UserData ={
-      'UserName':userId,
-      'Password':password,
-      'ConsumerApplication':'Hawia'
-    };
-    var jsonData = null;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var URL = 'https://ksuintegration.ksu.edu.sa/SSOStaff/swagger/EmployeeAuthentication';
-    // use Certificate
-    Uint8List data = (await rootBundle.load('assets/IntegrationCer(2020).pfx'))
-        .buffer
-        .asUint8List();
-    SecurityContext securityContext = SecurityContext.defaultContext;
-    securityContext.setTrustedCertificatesBytes(data,password: "123456");
-    HttpClient client = HttpClient(context: securityContext);
-    // build request
-    final request = await client.postUrl(Uri.parse(URL));
-    request.headers.set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
-    request.write(jsonEncode(UserData));
-    final response = await request.close();
-    // process response
-    //if(response.statusCode ==201) print('OK');else print('Not OK');
-    response.transform(utf8.decoder).listen((contents) {
-      if (response.statusCode == 201) {
-        jsonData = json.decode(contents);
-        setState(() {
-          _loading = false;
-          sharedPreferences.setString('userName', jsonData['Name']);
-          moveToHome();
-        });
-      }
-      else {
-        print(contents);
-        _showMyDialog(
-            "البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
-      }
-    });//end listen
-        }
-
-        void moveToHome(){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (securityContext) => employeeHomePage()),
-          );
-        }
-
-//     var re = await http.post(
-//       'https://jsonplaceholder.typicode.com/albums',
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, String>{
-//         'title': 'hi',
-//       }),
-//     );
-//     if (re.statusCode == 201){
-//       print('ok');
-//     }else{
-//       print('not ok');
-//     }
-// return;
-//
-
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _loading = true;
             }),
             //_signIn()
-            _signInWithAPICer(emailController.text,passController.text),
+            _signInWithAPI(emailController.text,passController.text),
           }),
     );
   }
