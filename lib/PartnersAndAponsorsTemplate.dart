@@ -10,6 +10,7 @@ class partnersAndAponsorsTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       // title: 'Flutter Form Demo',
       home: template(
         title: "قوالب الشركاء والرعاة",

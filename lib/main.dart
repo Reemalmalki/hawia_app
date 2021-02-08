@@ -16,7 +16,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  runApp(main1());
+  runApp(
+
+      main1());
 }
 
 class main1 extends StatelessWidget {
@@ -25,8 +27,10 @@ class main1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+   debugShowCheckedModeBanner: false,
       title: 'الهوية',
       home: MyHomePage(title: 'الهوية'),
+
     );
   }
 }
@@ -117,10 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       appBar: AppBar(
+
         leading: Container(
+
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {

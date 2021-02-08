@@ -12,6 +12,8 @@ class certificationTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       // title: 'Flutter Form Demo',
+      debugShowCheckedModeBanner: false,
+
       home: template(
         title: "قوالب التكريم",
       ),
