@@ -1,14 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/services.dart';
-import 'package:http/io_client.dart';
-import 'employeeHomePage.dart';
 import 'usingcolors.dart';
 import 'homePage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -44,7 +38,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final emailController = TextEditingController();
+  final userNameController = TextEditingController();
   final passController = TextEditingController();
   bool error = false;
   bool _loading ;
@@ -56,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    emailController.dispose();
+    userNameController.dispose();
     passController.dispose();
     super.dispose();
   }
@@ -64,17 +58,16 @@ class _MyHomePageState extends State<MyHomePage> {
   void _signIn() async {
     WidgetsFlutterBinding.ensureInitialized();
     try {
-      print(emailController.text);
+      print(userNameController.text);
       print(passController.text);
       await Firebase.initializeApp();
       User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passController.text))
+          email: userNameController.text, password: passController.text))
           .user;
       print(user.uid);
-
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => employeeHomePage()),
+        MaterialPageRoute(builder: (context) => homePage()),
       );
     } catch (e) {
       _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
@@ -106,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
         sharedPreferences.setString('userName', jsonData['Name']);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => employeeHomePage()),
+          MaterialPageRoute(builder: (context) => homePage()),
         );
       });
       }else{
@@ -127,22 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
 
       appBar: AppBar(
-
-        leading: Container(
-
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => homePage()),
-              );
-            },
-          ),
-          //child: Icon(Icons.arrow_back_ios)
-        ),
         centerTitle: true,
-        title: Text('تسجيل الدخول'),
+        title: Text('  '),
         backgroundColor: KSUColor,
       ),
       backgroundColor: gray_background,
@@ -164,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       size: 20, color: Color(0xffA6B0BD)),
                   "User name *",
                   false,
-                  emailController),
+                  userNameController),
               _inputField(
                   Icon(Icons.lock_outline, size: 20, color: Color(0xffA6B0BD)),
                   "Password*",
@@ -218,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _loading = true;
             }),
             //_signIn()
-            _signInWithAPI(emailController.text,passController.text),
+            _signInWithAPI(userNameController.text,passController.text),
           }),
     );
   }
@@ -307,11 +286,9 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => main1()),
+              MaterialPageRoute(builder: (context) => main1()),
             );
           },
-          // () => Navigator.pop(electronicComplaintsList1.dart), // هنا وين يروح بعدها ؟
           color: Colors.lightBlue[800],
           radius: BorderRadius.circular(0.5),
         ),

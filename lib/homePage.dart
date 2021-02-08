@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'instruction_template.dart';
 import 'usingcolors.dart';
 import 'package:flutter/services.dart';
@@ -45,16 +46,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
-            tooltip: 'تسجيل الدخول',
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => main1()),
-              );
-            },
-          ),
+      IconButton(
+      tooltip: 'تسجيل الخروج',
+        icon: Icon(Icons.logout),
+        onPressed: () {
+          logOut();
+        },
+      ),
         ],
         title: Text(' الصفحة الرئيسية'),
         backgroundColor: KSUColor,
@@ -80,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+    );
+  }
+  Future<void> logOut() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('userName');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => main1()),
     );
   }
 
