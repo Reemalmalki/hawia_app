@@ -93,15 +93,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var response = await http.post(URL,
         body: jsonEncode(data) , headers: headers );
-    if(response.statusCode == 201){
+    if(response.statusCode == 201{
       jsonData = json.decode(response.body);
       setState(() {
         _loading = false;
         sharedPreferences.setString('userName', jsonData['Name']);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => employeeHomePage()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => employeeHomePage()),
+        );
       });
     }
     else {
@@ -126,9 +126,9 @@ class _MyHomePageState extends State<MyHomePage> {
     Uint8List data = (await rootBundle.load('assets/IntegrationCer(2020).pfx'))
         .buffer
         .asUint8List();
-    SecurityContext context = SecurityContext.defaultContext;
-    context.setTrustedCertificatesBytes(data,password: "123456");
-    HttpClient client = HttpClient(context: context);
+    SecurityContext securityContext = SecurityContext.defaultContext;
+    securityContext.setTrustedCertificatesBytes(data,password: "123456");
+    HttpClient client = HttpClient(context: securityContext);
     // build request
     final request = await client.postUrl(Uri.parse(URL));
     request.headers.set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
@@ -142,10 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _loading = false;
           sharedPreferences.setString('userName', jsonData['Name']);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => employeeHomePage()),
-          // );
+          moveToHome();
         });
       }
       else {
@@ -154,6 +151,13 @@ class _MyHomePageState extends State<MyHomePage> {
             "البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
       }
     });//end listen
+        }
+
+        void moveToHome(){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (securityContext) => employeeHomePage()),
+          );
         }
 
 //     var re = await http.post(
