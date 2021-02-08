@@ -229,8 +229,7 @@ class templateState extends State<template> {
     if (currentSelectedValue ==" دليل المواقع الالكترونية ") {
       print("3");
       const url =
-         'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
-
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Electronic%20Avertising.ai?alt=media&token=0afe76a2-b239-4be3-a030-ad28e52a41ed';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
