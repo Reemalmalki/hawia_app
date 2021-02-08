@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'instruction_template.dart';
+import 'main.dart';
 import 'usingcolors.dart';
 import 'template.dart';
 import 'certificationTemplate.dart';
@@ -8,11 +11,12 @@ import 'electronicCommunicationTemplate.dart';
 import 'PartnersAndAponsorsTemplate.dart';
 import 'publicationsTemplate.dart';
 import 'SignBoardsTemplate.dart';
-import 'template.dart';
-import 'homePage.dart';
 
 Future<void> main() async {
-  runApp(MenueTemplates());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var userName = sharedPreferences.getString('userName');
+  runApp(userName == null ? main1() : MenueTemplates());
 }
 
 class MenueTemplates extends StatelessWidget {
@@ -38,18 +42,37 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  Future<void> logOut() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('userName');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => main1()),
+    );
+  }
 
   var currentSelectedValue;
   var type;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'تسجيل الخروج',
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              logOut();
+            },
+          ),
+
+        ],
         leading: Container(
+
           child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(Icons.live_help_outlined),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (c) => homePage()),
+                  MaterialPageRoute(builder: (c) => instruction_template()),
                       (route) => false);
             },
           ),
@@ -97,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (c) => homePage()),
+                  MaterialPageRoute(builder: (c) => instruction_template()),
                       (route) => false);
             },
           ),

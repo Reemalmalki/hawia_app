@@ -3,16 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'instruction_template.dart';
+import 'menue_templates.dart';
 import 'usingcolors.dart';
-import 'homePage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 Future<void> main() async {
-  runApp(
-
-      main1());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var userName = sharedPreferences.getString('userName');
+  runApp(userName == null ? main1() : MenueTemplates());
 }
 
 class main1 extends StatelessWidget {
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print(user.uid);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => homePage()),
+        MaterialPageRoute(builder: (context) => instruction_template()),
       );
     } catch (e) {
       _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
@@ -99,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         sharedPreferences.setString('userName', jsonData['Name']);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => homePage()),
+          MaterialPageRoute(builder: (context) => instruction_template()),
         );
       });
       }else{

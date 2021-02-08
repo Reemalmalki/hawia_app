@@ -1,17 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'homePage.dart';
 import 'usingcolors.dart';
-import 'package:flutter/services.dart';
-import 'package:edge_detection/edge_detection.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'visiontextwidget.dart';
-import 'main.dart';
-
-
-
 import 'menue_templates.dart';
 
 Future<void> main() async {
@@ -49,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (c) => homePage()),
+                  MaterialPageRoute(builder: (c) => MenueTemplates()),
                       (route) => false);
             },
           ),
@@ -105,7 +94,7 @@ fit: BoxFit.contain
         // onPressed: _signIn,
         //padding: EdgeInsets.symmetric(vertical: 25),
           child: Text(
-            "التالي",
+            "حسناً",
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w800,
