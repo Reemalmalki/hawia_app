@@ -33,17 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (c) => MenueTemplates()),
-                      (route) => false);
-            },
-          ),
-          //child: Icon(Icons.arrow_back_ios)
-        ),
+       
         centerTitle: true,
 
         title: Text('التعليمات '),

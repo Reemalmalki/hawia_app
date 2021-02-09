@@ -48,7 +48,7 @@ class templateState extends State<template> {
           ),
           //child: Icon(Icons.arrow_back_ios)
         ),        centerTitle: true,
-        title: Text('قوالب'),
+        title: Text('قوالب مايكروسوفت'),
         backgroundColor: KSUColor,
       ),
       backgroundColor: gray_background,
