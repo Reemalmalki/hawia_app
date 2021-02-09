@@ -13,17 +13,17 @@ List<templatedata> templates = [
   templatedata(0,
       name: "قالب وورد عربي",
       iconImage: 'assets/word.png',
-      description: "....",
+      description: "",
       images: []),
   templatedata(1,
       name: "قالب بوربوينت",
       iconImage: 'assets/powerpoint.png',
-      description: "...",
+      description: "",
       images: []),
   templatedata(2,
       name: "قالب وورد انجليزي",
       iconImage: 'assets/word.png',
-      description: "....",
+      description: "",
       images: []),
 ];
 
@@ -59,7 +59,7 @@ List<templatedata> PartnersAndAponsors = [
   templatedata(3, name: " A4 الشريك المماثل", iconImage: 'assets/illustrator.png', description: "", images: []),
   templatedata(4, name: "تعدد الرعاة", iconImage: 'assets/illustrator.png', description: "", images: []),
 
-  templatedata(5, name: "تعدد الرعاة A4", iconImage: 'assets/illustrator.png', description: "", images: []),
+  templatedata(5, name: " A4 تعدد الرعاة", iconImage: 'assets/illustrator.png', description: "", images: []),
   templatedata(6, name: "فعالية داخلية", iconImage: 'assets/illustrator.png', description: "", images: []),
   templatedata(7, name: "A4 فعالية داخلية", iconImage: 'assets/illustrator.png', description: "", images: []),
 
