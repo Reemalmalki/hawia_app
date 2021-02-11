@@ -94,11 +94,11 @@ class templateState extends State<template> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    SizedBox(height: 90),
+                                    SizedBox(height: 65),//90
                                     Text(
                                       signBoards[index].name,
                                       style: TextStyle(
-                                        fontSize: 23,
+                                        fontSize: 20,//23
                                         color: bluegray_text,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -107,13 +107,13 @@ class templateState extends State<template> {
                                     Text(
                                       signBoards[index].description,
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 13,//15
                                         color: bodycolor,
                                         fontWeight: FontWeight.w300,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(height: 20),
+                                    SizedBox(height: 20),//20
                                     Row(
                                       children: <Widget>[
                                         FlatButton(

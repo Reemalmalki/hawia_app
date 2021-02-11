@@ -94,11 +94,11 @@ class templateState extends State<template> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    SizedBox(height: 90),
+                                    SizedBox(height: 65),//90
                                     Text(
                                       publications[index].name,
                                       style: TextStyle(
-                                        fontSize: 23,
+                                        fontSize: 20,//23
                                         color: bluegray_text,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -107,13 +107,13 @@ class templateState extends State<template> {
                                     Text(
                                       publications[index].description,
                                       style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 13,//15
                                         color: bodycolor,
                                         fontWeight: FontWeight.w300,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(height: 20),
+                                    SizedBox(height: 20),//20
                                     Row(
                                       children: <Widget>[
                                         FlatButton(
@@ -217,7 +217,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="بطاقات التهاني") {
       const url =
-        'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/File2.pdf?alt=media&token=24d3a10e-c8d8-4e52-aef9-6812c17683fc';
+      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/File.ai?alt=media&token=799561e0-3794-4b7f-8ba8-4c9f24016351';
 //'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
 
       if (await canLaunch(url)) {
