@@ -43,12 +43,18 @@ List<templatedata> certification = [
 ];
 
 List<templatedata> publications = [
-  templatedata(0, name: "ملفات", iconImage:'assets/pdf.png', description: "", images: []),
+  templatedata(0, name: "مجلد", iconImage:'assets/pdf.png', description: "", images: []),
   templatedata(1, name: "بطاقات التهاني", iconImage: 'assets/illustrator.png', description: "", images: []),
   templatedata(2, name: "خلفية مسارح", iconImage: 'assets/illustrator.png', description: "", images: []),
   templatedata(3, name: "ملصقات جدارية", iconImage: 'assets/illustrator.png', description: "", images: []),
-  templatedata(4, name: "الرول اب", iconImage: 'assets/illustrator.png', description: "", images: []),
-  templatedata(5, name: "رايات المعارض", iconImage: 'assets/illustrator.png', description: "", images: []),
+  templatedata(4, name: "حامل اعلانات", iconImage: 'assets/illustrator.png', description: "", images: []),
+  templatedata(5, name: "راية الفعاليات", iconImage: 'assets/illustrator.png', description: "", images: []),
+  templatedata(6, name: "طباعة الشعار على الهدايا١", iconImage: 'assets/jpeg.png', description: "", images: []),
+  templatedata(7, name: "طباعة الشعار على الهدايا٢", iconImage: 'assets/jpeg.png', description: "", images: []),
+  templatedata(8, name: "طباعة الدرع على الهدايا١", iconImage: 'assets/jpeg.png', description: "", images: []),
+  templatedata(9, name: "طباعة الدرع على الهدايا٢", iconImage: 'assets/jpeg.png', description: "", images: []),
+
+
 ];
 
 //PartnersAnd Aponsors
