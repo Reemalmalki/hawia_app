@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     margin: EdgeInsets.only(top: 10, bottom: 290),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/Instruction.jpeg"),
+            image: AssetImage("assets/instruction1.jpeg"),
 fit: BoxFit.contain
 
             //fit: BoxFit.fitHeight,

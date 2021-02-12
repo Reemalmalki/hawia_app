@@ -228,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "مايكروسوفت",
+          "قوالب مايكروسوفت",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -265,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "التواصل الالكتروني",
+          "قوالب التواصل الالكتروني",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -299,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "المطبوعات",
+          "قوالب المطبوعات",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -332,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "التكريم",
+          "قوالب دروع وشهادات التكريم",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -365,7 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "الشركاء والرعاة",
+          "قوالب الشركاء والرعاة",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
@@ -399,7 +399,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }, //padding: EdgeInsets.symmetric(vertical: 25),
         child: Text(
-          "اللوحات الارشادية",
+          "قوالب اللوحات الارشادية",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
