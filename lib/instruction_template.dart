@@ -84,7 +84,7 @@ fit: BoxFit.contain
         // onPressed: _signIn,
         //padding: EdgeInsets.symmetric(vertical: 25),
           child: Text(
-            "حسناً",
+            "التالي",
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w800,

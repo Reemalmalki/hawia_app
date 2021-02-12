@@ -77,7 +77,23 @@ List<templatedata> electronicCommunication = [
   templatedata(7, name: "توقيع البريد الالكتروني٥", iconImage: 'assets/illustrator.png', description: "", images: []),
 
 ];
-
+List<templatedata> welcomePages = [
+  templatedata(0,
+      name: "welocme Page1",
+      iconImage: 'assets/welcomePage1.png',
+      description: "مرحباً بك في تطبيق هوية جامعة الملك سعود",
+      images: []),
+  templatedata(1,
+      name: "welocme Page",
+      iconImage: 'assets/welcomePage2.png',
+      description: "سيساعدك التطبيق على :",
+      images: []),
+  templatedata(2,
+      name: "welocme Page2",
+      iconImage: 'assets/welcomePage3.png',
+      description: "للاستفادة القصوى من القوالب المتاحة في التطبيق يفضل تنزيل البرامج التالية: ",
+      images: []),
+];
 //Official correspondence
 
 //List<templatedata> officialCorrespondence = [

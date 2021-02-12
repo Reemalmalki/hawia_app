@@ -142,12 +142,12 @@ class _MyHomePageState extends State<MyHomePage> {
               _inputField(
                   Icon(Icons.account_circle_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
-                  "User name *",
+                  "اسم المستخدم",
                   false,
                   userNameController),
               _inputField(
                   Icon(Icons.lock_outline, size: 20, color: Color(0xffA6B0BD)),
-                  "Password*",
+                  "كلمة المرور",
                   true,
                   passController),
               _padding(),
