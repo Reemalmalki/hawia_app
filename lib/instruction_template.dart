@@ -1,21 +1,24 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'usingcolors.dart';
 import 'menue_templates.dart';
 
 Future<void> main() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var userName = sharedPreferences.getString('userName');
+  print(userName.toString());
   runApp(instruction_template());
 }
 
 class instruction_template extends StatelessWidget {
   // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'الهوية',
-      home: MyHomePage(title: 'الهوية'),
+      home: MyHomePage(title: 'الهوية' ),
     );
   }
 }
@@ -36,13 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
        
         centerTitle: true,
 
-        title: Text('التعليمات '),
+        title: Text('تعليمات وضع أسماء وحدات الجامعة تحت الشعار '),
         backgroundColor: KSUColor,
       ),
       backgroundColor: Colors.white,
 
     body: SingleChildScrollView(
-    child: Container(
+    child: Column(
+    children: [
+     // _Text("مرحباً"),
+      Container(
     margin: EdgeInsets.only(top: 10, bottom: 290),
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -56,14 +62,11 @@ fit: BoxFit.contain
 
         padding: EdgeInsets.symmetric(horizontal: 35),
         width: double.infinity,
-        child:Expanded(
-        child: Column(
-          children: [
-            next()
-          ],
-        ),
+        child: next()
         )
-    )));
+        ])
+    )
+    );
   }
   Widget next() {
     return Container(
@@ -99,7 +102,21 @@ fit: BoxFit.contain
   Navigator.push(
   context,
   MaterialPageRoute(builder: (context) => MenueTemplates()),
-  );}
+  );
+  }
 
+  Widget _Text(userName) {
+    return Container(
+        margin: EdgeInsets.only(top: 50, bottom: 50),
+        child: Text(
+          "مرحباً "+ userName,
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w800,
+            color: KSUColor,
+            letterSpacing: 10,
+          ),
+        ));
+  }
 }
 

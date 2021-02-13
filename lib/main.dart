@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:hawia_app/welcomePage1.dart';
 import 'instruction_template.dart';
 import 'menue_templates.dart';
 import 'usingcolors.dart';
@@ -14,7 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var userName = sharedPreferences.getString('userName');
-  runApp(userName == null ? template1() : MenueTemplates());
+  runApp(userName == null ? main1() : MenueTemplates());
 }
 
 class main1 extends StatelessWidget {
@@ -143,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _inputField(
                   Icon(Icons.account_circle_outlined,
                       size: 20, color: Color(0xffA6B0BD)),
-                  "اسم المستخدم",
+                  "اسم المستخدم ",
                   false,
                   userNameController),
               _inputField(
