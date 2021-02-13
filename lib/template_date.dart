@@ -85,19 +85,19 @@ List<templatedata> electronicCommunication = [
 ];
 List<templatedata> welcomePages = [
   templatedata(0,
-      name: "welocme Page1",
+      name: "welcome Page0",
       iconImage: 'assets/welcomePage1.png',
-      description: "مرحباً بك في تطبيق هوية جامعة الملك سعود",
+      description: "مرحباً بك في تطبيق هوية جامعة الملك سعود" +"\n تم تصميمه ليلائم احتياجاتك العملية",
       images: []),
   templatedata(1,
-      name: "welocme Page",
+      name: "welcome Page1",
       iconImage: 'assets/welcomePage2.png',
       description: "سيساعدك التطبيق على :",
       images: []),
   templatedata(2,
-      name: "welocme Page2",
+      name: "welcome Page2",
       iconImage: 'assets/welcomePage3.png',
-      description: "للاستفادة القصوى من القوالب المتاحة في التطبيق يفضل تنزيل البرامج التالية: ",
+      description: "للاستفادة القصوى من القوالب المتاحة في التطبيق يفضل تنزيل  " +"\n (Word ,PowerPoint) برامج المايكروسوفت " +"\n (Illustratorّ) و برنامج التصميم " ,
       images: []),
 ];
 //Official correspondence

@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hawia_app/main.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'menue_templates.dart';
 import 'template_date.dart';
 import 'usingcolors.dart';
 import 'package:url_launcher/url_launcher.dart';
-void main() => runApp(template1());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var userName = sharedPreferences.getString('userName');
+  runApp(userName == null ? template1() : MenueTemplates());
+}
 
 class template1 extends StatelessWidget {
   @override
@@ -73,7 +80,8 @@ class templateState extends State<template> {
                                 fit: BoxFit.fitWidth,
                               ),
                                   SizedBox(height: 20),
-                                  Text(
+
+                    Text(
                                     welcomePages[index].description,
                                     style: TextStyle(
                                       fontSize: 20,
@@ -83,6 +91,7 @@ class templateState extends State<template> {
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
+                                  currentSelectedValue == "welcome Page2"?_loginBtn():Center(),
                             ])
                     )]
                     );
@@ -95,13 +104,42 @@ class templateState extends State<template> {
         FlatButton(
           textColor: Colors.grey,
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => main1()),
-          );    },
+          moveToLogin();
+             },
     child: Text('تخطي'),
-    )
-      ],
+    ),
+    ],
     );
   }
+
+  void moveToLogin(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => main1()),
+    );
+  }
+  Widget _loginBtn() {
+    return Container(
+      width: 250,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      decoration: BoxDecoration(
+          color: gray_background,
+          border: Border.all(color:KSUColor),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+      ),
+      child: FlatButton(
+          child: Text(
+            "ابدأ",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: KSUColor,
+            ),
+          ),
+          onPressed:()=> {
+            moveToLogin()
+          }),
+    );
+  }
+
 }
