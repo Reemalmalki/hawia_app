@@ -12,7 +12,6 @@ class signBoardsTemplate extends StatelessWidget {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      // title: 'Flutter Form Demo',
       home: template(
         title: "قوالب اللوحات الارشادية",
       ),

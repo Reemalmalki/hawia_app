@@ -5,9 +5,9 @@ import 'usingcolors.dart';
 import 'menue_templates.dart';
 
 Future<void> main() async {
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  var userName = sharedPreferences.getString('userName');
-  print(userName.toString());
+ // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //var userName = sharedPreferences.getString('userName');
+ // print(userName.toString());
   runApp(instruction_template());
 }
 
@@ -33,6 +33,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var currentSelectedValue;
   var type;
+  String userName='';
+  @override
+ /* void initState() {
+    main1();
+  }
+    Future<void> main1() async  {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    userName = sharedPreferences.getString('userName');
+    _Text(userName);
+    print(userName);
+   // runApp(instruction_template());
+  }*/
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -41,15 +53,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text('تعليمات وضع أسماء وحدات الجامعة تحت الشعار '),
         backgroundColor: KSUColor,
+
       ),
       backgroundColor: Colors.white,
 
     body: SingleChildScrollView(
     child: Column(
     children: [
-     // _Text("مرحباً"),
+  //_Text(userName),
       Container(
-    margin: EdgeInsets.only(top: 10, bottom: 290),
+    margin: EdgeInsets.only(top: 0, bottom: 290),//290
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/instruction1.jpeg"),
@@ -105,16 +118,16 @@ fit: BoxFit.contain
   );
   }
 
-  Widget _Text(userName) {
+  Widget _Text(String userName) {
     return Container(
-        margin: EdgeInsets.only(top: 50, bottom: 50),
+        margin: EdgeInsets.only(top:10, bottom: 10),//50 ,50
         child: Text(
-          "مرحباً "+ userName,
+           userName.split(" ")[0]+' '+'مرحبا ',
           style: TextStyle(
-            fontSize: 25,
+            fontSize: 22,//25
             fontWeight: FontWeight.w800,
             color: KSUColor,
-            letterSpacing: 10,
+          //  letterSpacing: 10,
           ),
         ));
   }

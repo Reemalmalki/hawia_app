@@ -44,15 +44,16 @@ class templateState extends State<template> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: gray_background,
-      body: SafeArea(
+      body: SingleChildScrollView(
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(32.0),//32
               ),
               Container(
-                height: 650,
+                height: 650,//
                 child: Swiper(
                   itemCount: welcomePages.length,
                   itemWidth: MediaQuery.of(context).size.height ,
@@ -79,7 +80,7 @@ class templateState extends State<template> {
                                 welcomePages[index].iconImage,
                                 fit: BoxFit.fitWidth,
                               ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 20),//20
 
                     Text(
                                     welcomePages[index].description,

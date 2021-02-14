@@ -92,7 +92,7 @@ List<templatedata> welcomePages = [
   templatedata(1,
       name: "welcome Page1",
       iconImage: 'assets/welcomePage2.png',
-      description: "سيساعدك التطبيق على :",
+      description: "سيساعدك التطبيق على استخدام شعار الجامعة بالطريقة الصحيحة وتقليص الأخطاء الشائعة",
       images: []),
   templatedata(2,
       name: "welcome Page2",

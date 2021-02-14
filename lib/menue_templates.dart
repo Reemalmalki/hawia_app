@@ -45,9 +45,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> logOut() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.remove('userName');
-    Navigator.push(
+   // Navigator.push(
+     // context,
+    //  MaterialPageRoute(builder: (context) => main1()),
+    //);
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => main1()),
+          (Route<dynamic> route) => false,
     );
   }
 

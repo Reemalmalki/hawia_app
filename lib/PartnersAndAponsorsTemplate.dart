@@ -204,7 +204,7 @@ class templateState extends State<template> {
 
   downloadTemplate() async {
     if (currentSelectedValue == "الشريك الرئيسي") {
-      const url =///هنا اضيف الربط الجديد
+      const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/event_%D9%904.ai?alt=media&token=d64adfc6-8202-412c-bc1e-45c22fb81752';
 
       if (await canLaunch(url)) {
@@ -213,9 +213,8 @@ class templateState extends State<template> {
         throw 'Could not launch $url';
       }
     }
-    //فعالية داخلية A4
 
-    if (currentSelectedValue ==  "A4 الشريك الرئيسي") {
+    if (currentSelectedValue == "A4 الشريك الرئيسي") {
       const url =
        'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Main_Partner.ai?alt=media&token=744353f4-9ef4-482e-9f27-897c33108120';
       if (await canLaunch(url)) {
@@ -240,7 +239,6 @@ class templateState extends State<template> {
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Similar_Partner.ai?alt=media&token=24252bfa-00db-4eee-8a1e-9e1613050ccb';
 
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Similar_Partner.ai?alt=media&token=24252bfa-00db-4eee-8a1e-9e1613050ccb';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -260,7 +258,7 @@ class templateState extends State<template> {
       }
     }
 
-    if (currentSelectedValue =="تعدد الرعاة A4") {
+    if (currentSelectedValue ==" A4 تعدد الرعاة") {
       const url =
 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Multiple_Sponsors.ai?alt=media&token=b0738ac5-5ebf-475a-96c6-301bc525909c';
 

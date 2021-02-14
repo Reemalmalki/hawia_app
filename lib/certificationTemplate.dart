@@ -11,7 +11,6 @@ class certificationTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      // title: 'Flutter Form Demo',
       debugShowCheckedModeBanner: false,
 
       home: template(
@@ -205,7 +204,6 @@ class templateState extends State<template> {
 
   downloadTemplate() async {
     if (currentSelectedValue == "شهادات الشكر") {
-      print('شهادات الشكر');
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Honorary_shield.ai?alt=media&token=34e98c96-f1c2-44fc-9647-de9644d92ccf';
       if (await canLaunch(url)) {
@@ -216,7 +214,6 @@ class templateState extends State<template> {
     }
 
     if (currentSelectedValue =="الدروع التكريمية") {
-      print('الدروع التكريمية');
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
       if (await canLaunch(url)) {

@@ -38,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final userNameController = TextEditingController();
   final passController = TextEditingController();
@@ -97,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print(response.body);
       setState(() {
         _loading = false;
+
         sharedPreferences.setString('userName', jsonData['Name']);
         Navigator.push(
           context,

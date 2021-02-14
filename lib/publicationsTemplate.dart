@@ -207,7 +207,6 @@ class templateState extends State<template> {
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityShield1.jpeg?alt=media&token=525bfe4a-8b99-4568-a951-d2e2adffc65a';
 
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -218,7 +217,6 @@ class templateState extends State<template> {
     if (currentSelectedValue =="بطاقات التهاني") {
       const url =
       'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/File.ai?alt=media&token=799561e0-3794-4b7f-8ba8-4c9f24016351';
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -229,8 +227,6 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="خلفية مسارح") {
       const url =
-          //'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/File2.pdf?alt=media&token=24d3a10e-c8d8-4e52-aef9-6812c17683fc';
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Congratulations_card.ai?alt=media&token=f16e6998-1d42-45be-8d8a-03c7c6cd399a';
 
       if (await canLaunch(url)) {
@@ -242,8 +238,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="ملصقات جدارية") {
       const url =
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/ExteriorWallPainting_1.3mX4m(X3).ai?alt=media&token=dbe6ed09-ad9a-4ee7-af20-597bc40e65e4';
- 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Popup_Stand.ai?alt=media&token=3298bf4a-e0b2-42dd-aa2f-f879e5444825';
+'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Popup_Stand_Template_.ai?alt=media&token=19d2843f-2b90-44d5-bffa-0b9b60cee42b';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -253,7 +248,6 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="حامل اعلانات") {
       const url =
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Roll_up.ai?alt=media&token=1024bbe0-54de-43c1-a9d3-972880811164';
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/ExteriorWallPainting_1.3mX4m(X3).ai?alt=media&token=dbe6ed09-ad9a-4ee7-af20-597bc40e65e4';
 
       if (await canLaunch(url)) {
@@ -265,8 +259,6 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="راية الفعاليات") {
       const url =
-       //   'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Roll_up.ai?alt=media&token=1024bbe0-54de-43c1-a9d3-972880811164';
-         // 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo.jpeg?alt=media&token=fd4f4787-9517-4469-87b4-0f1067298996';
       'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Roll_up.ai?alt=media&token=1024bbe0-54de-43c1-a9d3-972880811164';
 
       if (await canLaunch(url)) {
@@ -278,12 +270,9 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الشعار على الهدايا١") {
       const url =
-    // 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo.jpeg?alt=media&token=fd4f4787-9517-4469-87b4-0f1067298996';
 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
 
-      //  'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Roll_up.ai?alt=media&token=1024bbe0-54de-43c1-a9d3-972880811164';
 
-        //  'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo.jpeg?alt=media&token=fd4f4787-9517-4469-87b4-0f1067298996';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -296,7 +285,6 @@ class templateState extends State<template> {
       const url =
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo.jpeg?alt=media&token=fd4f4787-9517-4469-87b4-0f1067298996';
 
-          //'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo1.jpeg?alt=media&token=395c03a3-0546-449b-9568-c8a0af015694';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -307,8 +295,6 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الدرع على الهدايا١") {
       const url =
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityShield.jpeg?alt=media&token=f532fba5-75c3-4aa3-9ce9-5295db28d951';
-         // 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo.jpeg?alt=media&token=fd4f4787-9517-4469-87b4-0f1067298996';
     'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo1.jpeg?alt=media&token=395c03a3-0546-449b-9568-c8a0af015694';
 
       if (await canLaunch(url)) {
@@ -321,10 +307,8 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الدرع على الهدايا٢") {
       const url =
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
           'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityShield.jpeg?alt=media&token=f532fba5-75c3-4aa3-9ce9-5295db28d951';
 
-//'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityShield1.jpeg?alt=media&token=525bfe4a-8b99-4568-a951-d2e2adffc65a';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
