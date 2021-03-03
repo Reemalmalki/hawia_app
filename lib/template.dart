@@ -198,7 +198,7 @@ class templateState extends State<template> {
   }
 
   _launchURL() async {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/_%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A7%D9%95%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A%20%D9%84%D9%87%D9%88%D9%8A%D8%A9%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D8%B3%D8%B9%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.pdf?alt=media&token=bb5ce925-fab7-470e-83f5-5a3c4fe53357';//'https://identity.ksu.edu.sa/ar';
+    const url = 'https://cdn.ksu.edu.sa/ksu-subsites/identity/GuideManual.pdf';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -208,9 +208,8 @@ class templateState extends State<template> {
 
   downloadTemplate() async {
     if (currentSelectedValue =="قالب وورد عربي") {
-      print('بوربوينت');
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KSU_Template_En.dotx?alt=media&token=079d559f-f21e-4b28-b528-2319543b0d32';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/KSU_Template_En.dotx';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -223,7 +222,7 @@ class templateState extends State<template> {
     if (currentSelectedValue == "قالب بوربوينت") {
       print('ورد');
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KSU_Template_Ar.dotx?alt=media&token=7a32bc2c-888a-4d5b-b4bd-94c53cead6dc';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/KSU_Template_Ar%20(1).dotx';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -234,7 +233,7 @@ class templateState extends State<template> {
     if (currentSelectedValue == "قالب وورد انجليزي") {
       print('ورد');
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KSU_PowerPoint_Template.potx?alt=media&token=15c70f40-011e-4d7a-92af-2efcf7633b45';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/KSU_PowerPoint_Template.potx';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

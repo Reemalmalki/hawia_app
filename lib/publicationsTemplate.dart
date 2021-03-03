@@ -194,7 +194,7 @@ class templateState extends State<template> {
   }
 
   _launchURL() async {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/_%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A7%D9%95%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A%20%D9%84%D9%87%D9%88%D9%8A%D8%A9%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D8%B3%D8%B9%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.pdf?alt=media&token=bb5ce925-fab7-470e-83f5-5a3c4fe53357';//'https://identity.ksu.edu.sa/ar';
+    const url = 'https://cdn.ksu.edu.sa/ksu-subsites/identity/GuideManual.pdf';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -205,8 +205,7 @@ class templateState extends State<template> {
   downloadTemplate() async {
     if (currentSelectedValue == "مجلد") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityShield1.jpeg?alt=media&token=525bfe4a-8b99-4568-a951-d2e2adffc65a';
-
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/KingSaudUniversityShield1%20.jpeg';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -216,7 +215,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="بطاقات التهاني") {
       const url =
-      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/File.ai?alt=media&token=799561e0-3794-4b7f-8ba8-4c9f24016351';
+      'https://cdn.ksu.edu.sa/ksu-subsites/identity/File.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -227,7 +226,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="خلفية مسارح") {
       const url =
-     'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Congratulations_card.ai?alt=media&token=f16e6998-1d42-45be-8d8a-03c7c6cd399a';
+     'https://cdn.ksu.edu.sa/ksu-subsites/identity/Congratulations_card.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -238,7 +237,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="ملصقات جدارية") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Popup_Stand_Template_.ai?alt=media&token=19d2843f-2b90-44d5-bffa-0b9b60cee42b';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Popup_Stand_Template_.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -248,7 +247,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="حامل اعلانات") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/ExteriorWallPainting_1.3mX4m(X3).ai?alt=media&token=dbe6ed09-ad9a-4ee7-af20-597bc40e65e4';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/ExteriorWallPainting_1.3mX4m(X3).ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -259,7 +258,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="راية الفعاليات") {
       const url =
-      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Roll_up.ai?alt=media&token=1024bbe0-54de-43c1-a9d3-972880811164';
+      'https://cdn.ksu.edu.sa/ksu-subsites/identity/Roll_up.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -270,7 +269,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الشعار على الهدايا١") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Banners.ai?alt=media&token=fc1e28a5-c972-4541-b3c9-153136fa7d2e';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Banners.ai';
 
 
       if (await canLaunch(url)) {
@@ -283,7 +282,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الشعار على الهدايا٢") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo.jpeg?alt=media&token=fd4f4787-9517-4469-87b4-0f1067298996';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/KingSaudUniversityLogo%20(1).jpeg';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -295,7 +294,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الدرع على الهدايا١") {
       const url =
-    'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityLogo1.jpeg?alt=media&token=395c03a3-0546-449b-9568-c8a0af015694';
+    'https://cdn.ksu.edu.sa/ksu-subsites/identity/KingSaudUniversityLogo1%20(1).jpeg';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -307,7 +306,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="طباعة الدرع على الهدايا٢") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/KingSaudUniversityShield.jpeg?alt=media&token=f532fba5-75c3-4aa3-9ce9-5295db28d951';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/KingSaudUniversityShield%20(1).jpeg';
 
       if (await canLaunch(url)) {
         await launch(url);

@@ -194,7 +194,8 @@ class templateState extends State<template> {
   }
 
   _launchURL() async {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/_%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A7%D9%95%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A%20%D9%84%D9%87%D9%88%D9%8A%D8%A9%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D8%B3%D8%B9%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.pdf?alt=media&token=bb5ce925-fab7-470e-83f5-5a3c4fe53357';//'https://identity.ksu.edu.sa/ar';
+    const url = 'https://cdn.ksu.edu.sa/ksu-subsites/identity/GuideManual.pdf';
+
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -205,7 +206,7 @@ class templateState extends State<template> {
   downloadTemplate() async {
     if (currentSelectedValue == "تويتر") {
       const url =
- 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature5.ai?alt=media&token=49eb201f-d884-4b78-a181-f40376368924';
+ 'https://cdn.ksu.edu.sa/ksu-subsites/identity/Email_Signature5.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -216,7 +217,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="الاعلان الالكتروني(شاشات)") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Twitter.ai?alt=media&token=5d168bbe-0320-4748-bd11-53f0bd0b3ab4';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Twitter.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -227,7 +228,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue ==" دليل المواقع الالكترونية ") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Electronic%20Avertising.ai?alt=media&token=0afe76a2-b239-4be3-a030-ad28e52a41ed';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Electronic%20Avertising.ai';//Electronic Avertising.ai
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -237,7 +238,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="توقيع البريد الالكتروني١") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Website_Instructions.ai?alt=media&token=e2d56b02-3536-413b-9715-3ba97c623917';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Website_Instructions.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -248,7 +249,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="توقيع البريد الالكتروني٢") {
       const url =
-      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature1.ai?alt=media&token=1586467b-c3be-4f47-9df2-0487d3e061da';
+      'https://cdn.ksu.edu.sa/ksu-subsites/identity/Email_Signature1.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -259,7 +260,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="توقيع البريد الالكتروني٣") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature2.ai?alt=media&token=226d2589-6ce2-43aa-80f0-4872fd242196';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Email_Signature2.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -269,7 +270,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="توقيع البريد الالكتروني٤") {
       const url =
-      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature3.ai?alt=media&token=8138177f-abba-4b7c-9c73-991b1a5ecda5';
+      'https://cdn.ksu.edu.sa/ksu-subsites/identity/Email_Signature3.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -280,7 +281,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="توقيع البريد الالكتروني٥") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Email_Signature4.ai?alt=media&token=ee1d16b1-7efb-4ca1-9f14-e8ba7382cc21';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Email_Signature4.ai';
 
       if (await canLaunch(url)) {
         await launch(url);

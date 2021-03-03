@@ -193,7 +193,7 @@ class templateState extends State<template> {
   }
 
   _launchURL() async {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/_%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A7%D9%95%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A%20%D9%84%D9%87%D9%88%D9%8A%D8%A9%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D8%B3%D8%B9%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.pdf?alt=media&token=bb5ce925-fab7-470e-83f5-5a3c4fe53357';//'https://identity.ksu.edu.sa/ar';
+    const url = 'https://cdn.ksu.edu.sa/ksu-subsites/identity/GuideManual.pdf';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -205,7 +205,7 @@ class templateState extends State<template> {
   downloadTemplate() async {
     if (currentSelectedValue == "الشريك الرئيسي") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/event_%D9%904.ai?alt=media&token=d64adfc6-8202-412c-bc1e-45c22fb81752';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/event_%D9%904.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -216,7 +216,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue == "A4 الشريك الرئيسي") {
       const url =
-       'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Main_Partner.ai?alt=media&token=744353f4-9ef4-482e-9f27-897c33108120';
+       'https://cdn.ksu.edu.sa/ksu-subsites/identity/Main_Partner.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -226,7 +226,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="الشريك المماثل") {
       const url =
-      'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Main_Partner_A4.ai?alt=media&token=59c01b1d-7edb-4d9a-876e-9916bea20fcd';
+      'https://cdn.ksu.edu.sa/ksu-subsites/identity/Main_Partner_A4.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -237,7 +237,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue == " A4 الشريك المماثل") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Similar_Partner.ai?alt=media&token=24252bfa-00db-4eee-8a1e-9e1613050ccb';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Similar_Partner.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -249,7 +249,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="تعدد الرعاة") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Similar_Partner_A4.ai?alt=media&token=753c59cb-9977-408a-9872-f30e74720fee';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Similar_Partner_A4.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -260,7 +260,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue ==" A4 تعدد الرعاة") {
       const url =
-'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Multiple_Sponsors.ai?alt=media&token=b0738ac5-5ebf-475a-96c6-301bc525909c';
+'https://cdn.ksu.edu.sa/ksu-subsites/identity/Multiple_Sponsors.ai';
 
       if (await canLaunch(url)) {
         await launch(url);
@@ -271,7 +271,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="فعالية داخلية") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Multiple_Sponsors_A4.ai?alt=media&token=98bca2c7-b553-489c-9112-3327df1ef487';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Multiple_Sponsors_A4.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -281,7 +281,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="A4 فعالية داخلية") {
       const url =
-    'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/event.ai?alt=media&token=b31bbd3e-ed83-4598-8450-cdf043d0e33a';
+    'https://cdn.ksu.edu.sa/ksu-subsites/identity/event.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

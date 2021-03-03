@@ -194,7 +194,8 @@ class templateState extends State<template> {
   }
 
   _launchURL() async {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/_%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A7%D9%95%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A%20%D9%84%D9%87%D9%88%D9%8A%D8%A9%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D8%B3%D8%B9%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.pdf?alt=media&token=bb5ce925-fab7-470e-83f5-5a3c4fe53357';//'https://identity.ksu.edu.sa/ar';
+    const url = 'https://cdn.ksu.edu.sa/ksu-subsites/identity/GuideManual.pdf';
+
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -205,7 +206,7 @@ class templateState extends State<template> {
   downloadTemplate() async {
     if (currentSelectedValue == "شهادات الشكر") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Honorary_shield.ai?alt=media&token=34e98c96-f1c2-44fc-9647-de9644d92ccf';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Honorary_shield.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -215,7 +216,7 @@ class templateState extends State<template> {
 
     if (currentSelectedValue =="الدروع التكريمية") {
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Thanks_Certificare.ai?alt=media&token=c272098c-951e-4ee0-a470-61f0370704c1';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Thanks_Certificare.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

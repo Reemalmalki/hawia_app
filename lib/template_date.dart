@@ -97,7 +97,7 @@ List<templatedata> welcomePages = [
   templatedata(2,
       name: "welcome Page2",
       iconImage: 'assets/welcomePage3.png',
-      description: "للاستفادة القصوى من القوالب المتاحة في التطبيق يفضل تنزيل  " +"\n (Word ,PowerPoint) برامج المايكروسوفت " +"\n (Illustratorّ) و برنامج التصميم " ,
+      description: "للاستفادة القصوى من القوالب المتاحة في التطبيق يفضل تنزيل  " +"\n  برامج المايكروسوفت (Word ,PowerPoint)" +"\n (Illustratorّ) و برنامج التصميم " ,
       images: []),
 ];
 //Official correspondence

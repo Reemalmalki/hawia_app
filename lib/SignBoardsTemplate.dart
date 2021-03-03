@@ -193,7 +193,7 @@ class templateState extends State<template> {
   }
 
   _launchURL() async {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/_%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A7%D9%95%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A%20%D9%84%D9%87%D9%88%D9%8A%D8%A9%20%D8%AC%D8%A7%D9%85%D8%B9%D8%A9%20%D8%A7%D9%84%D9%85%D9%84%D9%83%20%D8%B3%D8%B9%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B5%D8%AF%D8%A7%D8%B1%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.pdf?alt=media&token=bb5ce925-fab7-470e-83f5-5a3c4fe53357';//'https://identity.ksu.edu.sa/ar';
+    const url = 'https://cdn.ksu.edu.sa/ksu-subsites/identity/GuideManual.pdf';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -205,7 +205,7 @@ class templateState extends State<template> {
     if (currentSelectedValue == "لوحة ارشادية خارجية") {
       print('"لوحة ارشادية خارجية"');
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/Internal_sign_boards.ai?alt=media&token=d19126fc-19ab-447c-bb06-0ff6487b6cc5';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/Internal_sign_boards.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {
@@ -216,7 +216,7 @@ class templateState extends State<template> {
     if (currentSelectedValue =="لوحة ارشادية داخلية") {
       print('لوحة ارشادية داخلية');
       const url =
-          'https://firebasestorage.googleapis.com/v0/b/hawia-5a663.appspot.com/o/external_sign_boards.ai?alt=media&token=89d53455-70f4-4071-865d-6a544b18b22c';
+          'https://cdn.ksu.edu.sa/ksu-subsites/identity/external_sign_boards.ai';
       if (await canLaunch(url)) {
         await launch(url);
       } else {

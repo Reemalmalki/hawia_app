@@ -57,25 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  void _signIn() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    try {
-      print(userNameController.text);
-      print(passController.text);
-      await Firebase.initializeApp();
-      User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: userNameController.text, password: passController.text))
-          .user;
-      print(user.uid);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => instruction_template()),
-      );
-    } catch (e) {
-      _showMyDialog("البريد الالكتروني او كلمة المرور غير صحيحة ، حاول مرة اخرى", "");
-      print('البريد الإلكتروني او كلمة المرور غير صحيحة، حاول مرة اخرى');
-    }
-  }
 
   void _signInWithAPI(String userId ,String password) async {
     WidgetsFlutterBinding.ensureInitialized();
