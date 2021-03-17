@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'instruction_template.dart';
 import 'menue_templates.dart';
 import 'usingcolors.dart';
